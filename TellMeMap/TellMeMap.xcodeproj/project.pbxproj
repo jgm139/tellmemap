@@ -1,0 +1,476 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		84366E032365B17000E06A4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E022365B17000E06A4D /* AppDelegate.swift */; };
+		84366E052365B17000E06A4D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E042365B17000E06A4D /* SceneDelegate.swift */; };
+		84366E072365B17000E06A4D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E062365B17000E06A4D /* ViewController.swift */; };
+		84366E0A2365B17000E06A4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84366E082365B17000E06A4D /* Main.storyboard */; };
+		84366E0C2365B17200E06A4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84366E0B2365B17200E06A4D /* Assets.xcassets */; };
+		84366E0F2365B17200E06A4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84366E0D2365B17200E06A4D /* LaunchScreen.storyboard */; };
+		84366E1A2365B17200E06A4D /* TellMeMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E192365B17200E06A4D /* TellMeMapTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		84366E162365B17200E06A4D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 84366DF72365B17000E06A4D /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 84366DFE2365B17000E06A4D;
+			remoteInfo = TellMeMap;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		84366DFF2365B17000E06A4D /* TellMeMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TellMeMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		84366E022365B17000E06A4D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		84366E042365B17000E06A4D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		84366E062365B17000E06A4D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		84366E092365B17000E06A4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		84366E0B2365B17200E06A4D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		84366E0E2365B17200E06A4D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		84366E102365B17200E06A4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84366E152365B17200E06A4D /* TellMeMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TellMeMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		84366E192365B17200E06A4D /* TellMeMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TellMeMapTests.swift; sourceTree = "<group>"; };
+		84366E1B2365B17200E06A4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		84366DFC2365B17000E06A4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84366E122365B17200E06A4D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		84366DF62365B17000E06A4D = {
+			isa = PBXGroup;
+			children = (
+				84366E012365B17000E06A4D /* TellMeMap */,
+				84366E182365B17200E06A4D /* TellMeMapTests */,
+				84366E002365B17000E06A4D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		84366E002365B17000E06A4D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				84366DFF2365B17000E06A4D /* TellMeMap.app */,
+				84366E152365B17200E06A4D /* TellMeMapTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		84366E012365B17000E06A4D /* TellMeMap */ = {
+			isa = PBXGroup;
+			children = (
+				84366E022365B17000E06A4D /* AppDelegate.swift */,
+				84366E042365B17000E06A4D /* SceneDelegate.swift */,
+				84366E062365B17000E06A4D /* ViewController.swift */,
+				84366E082365B17000E06A4D /* Main.storyboard */,
+				84366E0B2365B17200E06A4D /* Assets.xcassets */,
+				84366E0D2365B17200E06A4D /* LaunchScreen.storyboard */,
+				84366E102365B17200E06A4D /* Info.plist */,
+			);
+			path = TellMeMap;
+			sourceTree = "<group>";
+		};
+		84366E182365B17200E06A4D /* TellMeMapTests */ = {
+			isa = PBXGroup;
+			children = (
+				84366E192365B17200E06A4D /* TellMeMapTests.swift */,
+				84366E1B2365B17200E06A4D /* Info.plist */,
+			);
+			path = TellMeMapTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		84366DFE2365B17000E06A4D /* TellMeMap */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84366E1E2365B17200E06A4D /* Build configuration list for PBXNativeTarget "TellMeMap" */;
+			buildPhases = (
+				84366DFB2365B17000E06A4D /* Sources */,
+				84366DFC2365B17000E06A4D /* Frameworks */,
+				84366DFD2365B17000E06A4D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TellMeMap;
+			productName = TellMeMap;
+			productReference = 84366DFF2365B17000E06A4D /* TellMeMap.app */;
+			productType = "com.apple.product-type.application";
+		};
+		84366E142365B17200E06A4D /* TellMeMapTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 84366E212365B17200E06A4D /* Build configuration list for PBXNativeTarget "TellMeMapTests" */;
+			buildPhases = (
+				84366E112365B17200E06A4D /* Sources */,
+				84366E122365B17200E06A4D /* Frameworks */,
+				84366E132365B17200E06A4D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84366E172365B17200E06A4D /* PBXTargetDependency */,
+			);
+			name = TellMeMapTests;
+			productName = TellMeMapTests;
+			productReference = 84366E152365B17200E06A4D /* TellMeMapTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		84366DF72365B17000E06A4D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1110;
+				LastUpgradeCheck = 1110;
+				ORGANIZATIONNAME = "Julia García Martínez";
+				TargetAttributes = {
+					84366DFE2365B17000E06A4D = {
+						CreatedOnToolsVersion = 11.1;
+					};
+					84366E142365B17200E06A4D = {
+						CreatedOnToolsVersion = 11.1;
+						TestTargetID = 84366DFE2365B17000E06A4D;
+					};
+				};
+			};
+			buildConfigurationList = 84366DFA2365B17000E06A4D /* Build configuration list for PBXProject "TellMeMap" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 84366DF62365B17000E06A4D;
+			productRefGroup = 84366E002365B17000E06A4D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				84366DFE2365B17000E06A4D /* TellMeMap */,
+				84366E142365B17200E06A4D /* TellMeMapTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		84366DFD2365B17000E06A4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84366E0F2365B17200E06A4D /* LaunchScreen.storyboard in Resources */,
+				84366E0C2365B17200E06A4D /* Assets.xcassets in Resources */,
+				84366E0A2365B17000E06A4D /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84366E132365B17200E06A4D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		84366DFB2365B17000E06A4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84366E072365B17000E06A4D /* ViewController.swift in Sources */,
+				84366E032365B17000E06A4D /* AppDelegate.swift in Sources */,
+				84366E052365B17000E06A4D /* SceneDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		84366E112365B17200E06A4D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84366E1A2365B17200E06A4D /* TellMeMapTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		84366E172365B17200E06A4D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 84366DFE2365B17000E06A4D /* TellMeMap */;
+			targetProxy = 84366E162365B17200E06A4D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		84366E082365B17000E06A4D /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84366E092365B17000E06A4D /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		84366E0D2365B17200E06A4D /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				84366E0E2365B17200E06A4D /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		84366E1C2365B17200E06A4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		84366E1D2365B17200E06A4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		84366E1F2365B17200E06A4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CW7DY5Z6H4;
+				INFOPLIST_FILE = TellMeMap/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jgm.TellMeMap;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		84366E202365B17200E06A4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CW7DY5Z6H4;
+				INFOPLIST_FILE = TellMeMap/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 0.1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jgm.TellMeMap;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		84366E222365B17200E06A4D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CW7DY5Z6H4;
+				INFOPLIST_FILE = TellMeMapTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jgm.TellMeMapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TellMeMap.app/TellMeMap";
+			};
+			name = Debug;
+		};
+		84366E232365B17200E06A4D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CW7DY5Z6H4;
+				INFOPLIST_FILE = TellMeMapTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.jgm.TellMeMapTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TellMeMap.app/TellMeMap";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		84366DFA2365B17000E06A4D /* Build configuration list for PBXProject "TellMeMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84366E1C2365B17200E06A4D /* Debug */,
+				84366E1D2365B17200E06A4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84366E1E2365B17200E06A4D /* Build configuration list for PBXNativeTarget "TellMeMap" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84366E1F2365B17200E06A4D /* Debug */,
+				84366E202365B17200E06A4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		84366E212365B17200E06A4D /* Build configuration list for PBXNativeTarget "TellMeMapTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				84366E222365B17200E06A4D /* Debug */,
+				84366E232365B17200E06A4D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 84366DF72365B17000E06A4D /* Project object */;
+}
