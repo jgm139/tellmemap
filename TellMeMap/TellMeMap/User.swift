@@ -16,10 +16,9 @@ class User {
     var email: String
     var password: String
     var photo: String?
-    var date: Date?
     
     //MARK: Initialization
-    init(name: String, surnames: String, email: String, password: String, photo: String?, date: Date?) {
+    init(name: String, surnames: String, email: String, password: String, photo: String?) {
         self.name = name
         self.surnames = surnames
         self.email = email
@@ -27,10 +26,6 @@ class User {
         
         if let nPhoto = photo {
             self.photo = nPhoto
-        }
-        
-        if let nDate = date {
-            self.date = nDate
         }
     }
 }

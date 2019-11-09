@@ -35,7 +35,7 @@ class SignTableViewCell: UITableViewCell {
         //self.userPhoto.image
         self.signTitle.text = item.name
         self.signDescription.text = item.description
-        self.signDate.text = "24:00"
+        self.signDate.text = item.date
     }
 
 }
