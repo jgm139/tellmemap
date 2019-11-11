@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="WyT-pz-NTK">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="7KR-wp-8Z8">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
@@ -7,6 +7,22 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="6q4-fr-mXw">
+            <objects>
+                <navigationController id="7KR-wp-8Z8" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="EX6-WL-Yhj">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="WyT-pz-NTK" kind="relationship" relationship="rootViewController" id="NXz-Lo-1L5"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yqE-xW-qPj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1536" y="130"/>
+        </scene>
         <!--Table View Controller-->
         <scene sceneID="m7b-eT-7tL">
             <objects>
@@ -106,6 +122,7 @@
                             </tableViewCell>
                         </prototypes>
                     </tableView>
+                    <navigationItem key="navigationItem" id="kYE-16-kJ1"/>
                     <connections>
                         <outlet property="myTableView" destination="2Ge-Ho-uDm" id="Azq-rK-K0e"/>
                     </connections>
@@ -117,13 +134,55 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="TellMeMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewSignVC" id="BYZ-38-t0r" customClass="ViewController" customModule="TellMeMap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IA2-aT-FJm">
+                                <rect key="frame" x="354" y="74" width="30" height="30"/>
+                                <state key="normal" title="OK"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Message title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kqa-Ga-1gH">
+                                <rect key="frame" x="153.5" y="74" width="107" height="21"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="v1q-mZ-XEz">
+                                <rect key="frame" x="10" y="145" width="394" height="717"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pxz-w0-mBz">
+                                <rect key="frame" x="30" y="74" width="67" height="22"/>
+                                <state key="normal" title="Button" image="chevron.left" catalog="system"/>
+                                <connections>
+                                    <action selector="goBack:" destination="BYZ-38-t0r" eventType="touchUpInside" id="K43-tW-74e"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="Kqa-Ga-1gH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="5Vf-PH-WzR"/>
+                            <constraint firstItem="v1q-mZ-XEz" firstAttribute="top" secondItem="Kqa-Ga-1gH" secondAttribute="bottom" constant="50" id="PVY-ey-Y8N"/>
+                            <constraint firstItem="IA2-aT-FJm" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="eVw-Vq-NuH"/>
+                            <constraint firstItem="pxz-w0-mBz" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="fDR-oz-Rp6"/>
+                            <constraint firstItem="Kqa-Ga-1gH" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="30" id="fii-gj-y3m"/>
+                            <constraint firstItem="pxz-w0-mBz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="30" id="iyK-O8-NXW"/>
+                            <constraint firstItem="v1q-mZ-XEz" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="k7E-iy-b1X"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="IA2-aT-FJm" secondAttribute="trailing" constant="30" id="lTO-pK-AAZ"/>
+                            <constraint firstItem="v1q-mZ-XEz" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" constant="-10" id="mfM-r7-21m"/>
+                            <constraint firstItem="v1q-mZ-XEz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="10" id="nMa-sF-YsR"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <connections>
+                        <outlet property="newSignDescription" destination="v1q-mZ-XEz" id="fOs-bb-4Gc"/>
+                        <outlet property="newSignTitle" destination="Kqa-Ga-1gH" id="ghL-ZB-GHq"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
@@ -131,6 +190,7 @@
         </scene>
     </scenes>
     <resources>
+        <image name="chevron.left" catalog="system" width="48" height="64"/>
         <image name="person.circle" catalog="system" width="64" height="60"/>
     </resources>
 </document>
