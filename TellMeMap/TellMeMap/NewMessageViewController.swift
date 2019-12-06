@@ -8,11 +8,13 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITextViewDelegate {
+class NewMessageViewController: UIViewController, UITextViewDelegate {
     
     //MARK: Properties
     @IBOutlet weak var newSignDescription: UITextView!
     @IBOutlet weak var newSignTitle: UILabel!
+    @IBOutlet weak var saveSign: UIButton!
+    var newSign: Sign?
     
     //MARK: Functions
     override func viewDidLoad() {
@@ -25,8 +27,15 @@ class ViewController: UIViewController, UITextViewDelegate {
         self.newSignDescription.textColor = UIColor.lightGray
     }
     
-    @IBAction func goBack(_ sender: Any) {
-        dismiss(animated: true, completion: nil)
+    // MARK: Navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if (segue.identifier == "saveMessageAndLeave") {
+            if let title = newSignTitle.text {
+                if let description = newSignDescription.text {
+                    self.newSign = Sign(name: title, location: "", description: description)
+                }
+            }
+        }
     }
     
     //MARK: UITextViewDelegate functions
@@ -45,7 +54,12 @@ class ViewController: UIViewController, UITextViewDelegate {
     }
     
     func textViewDidChange(_ textView: UITextView) {
-        self.newSignTitle.text = String(textView.text.split(separator: "\n")[0])
+        if textView.text.split(separator: "\n").count > 0 {
+            let firstLine = String(textView.text.split(separator: "\n")[0])
+            self.newSignTitle.text = firstLine
+        } else {
+            self.newSignTitle.text = ""
+        }
     }
 
 }

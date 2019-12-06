@@ -34,4 +34,10 @@ class DSTable: NSObject, UITableViewDataSource {
         return newCell
     }
     
+    func insertCell(_ tableView: UITableView, inRow: Int, withSign: Sign) {
+        self.signs.insert(withSign, at: inRow)
+        let indexPath = IndexPath(row: inRow, section: 0)
+        tableView.insertRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+    }
+    
 }
