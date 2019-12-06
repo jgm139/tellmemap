@@ -13,7 +13,7 @@ class Sign {
     
     //MARK: Properties
     var name: String
-    //var pin: Pin
+    var pin: Pin?
     var location: CLLocationCoordinate2D
     var description: String
     var likes: Int = 0
@@ -33,5 +33,9 @@ class Sign {
         let d = Date()
         dataFormatter.dateFormat = "hh:mm"
         self.date = dataFormatter.string(from: d)
+    }
+    
+    func setPin(pin: Pin) {
+        self.pin = pin
     }
 }

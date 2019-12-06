@@ -7,14 +7,28 @@
 //
 
 import UIKit
+import MapKit
 
-struct Pin {
+class Pin: NSObject, MKAnnotation {
     
     //MARK: Properties
-    var category: Category
-    var colour: String
+    var category: Category?
+    var colour: String?
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    var subtitle: String?
     
-    init(category: Category) {
+    init(title: String, subtitle: String, coordinate: CLLocationCoordinate2D) {
+        self.title = title
+        self.subtitle = subtitle
+        self.coordinate = coordinate
+        //self.category = category
+        super.init()
+        
+        //setCategoryColour()
+    }
+    
+    /*func setCategoryColour() {
         switch category {
             case .academy:
                 self.colour = "#2980B9"
@@ -41,6 +55,5 @@ struct Pin {
             case .shop:
                 self.colour = "#E74C3C"
         }
-        self.category = category
-    }
+    }*/
 }

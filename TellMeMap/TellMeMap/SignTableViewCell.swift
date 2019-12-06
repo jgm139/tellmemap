@@ -40,6 +40,10 @@ class SignTableViewCell: UITableViewCell {
         self.signDate.text = item.date
         centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.location.latitude, longitude: item.location.longitude))
         
+        let pin = Pin(title: item.name, subtitle: item.description, coordinate: item.location)
+        item.setPin(pin: pin)
+        self.mapViewLocation.addAnnotation(pin)
+        
     }
     
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
