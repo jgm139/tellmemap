@@ -7,10 +7,13 @@
 //
 
 import UIKit
+import CoreLocation
 
-class NewMessageViewController: UIViewController, UITextViewDelegate {
+class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocationManagerDelegate {
     
     //MARK: Properties
+    let locationManager = CLLocationManager()
+    var lastCurrentLocation = CLLocationCoordinate2D()
     @IBOutlet weak var newSignDescription: UITextView!
     @IBOutlet weak var newSignTitle: UILabel!
     @IBOutlet weak var saveSign: UIButton!
@@ -20,6 +23,18 @@ class NewMessageViewController: UIViewController, UITextViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.newSignDescription.delegate = self
+        
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -27,12 +42,19 @@ class NewMessageViewController: UIViewController, UITextViewDelegate {
         self.newSignDescription.textColor = UIColor.lightGray
     }
     
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        print("locations = \(locValue.latitude) \(locValue.longitude)")
+        self.lastCurrentLocation.latitude = locValue.latitude
+        self.lastCurrentLocation.longitude = locValue.longitude
+    }
+    
     // MARK: Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "saveMessageAndLeave") {
             if let title = newSignTitle.text {
                 if let description = newSignDescription.text {
-                    self.newSign = Sign(name: title, location: "", description: description)
+                    self.newSign = Sign(name: title, location: lastCurrentLocation, description: description)
                 }
             }
         }

@@ -65,7 +65,7 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
-                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Here is showing the description of the message." translatesAutoresizingMaskIntoConstraints="NO" id="ISg-jT-eo3">
+                                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Here is showing the description of the message." selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ISg-jT-eo3">
                                                             <rect key="frame" x="0.0" y="53.5" width="200" height="60"/>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                             <constraints>
@@ -113,6 +113,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="mapViewLocation" destination="x4M-DC-GBj" id="4db-pW-hAa"/>
                                     <outlet property="signDate" destination="BV2-dz-ljQ" id="WQJ-us-1LR"/>
                                     <outlet property="signDescription" destination="ISg-jT-eo3" id="NdE-g7-cPb"/>
                                     <outlet property="signTitle" destination="FKH-hm-3JS" id="wJm-vY-PhQ"/>

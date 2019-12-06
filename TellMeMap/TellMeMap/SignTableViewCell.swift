@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class SignTableViewCell: UITableViewCell {
     
@@ -16,6 +17,7 @@ class SignTableViewCell: UITableViewCell {
     @IBOutlet weak var signTitle: UILabel!
     @IBOutlet weak var signDescription: UITextView!
     @IBOutlet weak var signDate: UILabel!
+    @IBOutlet weak var mapViewLocation: MKMapView!
     
     
     //MARK: Functions
@@ -36,6 +38,16 @@ class SignTableViewCell: UITableViewCell {
         self.signTitle.text = item.name
         self.signDescription.text = item.description
         self.signDate.text = item.date
+        centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.location.latitude, longitude: item.location.longitude))
+        
     }
+    
+    func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
+        let regionRadius: CLLocationDistance = 100
+        let coordinateRegion =
+            MKCoordinateRegion(center: loc.coordinate, latitudinalMeters: regionRadius * 4.0, longitudinalMeters: regionRadius * 4.0)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
+
 
 }

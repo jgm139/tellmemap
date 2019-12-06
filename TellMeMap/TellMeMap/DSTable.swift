@@ -8,14 +8,16 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class DSTable: NSObject, UITableViewDataSource {
     var signs = [Sign]()
     
     override init() {
-        signs.append(Sign(name: "Item 1", location: "", description: "Description 1"))
-        signs.append(Sign(name: "Item 2", location: "", description: "Description 2"))
-        signs.append(Sign(name: "Item 3", location: "", description: "Description 3"))
+        let newLocation = CLLocationCoordinate2D(latitude: 37.785834, longitude: -122.406417)
+        signs.append(Sign(name: "Item 1", location: newLocation, description: "Description 1"))
+        signs.append(Sign(name: "Item 2", location: newLocation, description: "Description 2"))
+        signs.append(Sign(name: "Item 3", location: newLocation, description: "Description 3"))
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
