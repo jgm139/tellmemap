@@ -191,6 +191,7 @@
                     <connections>
                         <outlet property="newSignDescription" destination="v1q-mZ-XEz" id="fOs-bb-4Gc"/>
                         <outlet property="newSignTitle" destination="Kqa-Ga-1gH" id="ghL-ZB-GHq"/>
+                        <outlet property="okButton" destination="Xi2-oX-zpl" id="xTq-X5-zoO"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

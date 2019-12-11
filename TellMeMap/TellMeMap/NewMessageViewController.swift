@@ -14,13 +14,22 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
     //MARK: Properties
     let locationManager = CLLocationManager()
     var lastCurrentLocation = CLLocationCoordinate2D()
+    var newSign: Sign?
     @IBOutlet weak var newSignDescription: UITextView!
     @IBOutlet weak var newSignTitle: UILabel!
-    var newSign: Sign?
+    @IBOutlet weak var okButton: UIBarButtonItem!
+    
     
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.okButton.isEnabled = false
+        
+        self.newSignDescription.text = "Description"
+        self.newSignDescription.textColor = UIColor.lightGray
+        
+        //self.okButton.isEnabled = false
         self.newSignDescription.delegate = self
         
         // Ask for Authorisation from the User.
@@ -79,7 +88,7 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
     }
     
     //MARK: - UITextViewDelegate functions
-    /*func textViewDidBeginEditing(_ textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
@@ -91,14 +100,16 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
             textView.text = "Description"
             textView.textColor = UIColor.lightGray
         }
-    }*/
+    }
     
     func textViewDidChange(_ textView: UITextView) {
         if textView.text.split(separator: "\n").count > 0 {
             let firstLine = String(textView.text.split(separator: "\n")[0])
             self.newSignTitle.text = firstLine
+            self.okButton.isEnabled = true
         } else {
             self.newSignTitle.text = ""
+            self.okButton.isEnabled = false
         }
     }
 
