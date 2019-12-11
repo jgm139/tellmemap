@@ -9,15 +9,28 @@
 import Foundation
 import UIKit
 import CoreLocation
+import CoreData
 
 class DSTable: NSObject, UITableViewDataSource {
     var signs = [Sign]()
     
     override init() {
-        let newLocation = CLLocationCoordinate2D(latitude: 37.785834, longitude: -122.406417)
+        /*let newLocation = CLLocationCoordinate2D(latitude: 37.785834, longitude: -122.406417)
         signs.append(Sign(name: "Item 1", location: newLocation, description: "Description 1"))
         signs.append(Sign(name: "Item 2", location: newLocation, description: "Description 2"))
-        signs.append(Sign(name: "Item 3", location: newLocation, description: "Description 3"))
+        signs.append(Sign(name: "Item 3", location: newLocation, description: "Description 3"))*/
+        
+        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let myContext = myDelegate.persistentContainer.viewContext
+        
+        let request: NSFetchRequest<Sign> = NSFetchRequest(entityName: "Sign")
+        
+        if let dSigns = try? myContext.fetch(request) {
+            self.signs = dSigns
+        }
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
