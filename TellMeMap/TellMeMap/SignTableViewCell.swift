@@ -36,13 +36,14 @@ class SignTableViewCell: UITableViewCell {
         //self.userName.text
         //self.userPhoto.image
         self.signTitle.text = item.name
-        self.signDescription.text = item.description
-        self.signDate.text = item.date
-        centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.location.latitude, longitude: item.location.longitude))
+        self.signDescription.text = item.message
+        self.signDate.text = getDateFormat(date: item.date!)
         
-        let pin = Pin(title: item.name, subtitle: item.description, coordinate: item.location)
-        item.setPin(pin: pin)
-        self.mapViewLocation.addAnnotation(pin)
+        centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.latitude, longitude: item.longitude))
+        
+        let artPin = ArtworkPin(title: item.name!, subtitle: item.description, coordinate: CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude))
+        
+        self.mapViewLocation.addAnnotation(artPin)
         
     }
     
@@ -51,6 +52,13 @@ class SignTableViewCell: UITableViewCell {
         let coordinateRegion =
             MKCoordinateRegion(center: loc.coordinate, latitudinalMeters: regionRadius * 4.0, longitudinalMeters: regionRadius * 4.0)
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func getDateFormat(date: Date) -> String {
+        let dataFormatter = DateFormatter()
+        dataFormatter.dateFormat = "hh:mm"
+        
+        return dataFormatter.string(from: date)
     }
 
 

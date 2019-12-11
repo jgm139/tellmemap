@@ -7,20 +7,21 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		84366E032365B17000E06A4D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E022365B17000E06A4D /* AppDelegate.swift */; };
-		84366E052365B17000E06A4D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E042365B17000E06A4D /* SceneDelegate.swift */; };
-		84366E072365B17000E06A4D /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E062365B17000E06A4D /* NewMessageViewController.swift */; };
 		84366E0A2365B17000E06A4D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84366E082365B17000E06A4D /* Main.storyboard */; };
 		84366E0C2365B17200E06A4D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 84366E0B2365B17200E06A4D /* Assets.xcassets */; };
 		84366E0F2365B17200E06A4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84366E0D2365B17200E06A4D /* LaunchScreen.storyboard */; };
 		84366E1A2365B17200E06A4D /* TellMeMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E192365B17200E06A4D /* TellMeMapTests.swift */; };
-		84366E252365B3E700E06A4D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E242365B3E700E06A4D /* User.swift */; };
-		84366E272365B8D300E06A4D /* Sign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E262365B8D300E06A4D /* Sign.swift */; };
-		84366E292365BC0700E06A4D /* Pin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E282365BC0700E06A4D /* Pin.swift */; };
-		84366E2B2365C09400E06A4D /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E2A2365C09400E06A4D /* Category.swift */; };
-		84571FD02372C15D009E2843 /* DSTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84571FCF2372C15D009E2843 /* DSTable.swift */; };
-		846FBD68237207AC0067BDA6 /* SignTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846FBD67237207AC0067BDA6 /* SignTableViewCell.swift */; };
-		846FBD6A237209F90067BDA6 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846FBD69237209F90067BDA6 /* TableViewController.swift */; };
+		8469FAD6239D627600D55FE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E022365B17000E06A4D /* AppDelegate.swift */; };
+		8469FAD7239D627600D55FE4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E042365B17000E06A4D /* SceneDelegate.swift */; };
+		8469FAD9239D627600D55FE4 /* ArtworkPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E282365BC0700E06A4D /* ArtworkPin.swift */; };
+		8469FADA239D627600D55FE4 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E2A2365C09400E06A4D /* Category.swift */; };
+		8469FADB239D627600D55FE4 /* DSTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84571FCF2372C15D009E2843 /* DSTable.swift */; };
+		8469FADC239D627600D55FE4 /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E062365B17000E06A4D /* NewMessageViewController.swift */; };
+		8469FADD239D627600D55FE4 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846FBD69237209F90067BDA6 /* TableViewController.swift */; };
+		8469FADE239D627600D55FE4 /* SignTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846FBD67237207AC0067BDA6 /* SignTableViewCell.swift */; };
+		8469FADF239D627600D55FE4 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84429165239D209300CEDB94 /* Model.xcdatamodeld */; };
+		84B91DFE23A0E86500E8357B /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B91DFC23A0E86500E8357B /* Pin+CoreDataClass.swift */; };
+		84B91DFF23A0E86500E8357B /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B91DFD23A0E86500E8357B /* Pin+CoreDataProperties.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,13 +46,14 @@
 		84366E152365B17200E06A4D /* TellMeMapTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TellMeMapTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		84366E192365B17200E06A4D /* TellMeMapTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TellMeMapTests.swift; sourceTree = "<group>"; };
 		84366E1B2365B17200E06A4D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		84366E242365B3E700E06A4D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		84366E262365B8D300E06A4D /* Sign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sign.swift; sourceTree = "<group>"; };
-		84366E282365BC0700E06A4D /* Pin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pin.swift; sourceTree = "<group>"; };
+		84366E282365BC0700E06A4D /* ArtworkPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkPin.swift; sourceTree = "<group>"; };
 		84366E2A2365C09400E06A4D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
+		84429166239D209300CEDB94 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		84571FCF2372C15D009E2843 /* DSTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSTable.swift; sourceTree = "<group>"; };
 		846FBD67237207AC0067BDA6 /* SignTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTableViewCell.swift; sourceTree = "<group>"; };
 		846FBD69237209F90067BDA6 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
+		84B91DFC23A0E86500E8357B /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
+		84B91DFD23A0E86500E8357B /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,8 @@
 		84366DF62365B17000E06A4D = {
 			isa = PBXGroup;
 			children = (
+				84B91DFC23A0E86500E8357B /* Pin+CoreDataClass.swift */,
+				84B91DFD23A0E86500E8357B /* Pin+CoreDataProperties.swift */,
 				84366E012365B17000E06A4D /* TellMeMap */,
 				84366E182365B17200E06A4D /* TellMeMapTests */,
 				84366E002365B17000E06A4D /* Products */,
@@ -96,14 +100,13 @@
 				84366E022365B17000E06A4D /* AppDelegate.swift */,
 				84366E042365B17000E06A4D /* SceneDelegate.swift */,
 				84366E082365B17000E06A4D /* Main.storyboard */,
-				84366E242365B3E700E06A4D /* User.swift */,
-				84366E262365B8D300E06A4D /* Sign.swift */,
-				84366E282365BC0700E06A4D /* Pin.swift */,
+				84366E282365BC0700E06A4D /* ArtworkPin.swift */,
 				84366E2A2365C09400E06A4D /* Category.swift */,
 				84571FCF2372C15D009E2843 /* DSTable.swift */,
 				84366E062365B17000E06A4D /* NewMessageViewController.swift */,
 				846FBD69237209F90067BDA6 /* TableViewController.swift */,
 				846FBD67237207AC0067BDA6 /* SignTableViewCell.swift */,
+				84429165239D209300CEDB94 /* Model.xcdatamodeld */,
 				84366E0B2365B17200E06A4D /* Assets.xcassets */,
 				84366E0D2365B17200E06A4D /* LaunchScreen.storyboard */,
 				84366E102365B17200E06A4D /* Info.plist */,
@@ -221,16 +224,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				84366E252365B3E700E06A4D /* User.swift in Sources */,
-				84366E072365B17000E06A4D /* NewMessageViewController.swift in Sources */,
-				84366E272365B8D300E06A4D /* Sign.swift in Sources */,
-				84366E032365B17000E06A4D /* AppDelegate.swift in Sources */,
-				84366E052365B17000E06A4D /* SceneDelegate.swift in Sources */,
-				84366E292365BC0700E06A4D /* Pin.swift in Sources */,
-				846FBD68237207AC0067BDA6 /* SignTableViewCell.swift in Sources */,
-				84571FD02372C15D009E2843 /* DSTable.swift in Sources */,
-				846FBD6A237209F90067BDA6 /* TableViewController.swift in Sources */,
-				84366E2B2365C09400E06A4D /* Category.swift in Sources */,
+				8469FAD6239D627600D55FE4 /* AppDelegate.swift in Sources */,
+				84B91DFE23A0E86500E8357B /* Pin+CoreDataClass.swift in Sources */,
+				8469FAD7239D627600D55FE4 /* SceneDelegate.swift in Sources */,
+				84B91DFF23A0E86500E8357B /* Pin+CoreDataProperties.swift in Sources */,
+				8469FAD9239D627600D55FE4 /* ArtworkPin.swift in Sources */,
+				8469FADA239D627600D55FE4 /* Category.swift in Sources */,
+				8469FADB239D627600D55FE4 /* DSTable.swift in Sources */,
+				8469FADC239D627600D55FE4 /* NewMessageViewController.swift in Sources */,
+				8469FADD239D627600D55FE4 /* TableViewController.swift in Sources */,
+				8469FADE239D627600D55FE4 /* SignTableViewCell.swift in Sources */,
+				8469FADF239D627600D55FE4 /* Model.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -499,6 +503,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		84429165239D209300CEDB94 /* Model.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				84429166239D209300CEDB94 /* Model.xcdatamodel */,
+			);
+			currentVersion = 84429166239D209300CEDB94 /* Model.xcdatamodel */;
+			path = Model.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 84366DF72365B17000E06A4D /* Project object */;
 }

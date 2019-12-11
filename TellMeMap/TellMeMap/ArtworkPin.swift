@@ -9,7 +9,7 @@
 import UIKit
 import MapKit
 
-class Pin: NSObject, MKAnnotation {
+class ArtworkPin: NSObject, MKAnnotation {
     
     //MARK: Properties
     var category: Category?
