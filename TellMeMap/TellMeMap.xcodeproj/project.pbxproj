@@ -15,13 +15,13 @@
 		8469FAD7239D627600D55FE4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E042365B17000E06A4D /* SceneDelegate.swift */; };
 		8469FAD9239D627600D55FE4 /* ArtworkPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E282365BC0700E06A4D /* ArtworkPin.swift */; };
 		8469FADA239D627600D55FE4 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E2A2365C09400E06A4D /* Category.swift */; };
-		8469FADB239D627600D55FE4 /* DSTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84571FCF2372C15D009E2843 /* DSTable.swift */; };
 		8469FADC239D627600D55FE4 /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E062365B17000E06A4D /* NewMessageViewController.swift */; };
 		8469FADD239D627600D55FE4 /* TableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846FBD69237209F90067BDA6 /* TableViewController.swift */; };
 		8469FADE239D627600D55FE4 /* SignTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 846FBD67237207AC0067BDA6 /* SignTableViewCell.swift */; };
 		8469FADF239D627600D55FE4 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 84429165239D209300CEDB94 /* Model.xcdatamodeld */; };
 		84B91DFE23A0E86500E8357B /* Pin+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B91DFC23A0E86500E8357B /* Pin+CoreDataClass.swift */; };
 		84B91DFF23A0E86500E8357B /* Pin+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B91DFD23A0E86500E8357B /* Pin+CoreDataProperties.swift */; };
+		84FBCC1023A39D240054E30E /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 84FBCC0F23A39D240054E30E /* MapKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,11 +49,12 @@
 		84366E282365BC0700E06A4D /* ArtworkPin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArtworkPin.swift; sourceTree = "<group>"; };
 		84366E2A2365C09400E06A4D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		84429166239D209300CEDB94 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
-		84571FCF2372C15D009E2843 /* DSTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DSTable.swift; sourceTree = "<group>"; };
 		846FBD67237207AC0067BDA6 /* SignTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTableViewCell.swift; sourceTree = "<group>"; };
 		846FBD69237209F90067BDA6 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
 		84B91DFC23A0E86500E8357B /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
 		84B91DFD23A0E86500E8357B /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		84FBCC0F23A39D240054E30E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		84FBCC1123A39E440054E30E /* TellMeMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TellMeMap.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84FBCC1023A39D240054E30E /* MapKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -82,6 +84,7 @@
 				84366E012365B17000E06A4D /* TellMeMap */,
 				84366E182365B17200E06A4D /* TellMeMapTests */,
 				84366E002365B17000E06A4D /* Products */,
+				84FBCC0E23A39D240054E30E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -97,18 +100,16 @@
 		84366E012365B17000E06A4D /* TellMeMap */ = {
 			isa = PBXGroup;
 			children = (
+				84FBCC1123A39E440054E30E /* TellMeMap.entitlements */,
 				84366E022365B17000E06A4D /* AppDelegate.swift */,
 				84366E042365B17000E06A4D /* SceneDelegate.swift */,
 				84366E082365B17000E06A4D /* Main.storyboard */,
-				84366E282365BC0700E06A4D /* ArtworkPin.swift */,
-				84366E2A2365C09400E06A4D /* Category.swift */,
-				84571FCF2372C15D009E2843 /* DSTable.swift */,
-				84366E062365B17000E06A4D /* NewMessageViewController.swift */,
-				846FBD69237209F90067BDA6 /* TableViewController.swift */,
-				846FBD67237207AC0067BDA6 /* SignTableViewCell.swift */,
+				84366E0D2365B17200E06A4D /* LaunchScreen.storyboard */,
+				84436E1E23B8FD9E00E02800 /* Utils */,
+				84436E1C23B8FD7700E02800 /* New Message */,
+				84436E1D23B8FD8D00E02800 /* List of messages */,
 				84429165239D209300CEDB94 /* Model.xcdatamodeld */,
 				84366E0B2365B17200E06A4D /* Assets.xcassets */,
-				84366E0D2365B17200E06A4D /* LaunchScreen.storyboard */,
 				84366E102365B17200E06A4D /* Info.plist */,
 			);
 			path = TellMeMap;
@@ -121,6 +122,40 @@
 				84366E1B2365B17200E06A4D /* Info.plist */,
 			);
 			path = TellMeMapTests;
+			sourceTree = "<group>";
+		};
+		84436E1C23B8FD7700E02800 /* New Message */ = {
+			isa = PBXGroup;
+			children = (
+				84366E062365B17000E06A4D /* NewMessageViewController.swift */,
+			);
+			path = "New Message";
+			sourceTree = "<group>";
+		};
+		84436E1D23B8FD8D00E02800 /* List of messages */ = {
+			isa = PBXGroup;
+			children = (
+				846FBD69237209F90067BDA6 /* TableViewController.swift */,
+				846FBD67237207AC0067BDA6 /* SignTableViewCell.swift */,
+			);
+			path = "List of messages";
+			sourceTree = "<group>";
+		};
+		84436E1E23B8FD9E00E02800 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				84366E282365BC0700E06A4D /* ArtworkPin.swift */,
+				84366E2A2365C09400E06A4D /* Category.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		84FBCC0E23A39D240054E30E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				84FBCC0F23A39D240054E30E /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,7 +265,6 @@
 				84B91DFF23A0E86500E8357B /* Pin+CoreDataProperties.swift in Sources */,
 				8469FAD9239D627600D55FE4 /* ArtworkPin.swift in Sources */,
 				8469FADA239D627600D55FE4 /* Category.swift in Sources */,
-				8469FADB239D627600D55FE4 /* DSTable.swift in Sources */,
 				8469FADC239D627600D55FE4 /* NewMessageViewController.swift in Sources */,
 				8469FADD239D627600D55FE4 /* TableViewController.swift in Sources */,
 				8469FADE239D627600D55FE4 /* SignTableViewCell.swift in Sources */,
@@ -394,15 +428,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TellMeMap/TellMeMap.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CW7DY5Z6H4;
 				INFOPLIST_FILE = TellMeMap/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jgm.TellMeMap;
+				PRODUCT_BUNDLE_IDENTIFIER = es.ua.jgm.TellMeMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -413,15 +449,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = TellMeMap/TellMeMap.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = CW7DY5Z6H4;
 				INFOPLIST_FILE = TellMeMap/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jgm.TellMeMap;
+				PRODUCT_BUNDLE_IDENTIFIER = es.ua.jgm.TellMeMap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
