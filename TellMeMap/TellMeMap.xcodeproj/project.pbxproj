@@ -105,6 +105,7 @@
 				84366E042365B17000E06A4D /* SceneDelegate.swift */,
 				84366E082365B17000E06A4D /* Main.storyboard */,
 				84366E0D2365B17200E06A4D /* LaunchScreen.storyboard */,
+				84A39B6A23BFD4D600CA40F7 /* Users */,
 				84436E1E23B8FD9E00E02800 /* Utils */,
 				84436E1C23B8FD7700E02800 /* New Message */,
 				84436E1D23B8FD8D00E02800 /* List of messages */,
@@ -148,6 +149,13 @@
 				84366E2A2365C09400E06A4D /* Category.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		84A39B6A23BFD4D600CA40F7 /* Users */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Users;
 			sourceTree = "<group>";
 		};
 		84FBCC0E23A39D240054E30E /* Frameworks */ = {
