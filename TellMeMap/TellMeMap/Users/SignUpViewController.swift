@@ -9,22 +9,47 @@
 import UIKit
 
 class SignUpViewController: UIViewController {
+    
+    // MARK: Properties
+    @IBOutlet weak var emailTextField: UITextField!
+    @IBOutlet weak var nameTextField: UITextField!
+    @IBOutlet weak var surnamesTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: Actions
+    
+    @IBAction func signUpAction(_ sender: Any) {
+        
+        if let nEmail = emailTextField.text {
+            if let nName = nameTextField.text {
+                if let nSurnames = surnamesTextField.text {
+                    if let nPass = passwordTextField.text {
+                        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                            return
+                        }
+                        
+                        let myContext = myDelegate.persistentContainer.viewContext
+                        
+                        let newUser = User(context: myContext)
+                        newUser.email = nEmail
+                        newUser.name = nName
+                        newUser.surnames = nSurnames
+                        newUser.password = nPass
+                        
+                        do {
+                            try myContext.save()
+                        } catch {
+                            print("ERROR: \(error)")
+                        }
+                    }
+                }
+            }
+        }
     }
-    */
-
+    
 }

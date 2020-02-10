@@ -21,11 +21,11 @@
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="signs" inverseEntity="User"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
-        <attribute name="email" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="password" optional="YES" attributeType="String"/>
+        <attribute name="email" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="password" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="String"/>
-        <attribute name="surnames" optional="YES" attributeType="String"/>
+        <attribute name="surnames" attributeType="String"/>
         <relationship name="signs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Sign" inverseName="user" inverseEntity="Sign"/>
     </entity>
     <elements>

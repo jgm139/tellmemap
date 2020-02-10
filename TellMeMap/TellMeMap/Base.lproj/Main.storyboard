@@ -150,10 +150,10 @@
             </objects>
             <point key="canvasLocation" x="-684.05797101449275" y="129.91071428571428"/>
         </scene>
-        <!--View Controller-->
+        <!--Sign Up View Controller-->
         <scene sceneID="Vvb-dj-XB7">
             <objects>
-                <viewController id="kjq-Fq-pr2" sceneMemberID="viewController">
+                <viewController id="kjq-Fq-pr2" customClass="SignUpViewController" customModule="TellMeMap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tEr-8L-6DJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -164,7 +164,7 @@
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="eR6-Sr-LPG">
                                         <rect key="frame" x="0.0" y="0.0" width="220" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" textContentType="email"/>
                                     </textField>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Nombre" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4nj-Kb-ffE">
                                         <rect key="frame" x="0.0" y="71" width="220" height="34"/>
@@ -179,7 +179,7 @@
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Contraseña" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ugW-WR-nuS">
                                         <rect key="frame" x="0.0" y="213" width="220" height="34"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                        <textInputTraits key="textInputTraits"/>
+                                        <textInputTraits key="textInputTraits" secureTextEntry="YES" textContentType="new-password"/>
                                     </textField>
                                 </subviews>
                                 <constraints>
@@ -189,6 +189,9 @@
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zMh-Gv-nyV">
                                 <rect key="frame" x="168" y="437" width="78" height="30"/>
                                 <state key="normal" title="Registrarse"/>
+                                <connections>
+                                    <action selector="signUpAction:" destination="kjq-Fq-pr2" eventType="touchUpInside" id="XBD-46-pd8"/>
+                                </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Bienvenido a TellMeMap!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wI1-HH-i6s">
                                 <rect key="frame" x="112" y="50" width="190" height="20.5"/>
@@ -208,6 +211,12 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eIc-i3-avC"/>
                     </view>
+                    <connections>
+                        <outlet property="emailTextField" destination="eR6-Sr-LPG" id="S2J-6M-8Bo"/>
+                        <outlet property="nameTextField" destination="4nj-Kb-ffE" id="6J6-GJ-wb6"/>
+                        <outlet property="passwordTextField" destination="ugW-WR-nuS" id="l9O-D8-yJP"/>
+                        <outlet property="surnamesTextField" destination="4sR-6s-OiV" id="4yy-vJ-swj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RHN-uP-U40" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
