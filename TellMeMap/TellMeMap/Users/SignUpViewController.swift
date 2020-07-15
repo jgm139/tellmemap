@@ -43,6 +43,15 @@ class SignUpViewController: UIViewController {
                         
                         do {
                             try myContext.save()
+                            
+                            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+                            let controller = storyboard.instantiateViewController(withIdentifier: "SignInVC")
+                            self.present(controller, animated: true, completion: nil)
+
+                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignInVC") as? SignInViewController
+                            {
+                                present(vc, animated: true, completion: nil)
+                            }
                         } catch {
                             print("ERROR: \(error)")
                         }
