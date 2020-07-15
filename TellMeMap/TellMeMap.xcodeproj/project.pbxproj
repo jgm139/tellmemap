@@ -12,6 +12,7 @@
 		84366E0F2365B17200E06A4D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84366E0D2365B17200E06A4D /* LaunchScreen.storyboard */; };
 		84366E1A2365B17200E06A4D /* TellMeMapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E192365B17200E06A4D /* TellMeMapTests.swift */; };
 		84605C5123C0B26C003FA7F5 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84605C5023C0B26C003FA7F5 /* SignUpViewController.swift */; };
+		8465335E240196C7002AB0A9 /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8465335D240196C7002AB0A9 /* SignInViewController.swift */; };
 		8469FAD6239D627600D55FE4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E022365B17000E06A4D /* AppDelegate.swift */; };
 		8469FAD7239D627600D55FE4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E042365B17000E06A4D /* SceneDelegate.swift */; };
 		8469FAD9239D627600D55FE4 /* ArtworkPin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84366E282365BC0700E06A4D /* ArtworkPin.swift */; };
@@ -51,10 +52,11 @@
 		84366E2A2365C09400E06A4D /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		84429166239D209300CEDB94 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		84605C5023C0B26C003FA7F5 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		8465335D240196C7002AB0A9 /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		846FBD67237207AC0067BDA6 /* SignTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignTableViewCell.swift; sourceTree = "<group>"; };
 		846FBD69237209F90067BDA6 /* TableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewController.swift; sourceTree = "<group>"; };
-		84B91DFC23A0E86500E8357B /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
-		84B91DFD23A0E86500E8357B /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		84B91DFC23A0E86500E8357B /* Pin+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataClass.swift"; path = "../Pin+CoreDataClass.swift"; sourceTree = "<group>"; };
+		84B91DFD23A0E86500E8357B /* Pin+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = "Pin+CoreDataProperties.swift"; path = "../Pin+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		84FBCC0F23A39D240054E30E /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		84FBCC1123A39E440054E30E /* TellMeMap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TellMeMap.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -81,8 +83,6 @@
 		84366DF62365B17000E06A4D = {
 			isa = PBXGroup;
 			children = (
-				84B91DFC23A0E86500E8357B /* Pin+CoreDataClass.swift */,
-				84B91DFD23A0E86500E8357B /* Pin+CoreDataProperties.swift */,
 				84366E012365B17000E06A4D /* TellMeMap */,
 				84366E182365B17200E06A4D /* TellMeMapTests */,
 				84366E002365B17000E06A4D /* Products */,
@@ -147,6 +147,8 @@
 		84436E1E23B8FD9E00E02800 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				84B91DFC23A0E86500E8357B /* Pin+CoreDataClass.swift */,
+				84B91DFD23A0E86500E8357B /* Pin+CoreDataProperties.swift */,
 				84366E282365BC0700E06A4D /* ArtworkPin.swift */,
 				84366E2A2365C09400E06A4D /* Category.swift */,
 			);
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				84605C5023C0B26C003FA7F5 /* SignUpViewController.swift */,
+				8465335D240196C7002AB0A9 /* SignInViewController.swift */,
 			);
 			path = Users;
 			sourceTree = "<group>";
@@ -278,6 +281,7 @@
 				8469FAD9239D627600D55FE4 /* ArtworkPin.swift in Sources */,
 				8469FADA239D627600D55FE4 /* Category.swift in Sources */,
 				8469FADC239D627600D55FE4 /* NewMessageViewController.swift in Sources */,
+				8465335E240196C7002AB0A9 /* SignInViewController.swift in Sources */,
 				8469FADD239D627600D55FE4 /* TableViewController.swift in Sources */,
 				8469FADE239D627600D55FE4 /* SignTableViewCell.swift in Sources */,
 				8469FADF239D627600D55FE4 /* Model.xcdatamodeld in Sources */,
