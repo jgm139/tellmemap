@@ -20,6 +20,10 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Localización cuando se use la aplicación</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Localización siempre</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Mapas requiere su autorización</string>
 	<key>UIApplicationSceneManifest</key>
@@ -41,6 +45,11 @@
 			</array>
 		</dict>
 	</dict>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -62,9 +71,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Localización cuando se use la aplicación</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Localización siempre</string>
 </dict>
 </plist>

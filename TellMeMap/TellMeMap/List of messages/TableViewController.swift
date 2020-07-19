@@ -12,7 +12,7 @@ import CoreData
 class TableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
     
     //MARK: Properties
-    var frc: NSFetchedResultsController<Sign>!
+    var frc: NSFetchedResultsController<Place>!
     
     //MARK: Functions
     override func viewDidLoad() {
@@ -27,10 +27,10 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
         
         let myContext = myDelegate.persistentContainer.viewContext
         
-        let request: NSFetchRequest<Sign> = NSFetchRequest(entityName: "Sign")
+        let request: NSFetchRequest<Place> = NSFetchRequest(entityName: "Place")
         let sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         request.sortDescriptors = sortDescriptors
-        self.frc = NSFetchedResultsController<Sign>(fetchRequest: request, managedObjectContext: myContext, sectionNameKeyPath: nil, cacheName: nil)
+        self.frc = NSFetchedResultsController<Place>(fetchRequest: request, managedObjectContext: myContext, sectionNameKeyPath: nil, cacheName: nil)
         
         self.frc.delegate = self
         
@@ -42,7 +42,7 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     // MARK: Actions
-    @IBAction func unwindToSignList(sender: UIStoryboardSegue) {
+    @IBAction func unwindToPlaceList(sender: UIStoryboardSegue) {
     }
     
     // MARK: - Fetched Results Controller
@@ -53,8 +53,8 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = self.frc.object(at: indexPath)
         
-        guard let newCell = tableView.dequeueReusableCell(withIdentifier: "signTableViewCell", for: indexPath) as? SignTableViewCell else {
-            fatalError("The dequeued cell is not an instance of SignTableViewCell.")
+        guard let newCell = tableView.dequeueReusableCell(withIdentifier: "placeTableViewCell", for: indexPath) as? PlaceTableViewCell else {
+            fatalError("The dequeued cell is not an instance of PlaceTableViewCell.")
         }
         
         newCell.setContent(item: item)
@@ -104,8 +104,8 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
         
         switch editingStyle {
             case .delete:
-                let signToDelete = self.frc.object(at: indexPath)
-                myContext.delete(signToDelete)
+                let placeToDelete = self.frc.object(at: indexPath)
+                myContext.delete(placeToDelete)
                 
                 do {
                     try myContext.save()

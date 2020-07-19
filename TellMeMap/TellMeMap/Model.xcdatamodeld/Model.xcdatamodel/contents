@@ -1,15 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="15508" systemVersion="19C57" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Pin" representedClassName=".Pin" syncable="YES">
-        <attribute name="category" optional="YES" attributeType="String"/>
-        <attribute name="colour" optional="YES" attributeType="String"/>
-        <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="longitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="subtitle" attributeType="String"/>
-        <attribute name="title" attributeType="String"/>
-        <relationship name="sign" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Sign" inverseName="pin" inverseEntity="Sign"/>
-    </entity>
-    <entity name="Sign" representedClassName="Sign" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="date" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="latitude" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="likes" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
@@ -17,8 +9,7 @@
         <attribute name="message" attributeType="String" minValueString="1"/>
         <attribute name="name" attributeType="String" minValueString="1"/>
         <attribute name="reports" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="pin" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Pin" inverseName="sign" inverseEntity="Pin"/>
-        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="signs" inverseEntity="User"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="places" inverseEntity="User"/>
     </entity>
     <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="email" optional="YES" attributeType="String"/>
@@ -26,11 +17,10 @@
         <attribute name="password" optional="YES" attributeType="String"/>
         <attribute name="photo" optional="YES" attributeType="String"/>
         <attribute name="surnames" optional="YES" attributeType="String"/>
-        <relationship name="signs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Sign" inverseName="user" inverseEntity="Sign"/>
+        <relationship name="places" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Place" inverseName="user" inverseEntity="Place"/>
     </entity>
     <elements>
-        <element name="Pin" positionX="271.00390625" positionY="280.5078125" width="128" height="148"/>
-        <element name="Sign" positionX="260.4296875" positionY="-45.80078125" width="128" height="178"/>
+        <element name="Place" positionX="260.4296875" positionY="-45.80078125" width="128" height="178"/>
         <element name="User" positionX="-62.20703125" positionY="-1.171875" width="128" height="133"/>
     </elements>
 </model>
