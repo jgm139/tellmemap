@@ -2,6 +2,12 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Localización cuando se use la aplicación.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Localización siempre.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Mapas requiere su autorización.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleExecutable</key>
@@ -15,17 +21,11 @@
 	<key>CFBundlePackageType</key>
 	<string>$(PRODUCT_BUNDLE_PACKAGE_TYPE)</string>
 	<key>CFBundleShortVersionString</key>
-	<string>$(MARKETING_VERSION)</string>
+	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Localización cuando se use la aplicación</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Localización siempre</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Mapas requiere su autorización</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>
@@ -47,7 +47,6 @@
 	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string>location</string>
 		<string>remote-notification</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
