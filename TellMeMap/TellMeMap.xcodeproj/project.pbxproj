@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		842D3EB924CA07420033EA1A /* StartViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 842D3EB824CA07420033EA1A /* StartViewController.swift */; };
 		84B5D8B524C8C0B600C2EA1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B5D8B424C8C0B600C2EA1B /* AppDelegate.swift */; };
 		84B5D8B724C8C0B600C2EA1B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B5D8B624C8C0B600C2EA1B /* SceneDelegate.swift */; };
 		84B5D8BC24C8C0B600C2EA1B /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84B5D8BA24C8C0B600C2EA1B /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		842D3EB824CA07420033EA1A /* StartViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartViewController.swift; sourceTree = "<group>"; };
 		84B5D8B124C8C0B600C2EA1B /* tellMeMap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tellMeMap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84B5D8B424C8C0B600C2EA1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84B5D8B624C8C0B600C2EA1B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 				84B5D8D524C8C2D800C2EA1B /* PlaceTableViewCell.swift */,
 				84B5D8D624C8C2D800C2EA1B /* TableViewController.swift */,
 				84B5D8D324C8C2BC00C2EA1B /* NewMessageViewController.swift */,
+				842D3EB824CA07420033EA1A /* StartViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 				84B5D8D224C8C27A00C2EA1B /* Category.swift in Sources */,
 				84B5D8D824C8C2D800C2EA1B /* TableViewController.swift in Sources */,
 				84B5D8D724C8C2D800C2EA1B /* PlaceTableViewCell.swift in Sources */,
+				842D3EB924CA07420033EA1A /* StartViewController.swift in Sources */,
 				84B5D8B524C8C0B600C2EA1B /* AppDelegate.swift in Sources */,
 				84B5D8B724C8C0B600C2EA1B /* SceneDelegate.swift in Sources */,
 				84B5D8BF24C8C0B600C2EA1B /* tellMeMap.xcdatamodeld in Sources */,
