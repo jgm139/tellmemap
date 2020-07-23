@@ -12,12 +12,22 @@ import CoreData
 class TableViewController: UITableViewController {
     
     //MARK: Properties
-    var frc: NSFetchedResultsController<Place>!
+    var frc: NSFetchedResultsController<Place>! {
+        didSet {
+            self.frc.delegate = self
+        }
+    }
     
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.refreshControl?.addTarget(self, action: #selector(refreshPlaces), for: .valueChanged)
+        
+        updateFRC()
+    }
+    
+    func updateFRC() {
         guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
@@ -27,15 +37,23 @@ class TableViewController: UITableViewController {
         let request: NSFetchRequest<Place> = NSFetchRequest(entityName: "Place")
         let sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         request.sortDescriptors = sortDescriptors
-        self.frc = NSFetchedResultsController<Place>(fetchRequest: request, managedObjectContext: myContext, sectionNameKeyPath: nil, cacheName: nil)
         
-        self.frc.delegate = self
+        self.frc = NSFetchedResultsController<Place>(fetchRequest: request, managedObjectContext: myContext, sectionNameKeyPath: nil, cacheName: nil)
         
         do {
             try self.frc.performFetch()
+            self.tableView.reloadData()
         } catch {
             fatalError("Failed to fetch entities: \(error)")
         }
+    }
+    
+    @objc func refreshPlaces() {
+        DispatchQueue.main.async( execute: {
+            self.updateFRC()
+        })
+        
+        self.refreshControl?.endRefreshing()
     }
     
     // MARK: Actions

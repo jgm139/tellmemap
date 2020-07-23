@@ -54,13 +54,13 @@
         <!--Table View Controller-->
         <scene sceneID="in1-aa-CcA">
             <objects>
-                <tableViewController storyboardIdentifier="PlacesListVC" id="hnw-fN-x2B" customClass="TableViewController" customModule="TellMeMap" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="PlacesListVC" id="hnw-fN-x2B" customClass="TableViewController" customModule="tellMeMap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="200" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ikO-sc-G8e">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="placeTableViewCell" id="3u6-XK-9Tk" userLabel="placeTableViewCell" customClass="PlaceTableViewCell" customModule="TellMeMap" customModuleProvider="target">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="placeTableViewCell" id="3u6-XK-9Tk" userLabel="placeTableViewCell" customClass="PlaceTableViewCell" customModule="tellMeMap" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="28" width="414" height="200"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3u6-XK-9Tk" id="Elr-MR-Mqq">
@@ -168,6 +168,9 @@
                             </connections>
                         </barButtonItem>
                     </navigationItem>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="blz-OW-7EZ">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rdl-1v-ivr" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -176,7 +179,7 @@
         <!--New Message View Controller-->
         <scene sceneID="pJK-z5-QPh">
             <objects>
-                <viewController storyboardIdentifier="NewPlaceVC" id="0DI-f3-gub" customClass="NewMessageViewController" customModule="TellMeMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="NewPlaceVC" id="0DI-f3-gub" customClass="NewMessageViewController" customModule="tellMeMap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="tE7-Dk-868">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
