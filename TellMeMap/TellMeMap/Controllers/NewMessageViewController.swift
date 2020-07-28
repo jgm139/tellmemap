@@ -77,6 +77,9 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
                     self.newPlace!.longitude = lastCurrentLocation.longitude
                     self.newPlace!.message = description
                     
+                    self.newPlace!.user = UserSessionSingleton.session.user
+                    UserSessionSingleton.session.user.addToPlaces(newPlace!)
+                    
                     do {
                         try myContext.save()
                     } catch {

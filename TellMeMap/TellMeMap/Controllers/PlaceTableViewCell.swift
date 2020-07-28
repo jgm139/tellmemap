@@ -33,7 +33,7 @@ class PlaceTableViewCell: UITableViewCell {
     }
     
     func setContent(item: Place) {
-        //self.userName.text
+        self.userName!.text = item.user?.nickname
         //self.userPhoto.image
         self.placeTitle.text = item.name
         self.placeDescription.text = item.message

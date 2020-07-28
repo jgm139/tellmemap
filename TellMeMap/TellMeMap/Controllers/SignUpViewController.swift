@@ -8,6 +8,7 @@
 
 import UIKit
 import CloudKit
+import CoreData
 
 class SignUpViewController: UIViewController {
     
@@ -60,7 +61,11 @@ class SignUpViewController: UIViewController {
                         try myContext.save()
 
                         DispatchQueue.main.async( execute: {
-                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlacesListVC") as? TableViewController
+                            UserSessionSingleton.session.user = newUser
+                            
+                            self.initSession()
+                            
+                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NC") as? UINavigationController
                             {
                                 vc.modalPresentationStyle = .fullScreen
                                 self.present(vc, animated: true, completion: nil)
@@ -74,6 +79,29 @@ class SignUpViewController: UIViewController {
                 }
                 
             })
+        }
+    }
+    
+    func initSession(){
+        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let myContext = myDelegate.persistentContainer.viewContext
+        
+        let request : NSFetchRequest<Session> = NSFetchRequest(entityName:"Session")
+        let session = try? myContext.fetch(request)
+        
+        if session!.count > 0 {
+            session![0].nickname = UserSessionSingleton.session.user.nickname
+        } else {
+            let session = Session(context: myContext)
+            session.nickname = UserSessionSingleton.session.user.nickname
+        }
+        do {
+            try myContext.save()
+        } catch {
+           print("Error al guardar el contexto: \(error)")
         }
     }
     

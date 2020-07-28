@@ -45,17 +45,21 @@ class StartViewController: UIViewController {
                                     let users = try myContext.fetch(request)
                                     
                                     if users.isEmpty {
-                                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpViewController
-                                            {
-                                                vc.modalPresentationStyle = .popover
-                                                self.present(vc, animated: true, completion: nil)
-                                            }
+                                        if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpViewController
+                                        {
+                                            vc.modalPresentationStyle = .popover
+                                            self.present(vc, animated: true, completion: nil)
+                                        }
                                     } else {
-                                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NC") as? UINavigationController
-                                            {
-                                                vc.modalPresentationStyle = .fullScreen
-                                                self.present(vc, animated: true, completion: nil)
-                                            }
+                                        UserSessionSingleton.session.user = users[0]
+                                        
+                                        self.initSession()
+                                        
+                                        if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NC") as? UINavigationController
+                                        {
+                                            vc.modalPresentationStyle = .fullScreen
+                                            self.present(vc, animated: true, completion: nil)
+                                        }
                                     }
                                 } catch {
                                     fatalError("Failed to fetch entities: \(error)")
@@ -74,6 +78,29 @@ class StartViewController: UIViewController {
                     self.present(alert, animated: true, completion: nil)
                 })
             }
+        }
+    }
+    
+    func initSession(){
+        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let myContext = myDelegate.persistentContainer.viewContext
+        
+        let request: NSFetchRequest<Session> = NSFetchRequest(entityName:"Session")
+        let session = try? myContext.fetch(request)
+        
+        if session!.count > 0 {
+            session![0].nickname = UserSessionSingleton.session.user.nickname
+        } else {
+            let session = Session(context: myContext)
+            session.nickname = UserSessionSingleton.session.user.nickname
+        }
+        do {
+            try myContext.save()
+        } catch {
+           print("Error al guardar el contexto: \(error)")
         }
     }
 
