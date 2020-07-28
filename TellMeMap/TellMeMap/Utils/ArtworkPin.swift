@@ -22,38 +22,6 @@ class ArtworkPin: NSObject, MKAnnotation {
         self.title = title
         self.subtitle = subtitle
         self.coordinate = coordinate
-        //self.category = category
         super.init()
-        
-        //setCategoryColour()
     }
-    
-    /*func setCategoryColour() {
-        switch category {
-            case .academy:
-                self.colour = "#2980B9"
-            case .bar:
-                self.colour = "#16A085"
-            case .beauty_salon:
-                self.colour = "#FF33BB"
-            case .cafe:
-                self.colour = "#F39C12"
-            case .events_room:
-                self.colour = "#F1C40F"
-            case .garage:
-                self.colour = "#34495E"
-            case .laundry:
-                self.colour = "#33FFFF"
-            case .library:
-                self.colour = "#73C6B6"
-            case .nightclub:
-                self.colour = "#9B59B6"
-            case .outlet:
-                self.colour = "FF0000"
-            case .restaurant:
-                self.colour = "025B0A"
-            case .shop:
-                self.colour = "#E74C3C"
-        }
-    }*/
 }

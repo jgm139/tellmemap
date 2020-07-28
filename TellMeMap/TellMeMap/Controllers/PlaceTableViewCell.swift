@@ -1,5 +1,5 @@
 //
-//  SignTableViewCell.swift
+//  PlaceTableViewCell.swift
 //  TellMeMap
 //
 //  Created by Julia García Martínez on 05/11/2019.
@@ -9,14 +9,14 @@
 import UIKit
 import MapKit
 
-class SignTableViewCell: UITableViewCell {
+class PlaceTableViewCell: UITableViewCell {
     
     //MARK: Properties
     @IBOutlet weak var userName: UILabel?
     @IBOutlet weak var userPhoto: UIImageView?
-    @IBOutlet weak var signTitle: UILabel!
-    @IBOutlet weak var signDescription: UITextView!
-    @IBOutlet weak var signDate: UILabel!
+    @IBOutlet weak var placeTitle: UILabel!
+    @IBOutlet weak var placeDescription: UITextView!
+    @IBOutlet weak var placeDate: UILabel!
     @IBOutlet weak var mapViewLocation: MKMapView!
     
     
@@ -32,12 +32,12 @@ class SignTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
-    func setContent(item: Sign) {
-        //self.userName.text
+    func setContent(item: Place) {
+        self.userName!.text = item.user?.nickname
         //self.userPhoto.image
-        self.signTitle.text = item.name
-        self.signDescription.text = item.message
-        self.signDate.text = getDateFormat(date: item.date!)
+        self.placeTitle.text = item.name
+        self.placeDescription.text = item.message
+        self.placeDate.text = getDateFormat(date: item.date!)
         
         centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.latitude, longitude: item.longitude))
         

@@ -14,9 +14,9 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
     //MARK: Properties
     let locationManager = CLLocationManager()
     var lastCurrentLocation = CLLocationCoordinate2D()
-    var newSign: Sign?
-    @IBOutlet weak var newSignDescription: UITextView!
-    @IBOutlet weak var newSignTitle: UILabel!
+    var newPlace: Place?
+    @IBOutlet weak var newPlaceDescription: UITextView!
+    @IBOutlet weak var newPlaceTitle: UILabel!
     @IBOutlet weak var okButton: UIBarButtonItem!
     
     
@@ -26,11 +26,11 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
         
         self.okButton.isEnabled = false
         
-        self.newSignDescription.text = "Description"
-        self.newSignDescription.textColor = UIColor.lightGray
+        self.newPlaceDescription.text = "Description"
+        self.newPlaceDescription.textColor = UIColor.lightGray
         
         //self.okButton.isEnabled = false
-        self.newSignDescription.delegate = self
+        self.newPlaceDescription.delegate = self
         
         // Ask for Authorisation from the User.
         self.locationManager.requestAlwaysAuthorization()
@@ -46,8 +46,8 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.newSignDescription.text = "Description"
-        self.newSignDescription.textColor = UIColor.lightGray
+        self.newPlaceDescription.text = "Description"
+        self.newPlaceDescription.textColor = UIColor.lightGray
     }
     
     // MARK: - LocationManager
@@ -61,8 +61,8 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "saveMessageAndLeave") {
-            if let title = newSignTitle.text {
-                if let description = newSignDescription.text {
+            if let title = newPlaceTitle.text {
+                if let description = newPlaceDescription.text {
                     
                     guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
                         return
@@ -70,12 +70,15 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
                     
                     let myContext = myDelegate.persistentContainer.viewContext
                     
-                    self.newSign = Sign(context: myContext)
-                    self.newSign!.name = title
-                    self.newSign!.date = Date()
-                    self.newSign!.latitude = lastCurrentLocation.latitude
-                    self.newSign!.longitude = lastCurrentLocation.longitude
-                    self.newSign!.message = description
+                    self.newPlace = Place(context: myContext)
+                    self.newPlace!.name = title
+                    self.newPlace!.date = Date()
+                    self.newPlace!.latitude = lastCurrentLocation.latitude
+                    self.newPlace!.longitude = lastCurrentLocation.longitude
+                    self.newPlace!.message = description
+                    
+                    self.newPlace!.user = UserSessionSingleton.session.user
+                    UserSessionSingleton.session.user.addToPlaces(newPlace!)
                     
                     do {
                         try myContext.save()
@@ -105,10 +108,10 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
     func textViewDidChange(_ textView: UITextView) {
         if textView.text.split(separator: "\n").count > 0 {
             let firstLine = String(textView.text.split(separator: "\n")[0])
-            self.newSignTitle.text = firstLine
+            self.newPlaceTitle.text = firstLine
             self.okButton.isEnabled = true
         } else {
-            self.newSignTitle.text = ""
+            self.newPlaceTitle.text = ""
             self.okButton.isEnabled = false
         }
     }

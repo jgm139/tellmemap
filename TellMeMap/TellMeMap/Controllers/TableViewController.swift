@@ -9,43 +9,58 @@
 import UIKit
 import CoreData
 
-class TableViewController: UITableViewController, NSFetchedResultsControllerDelegate {
+class TableViewController: UITableViewController {
     
     //MARK: Properties
-    var frc: NSFetchedResultsController<Sign>!
+    var frc: NSFetchedResultsController<Place>! {
+        didSet {
+            self.frc.delegate = self
+        }
+    }
     
     //MARK: Functions
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        //self.myDataSource = DSTable()
-        //self.myTableView.dataSource = myDataSource
         
+        self.refreshControl?.addTarget(self, action: #selector(refreshPlaces), for: .valueChanged)
+        
+        updateFRC()
+    }
+    
+    func updateFRC() {
         guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
             return
         }
         
         let myContext = myDelegate.persistentContainer.viewContext
         
-        let request: NSFetchRequest<Sign> = NSFetchRequest(entityName: "Sign")
+        let request: NSFetchRequest<Place> = NSFetchRequest(entityName: "Place")
         let sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         request.sortDescriptors = sortDescriptors
-        self.frc = NSFetchedResultsController<Sign>(fetchRequest: request, managedObjectContext: myContext, sectionNameKeyPath: nil, cacheName: nil)
         
-        self.frc.delegate = self
+        self.frc = NSFetchedResultsController<Place>(fetchRequest: request, managedObjectContext: myContext, sectionNameKeyPath: nil, cacheName: nil)
         
         do {
             try self.frc.performFetch()
+            self.tableView.reloadData()
         } catch {
             fatalError("Failed to fetch entities: \(error)")
         }
     }
     
-    // MARK: Actions
-    @IBAction func unwindToSignList(sender: UIStoryboardSegue) {
+    @objc func refreshPlaces() {
+        DispatchQueue.main.async( execute: {
+            self.updateFRC()
+        })
+        
+        self.refreshControl?.endRefreshing()
     }
     
-    // MARK: - Fetched Results Controller
+    // MARK: Actions
+    @IBAction func unwindToPlaceList(sender: UIStoryboardSegue) {
+    }
+    
+    // MARK: Table View Controller
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.frc.sections![section].numberOfObjects
     }
@@ -53,8 +68,8 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = self.frc.object(at: indexPath)
         
-        guard let newCell = tableView.dequeueReusableCell(withIdentifier: "signTableViewCell", for: indexPath) as? SignTableViewCell else {
-            fatalError("The dequeued cell is not an instance of SignTableViewCell.")
+        guard let newCell = tableView.dequeueReusableCell(withIdentifier: "placeTableViewCell", for: indexPath) as? PlaceTableViewCell else {
+            fatalError("The dequeued cell is not an instance of PlaceTableViewCell.")
         }
         
         newCell.setContent(item: item)
@@ -62,7 +77,32 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
         return newCell
     }
     
-    // MARK: - Fetched Results Controller Delegate
+    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
+            return
+        }
+        
+        let myContext = myDelegate.persistentContainer.viewContext
+        
+        switch editingStyle {
+            case .delete:
+                let placeToDelete = self.frc.object(at: indexPath)
+                myContext.delete(placeToDelete)
+                
+                do {
+                    try myContext.save()
+                } catch {
+                   fatalError("Failed to delete message: \(error)")
+                }
+            default: break
+                
+        }
+    }
+}
+
+extension TableViewController: NSFetchedResultsControllerDelegate{
+    
+    // MARK: Fetched Results Controller Delegate
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {
         self.tableView.beginUpdates()
     }
@@ -72,6 +112,7 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
     }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
+        
         switch type {
             case .insert:
                 self.tableView.insertRows(at: [newIndexPath!], with:.automatic )
@@ -94,27 +135,4 @@ class TableViewController: UITableViewController, NSFetchedResultsControllerDele
             default: break
         }
     }
-    
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let myContext = myDelegate.persistentContainer.viewContext
-        
-        switch editingStyle {
-            case .delete:
-                let signToDelete = self.frc.object(at: indexPath)
-                myContext.delete(signToDelete)
-                
-                do {
-                    try myContext.save()
-                } catch {
-                   fatalError("Failed to delete message: \(error)")
-                }
-            default: break
-                
-        }
-    }
-
 }
