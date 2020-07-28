@@ -51,7 +51,7 @@ class StartViewController: UIViewController {
                                                 self.present(vc, animated: true, completion: nil)
                                             }
                                     } else {
-                                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlacesListVC") as? TableViewController
+                                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NC") as? UINavigationController
                                             {
                                                 vc.modalPresentationStyle = .fullScreen
                                                 self.present(vc, animated: true, completion: nil)
