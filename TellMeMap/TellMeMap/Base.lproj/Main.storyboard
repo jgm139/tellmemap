@@ -51,6 +51,54 @@
             </objects>
             <point key="canvasLocation" x="-1536" y="-589"/>
         </scene>
+        <!--Sign Up View Controller-->
+        <scene sceneID="EnL-y6-H7n">
+            <objects>
+                <viewController storyboardIdentifier="SignUpVC" id="lrw-gm-9K7" customClass="SignUpViewController" customModule="tellMeMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ykV-bT-wMH">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="¡Define un nickname!" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3Ln-fV-4de">
+                                <rect key="frame" x="126.5" y="94" width="161" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="nickname" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="jJL-cX-KqE">
+                                <rect key="frame" x="107" y="215" width="200" height="34"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="jQI-py-N3L"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zrn-YC-CKV">
+                                <rect key="frame" x="168" y="292" width="78" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Registrarse"/>
+                                <connections>
+                                    <action selector="signUpAction:" destination="lrw-gm-9K7" eventType="touchUpInside" id="DkW-57-LjW"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="3Ln-fV-4de" firstAttribute="centerX" secondItem="ykV-bT-wMH" secondAttribute="centerX" id="CVQ-C2-ddR"/>
+                            <constraint firstItem="3Ln-fV-4de" firstAttribute="top" secondItem="4p0-Vv-xys" secondAttribute="top" constant="50" id="EY8-Rw-U8T"/>
+                            <constraint firstItem="jJL-cX-KqE" firstAttribute="centerX" secondItem="ykV-bT-wMH" secondAttribute="centerX" id="Oar-sX-MMD"/>
+                            <constraint firstItem="jJL-cX-KqE" firstAttribute="top" secondItem="3Ln-fV-4de" secondAttribute="bottom" constant="100" id="iiD-Qn-zUZ"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="4p0-Vv-xys"/>
+                    </view>
+                    <connections>
+                        <outlet property="nicknameTextField" destination="jJL-cX-KqE" id="Ewh-Sx-hB5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RtB-xO-v23" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-684" y="-589"/>
+        </scene>
         <!--Table View Controller-->
         <scene sceneID="in1-aa-CcA">
             <objects>

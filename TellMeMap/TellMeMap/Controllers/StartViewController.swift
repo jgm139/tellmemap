@@ -8,6 +8,7 @@
 
 import UIKit
 import CloudKit
+import CoreData
 
 class StartViewController: UIViewController {
 
@@ -18,18 +19,52 @@ class StartViewController: UIViewController {
     }
     
     func checkingiCloudCredentials() {
-        
         CKContainer.default().accountStatus {
             (accountStat, error) in
             
             if (accountStat == .available) {
-                DispatchQueue.main.async( execute: {
-                    if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlacesListVC") as? TableViewController
-                    {
-                        vc.modalPresentationStyle = .fullScreen
-                        self.present(vc, animated: true, completion: nil)
+                
+                CKContainer.default().requestApplicationPermission(.userDiscoverability) {
+                (status, error) in
+                    CKContainer.default().fetchUserRecordID {
+                        (record, error) in
+                        
+                        if let recordUser = record?.recordName {
+                            DispatchQueue.main.async( execute: {
+                                guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
+                                    return
+                                }
+                                
+                                let myContext = myDelegate.persistentContainer.viewContext
+                                
+                                let request = NSFetchRequest<User>(entityName: "User")
+                                let pred = NSPredicate(format: "icloud_id LIKE %@", argumentArray: [recordUser])
+                                request.predicate = pred
+                                
+                                do {
+                                    let users = try myContext.fetch(request)
+                                    
+                                    if users.isEmpty {
+                                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpViewController
+                                            {
+                                                vc.modalPresentationStyle = .popover
+                                                self.present(vc, animated: true, completion: nil)
+                                            }
+                                    } else {
+                                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PlacesListVC") as? TableViewController
+                                            {
+                                                vc.modalPresentationStyle = .fullScreen
+                                                self.present(vc, animated: true, completion: nil)
+                                            }
+                                    }
+                                } catch {
+                                    fatalError("Failed to fetch entities: \(error)")
+                                }
+                            })
+                        }
                     }
-                })
+                }
+                
             }
             else {
                 DispatchQueue.main.async( execute: {
