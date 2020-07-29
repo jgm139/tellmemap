@@ -33,8 +33,14 @@ class PlaceTableViewCell: UITableViewCell {
     }
     
     func setContent(item: Place) {
-        self.userName!.text = item.user?.nickname
-        //self.userPhoto.image
+        if let nickname = item.user?.nickname {
+            self.userName!.text = nickname
+        }
+        
+        if let photo = item.user?.image {
+            self.userPhoto!.image = UIImage(data: photo)
+        }
+        
         self.placeTitle.text = item.name
         self.placeDescription.text = item.message
         self.placeDate.text = getDateFormat(date: item.date!)
