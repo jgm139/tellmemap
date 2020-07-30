@@ -65,7 +65,7 @@ class SignUpViewController: UIViewController {
                             
                             self.initSession()
                             
-                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "NC") as? UINavigationController
+                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabNav") as? UITabBarController
                             {
                                 vc.modalPresentationStyle = .fullScreen
                                 self.present(vc, animated: true, completion: nil)
