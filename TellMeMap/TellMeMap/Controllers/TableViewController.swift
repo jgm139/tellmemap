@@ -11,14 +11,14 @@ import CoreData
 
 class TableViewController: UITableViewController {
     
-    //MARK: Properties
+    //MARK: - Properties
     var frc: NSFetchedResultsController<Place>! {
         didSet {
             self.frc.delegate = self
         }
     }
     
-    //MARK: Functions
+    //MARK: - Table View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -56,11 +56,12 @@ class TableViewController: UITableViewController {
         self.refreshControl?.endRefreshing()
     }
     
-    // MARK: Actions
-    @IBAction func unwindToPlaceList(sender: UIStoryboardSegue) {
-    }
     
-    // MARK: Table View Controller
+    // MARK: - Actions
+    @IBAction func unwindToPlaceList(sender: UIStoryboardSegue) {}
+    
+    
+    // MARK: - Table View Controller
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.frc.sections![section].numberOfObjects
     }
@@ -123,6 +124,7 @@ extension TableViewController: NSFetchedResultsControllerDelegate{
             case .move:
                 self.tableView.deleteRows(at: [indexPath!], with: .automatic)
                 self.tableView.insertRows(at: [newIndexPath!], with:.automatic )
+            @unknown default: break
         }
     }
     

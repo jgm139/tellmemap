@@ -12,33 +12,22 @@ import CoreData
 
 class SignUpViewController: UIViewController {
     
-    // MARK: Outlets
+    // MARK: - Outlets
     @IBOutlet weak var nicknameTextField: UITextField!
+    
+    
+    // MARK: - Properties
     var userInformation: [String: String]?
 
+    
+    // MARK: - View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         self.userInformation = [String: String]()
     }
     
-    func getUserInformation(withCompletionHandler completion: @escaping (_ success: Bool) -> Void) {
-        CKContainer.default().requestApplicationPermission(.userDiscoverability) {
-            (status, error) in
-            CKContainer.default().fetchUserRecordID {
-                (record, error) in
-                self.userInformation?["icloud_id"] = record?.recordName
-                CKContainer.default().discoverUserIdentity(withUserRecordID: record!, completionHandler: {
-                    (userID, error) in
-                    self.userInformation?["name"] = userID?.nameComponents?.givenName
-                    self.userInformation?["surnames"] = userID?.nameComponents?.familyName
-                    
-                    completion(true)
-                })
-            }
-        }
-    }
     
-    // MARK: Actions
+    // MARK: - Actions
     @IBAction func signUpAction(_ sender: UIButton) {
         if let nickname = nicknameTextField.text {
             guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
@@ -79,6 +68,24 @@ class SignUpViewController: UIViewController {
                 }
                 
             })
+        }
+    }
+    
+    // MARK: - Methods
+    func getUserInformation(withCompletionHandler completion: @escaping (_ success: Bool) -> Void) {
+        CKContainer.default().requestApplicationPermission(.userDiscoverability) {
+            (status, error) in
+            CKContainer.default().fetchUserRecordID {
+                (record, error) in
+                self.userInformation?["icloud_id"] = record?.recordName
+                CKContainer.default().discoverUserIdentity(withUserRecordID: record!, completionHandler: {
+                    (userID, error) in
+                    self.userInformation?["name"] = userID?.nameComponents?.givenName
+                    self.userInformation?["surnames"] = userID?.nameComponents?.familyName
+                    
+                    completion(true)
+                })
+            }
         }
     }
     

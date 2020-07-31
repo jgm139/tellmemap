@@ -11,10 +11,11 @@ import CoreData
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    // MARK: Outlets
+    // MARK: - Outlets
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var nicknameTextField: UITextField!
 
+    // MARK: - View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -38,7 +39,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
        view.endEditing(true)
     }
     
-    // MARK: Actions
+    // MARK: - Actions
     @IBAction func exportImage(_ sender: UITapGestureRecognizer) {
         let image = UIImagePickerController()
         
@@ -58,7 +59,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         
         let myContext = myDelegate.persistentContainer.viewContext
         
-        let request : NSFetchRequest<User> = NSFetchRequest(entityName:"User")
+        let request: NSFetchRequest<User> = NSFetchRequest(entityName:"User")
         
         do {
             let users = try myContext.fetch(request)
@@ -92,7 +93,6 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
            print("Error al guardar el contexto: \(error)")
         }
     }
-    
     
     
     // MARK: - Picker Controller Delegate

@@ -9,18 +9,21 @@
 import UIKit
 import CoreLocation
 
-class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocationManagerDelegate {
+class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
     
-    //MARK: Properties
-    let locationManager = CLLocationManager()
-    var lastCurrentLocation = CLLocationCoordinate2D()
-    var newPlace: Place?
+    // MARK: - Outlets
     @IBOutlet weak var newPlaceDescription: UITextView!
     @IBOutlet weak var newPlaceTitle: UILabel!
     @IBOutlet weak var okButton: UIBarButtonItem!
     
     
-    //MARK: Functions
+    //MARK: - Properties
+    let locationManager = CLLocationManager()
+    var lastCurrentLocation = CLLocationCoordinate2D()
+    var newPlace: Place?
+    
+    
+    //MARK: - View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,7 +32,6 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
         self.newPlaceDescription.text = "Description"
         self.newPlaceDescription.textColor = UIColor.lightGray
         
-        //self.okButton.isEnabled = false
         self.newPlaceDescription.delegate = self
         
         // Ask for Authorisation from the User.
@@ -50,6 +52,7 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
         self.newPlaceDescription.textColor = UIColor.lightGray
     }
     
+    
     // MARK: - LocationManager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
@@ -57,6 +60,7 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
         self.lastCurrentLocation.latitude = locValue.latitude
         self.lastCurrentLocation.longitude = locValue.longitude
     }
+    
     
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -89,22 +93,24 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
             }
         }
     }
-    
-    //MARK: - UITextViewDelegate functions
+
+}
+
+extension NewMessageViewController: UITextViewDelegate {
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil
             textView.textColor = UIColor.black
         }
     }
-    
+
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
             textView.text = "Description"
             textView.textColor = UIColor.lightGray
         }
     }
-    
+
     func textViewDidChange(_ textView: UITextView) {
         if textView.text.split(separator: "\n").count > 0 {
             let firstLine = String(textView.text.split(separator: "\n")[0])
@@ -115,6 +121,4 @@ class NewMessageViewController: UIViewController, UITextViewDelegate, CLLocation
             self.okButton.isEnabled = false
         }
     }
-
 }
-

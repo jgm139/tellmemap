@@ -11,7 +11,7 @@ import MapKit
 
 class PlaceTableViewCell: UITableViewCell {
     
-    //MARK: Properties
+    //MARK: - Properties
     @IBOutlet weak var userName: UILabel?
     @IBOutlet weak var userPhoto: UIImageView?
     @IBOutlet weak var placeTitle: UILabel!
@@ -20,16 +20,13 @@ class PlaceTableViewCell: UITableViewCell {
     @IBOutlet weak var mapViewLocation: MKMapView!
     
     
-    //MARK: Functions
+    //MARK: - Table View Cell Functions
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func setContent(item: Place) {
@@ -53,6 +50,8 @@ class PlaceTableViewCell: UITableViewCell {
         
     }
     
+    
+    // MARK: - Methods
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
         let regionRadius: CLLocationDistance = 100
         let coordinateRegion =
@@ -66,6 +65,5 @@ class PlaceTableViewCell: UITableViewCell {
         
         return dataFormatter.string(from: date)
     }
-
 
 }
