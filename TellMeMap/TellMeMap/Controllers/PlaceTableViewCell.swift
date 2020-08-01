@@ -11,7 +11,7 @@ import MapKit
 
 class PlaceTableViewCell: UITableViewCell {
     
-    //MARK: - Properties
+    //MARK: - Outlets
     @IBOutlet weak var userName: UILabel?
     @IBOutlet weak var userPhoto: UIImageView?
     @IBOutlet weak var placeTitle: UILabel!
