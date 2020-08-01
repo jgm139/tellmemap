@@ -18,6 +18,7 @@ class SignUpViewController: UIViewController {
     
     // MARK: - Properties
     var userInformation: [String: String]?
+    let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     
     // MARK: - View Controller Functions
@@ -30,38 +31,21 @@ class SignUpViewController: UIViewController {
     // MARK: - Actions
     @IBAction func signUpAction(_ sender: UIButton) {
         if let nickname = nicknameTextField.text {
-            guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
-            
-            let myContext = myDelegate.persistentContainer.viewContext
             
             getUserInformation(withCompletionHandler: {
                 (success) in
                 
                 if success {
-                    let newUser = User(context: myContext)
-                    newUser.nickname = nickname
-                    newUser.name = self.userInformation?["name"]
-                    newUser.surnames = self.userInformation?["surnames"]
-                    newUser.icloud_id = self.userInformation?["icloud_id"]
-                    
-                    do {
-                        try myContext.save()
-
-                        DispatchQueue.main.async( execute: {
-                            UserSessionSingleton.session.user = newUser
-                            
-                            self.initSession()
-                            
+                    if let icloud_id = self.userInformation?["icloud_id"] {
+                        self.newUser(nickname: nickname, name: self.userInformation?["name"], surnames: self.userInformation?["surnames"], icloud_id: icloud_id)
+                        
+                        DispatchQueue.main.async(execute: {
                             if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabNav") as? UITabBarController
                             {
                                 vc.modalPresentationStyle = .fullScreen
                                 self.present(vc, animated: true, completion: nil)
                             }
                         })
-                    } catch {
-                        print("ERROR: \(error)")
                     }
                 } else {
                     print("ERROR: no se pudo obtener la información del usuario")
@@ -89,24 +73,37 @@ class SignUpViewController: UIViewController {
         }
     }
     
-    func initSession(){
-        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
+    func newUser(nickname: String, name: String?, surnames: String?, icloud_id: String) {
+        let newUser = User(context: viewContext)
+        
+        newUser.nickname = nickname
+        newUser.name = name
+        newUser.surnames = surnames
+        newUser.icloud_id = icloud_id
+        
+        do {
+            try viewContext.save()
+            
+            UserSessionSingleton.session.user = newUser
+            
+            initSession()
+        } catch {
+            print("ERROR: \(error)")
         }
-        
-        let myContext = myDelegate.persistentContainer.viewContext
-        
-        let request : NSFetchRequest<Session> = NSFetchRequest(entityName:"Session")
-        let session = try? myContext.fetch(request)
+    }
+    
+    func initSession(){
+        let request: NSFetchRequest<Session> = NSFetchRequest(entityName:"Session")
+        let session = try? viewContext.fetch(request)
         
         if session!.count > 0 {
             session![0].nickname = UserSessionSingleton.session.user.nickname
         } else {
-            let session = Session(context: myContext)
+            let session = Session(context: viewContext)
             session.nickname = UserSessionSingleton.session.user.nickname
         }
         do {
-            try myContext.save()
+            try viewContext.save()
         } catch {
            print("Error al guardar el contexto: \(error)")
         }

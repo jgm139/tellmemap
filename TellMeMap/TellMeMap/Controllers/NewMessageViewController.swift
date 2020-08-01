@@ -20,7 +20,7 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
     //MARK: - Properties
     let locationManager = CLLocationManager()
     var lastCurrentLocation = CLLocationCoordinate2D()
-    var newPlace: Place?
+    let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     
     //MARK: - View Controller Functions
@@ -68,35 +68,36 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
             if let title = newPlaceTitle.text {
                 if let description = newPlaceDescription.text {
                     
-                    guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                        return
-                    }
-                    
-                    let myContext = myDelegate.persistentContainer.viewContext
-                    
-                    self.newPlace = Place(context: myContext)
-                    self.newPlace!.name = title
-                    self.newPlace!.date = Date()
-                    self.newPlace!.latitude = lastCurrentLocation.latitude
-                    self.newPlace!.longitude = lastCurrentLocation.longitude
-                    self.newPlace!.message = description
-                    
-                    self.newPlace!.user = UserSessionSingleton.session.user
-                    UserSessionSingleton.session.user.addToPlaces(newPlace!)
-                    
-                    do {
-                        try myContext.save()
-                    } catch {
-                        print("ERROR: \(error)")
-                    }
+                    newPlace(name: title, message: description, coordinates: lastCurrentLocation)
                 }
             }
+        }
+    }
+    
+    // MARK: - Methods
+    func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, public: Bool = true) {
+        let newPlace = Place(context: viewContext)
+        
+        newPlace.name = name
+        newPlace.date = Date()
+        newPlace.latitude = coordinates.latitude
+        newPlace.longitude = coordinates.longitude
+        newPlace.message = message
+        
+        newPlace.user = UserSessionSingleton.session.user
+        UserSessionSingleton.session.user.addToPlaces(newPlace)
+        
+        do {
+            try viewContext.save()
+        } catch {
+            print("ERROR: \(error)")
         }
     }
 
 }
 
 extension NewMessageViewController: UITextViewDelegate {
+    
     func textViewDidBeginEditing(_ textView: UITextView) {
         if textView.textColor == UIColor.lightGray {
             textView.text = nil

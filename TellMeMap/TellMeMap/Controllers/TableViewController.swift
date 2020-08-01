@@ -17,6 +17,7 @@ class TableViewController: UITableViewController {
             self.frc.delegate = self
         }
     }
+    let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     //MARK: - Table View Controller Functions
     override func viewDidLoad() {
@@ -28,17 +29,11 @@ class TableViewController: UITableViewController {
     }
     
     func updateFRC() {
-        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let myContext = myDelegate.persistentContainer.viewContext
-        
         let request: NSFetchRequest<Place> = NSFetchRequest(entityName: "Place")
         let sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         request.sortDescriptors = sortDescriptors
         
-        self.frc = NSFetchedResultsController<Place>(fetchRequest: request, managedObjectContext: myContext, sectionNameKeyPath: nil, cacheName: nil)
+        self.frc = NSFetchedResultsController<Place>(fetchRequest: request, managedObjectContext: viewContext, sectionNameKeyPath: nil, cacheName: nil)
         
         do {
             try self.frc.performFetch()
@@ -79,19 +74,14 @@ class TableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
-        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
-        
-        let myContext = myDelegate.persistentContainer.viewContext
         
         switch editingStyle {
             case .delete:
                 let placeToDelete = self.frc.object(at: indexPath)
-                myContext.delete(placeToDelete)
+                viewContext.delete(placeToDelete)
                 
                 do {
-                    try myContext.save()
+                    try viewContext.save()
                 } catch {
                    fatalError("Failed to delete message: \(error)")
                 }
