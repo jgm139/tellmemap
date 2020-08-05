@@ -19,7 +19,8 @@ class SignUpViewController: UIViewController {
     // MARK: - Properties
     var userInformation: [String: String]?
     let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-
+    var ckManager = CloudKitManager()
+    
     
     // MARK: - View Controller Functions
     override func viewDidLoad() {
@@ -74,34 +75,28 @@ class SignUpViewController: UIViewController {
     }
     
     func newUser(nickname: String, name: String?, surnames: String?, icloud_id: String) {
-        let newUser = User(context: viewContext)
+        let itemUser = UserItem(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id)
         
-        newUser.nickname = nickname
-        newUser.name = name
-        newUser.surnames = surnames
-        newUser.icloud_id = icloud_id
+        ckManager.addUser(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id)
         
-        do {
-            try viewContext.save()
-            
-            UserSessionSingleton.session.user = newUser
-            
-            initSession()
-        } catch {
-            print("ERROR: \(error)")
-        }
+        UserSessionSingleton.session.user = itemUser
+        
+        self.initSession()
+        
     }
     
     func initSession(){
         let request: NSFetchRequest<Session> = NSFetchRequest(entityName:"Session")
-        let session = try? viewContext.fetch(request)
+        let sessions = try? viewContext.fetch(request)
         
-        if session!.count > 0 {
-            session![0].nickname = UserSessionSingleton.session.user.nickname
+        if sessions!.count > 0 {
+            sessions![0].nickname = UserSessionSingleton.session.user.nickname
         } else {
-            let session = Session(context: viewContext)
-            session.nickname = UserSessionSingleton.session.user.nickname
+            print("New User Session \(UserSessionSingleton.session.user.nickname)")
+            let newSession = Session(context: viewContext)
+            newSession.nickname = UserSessionSingleton.session.user.nickname
         }
+        
         do {
             try viewContext.save()
         } catch {

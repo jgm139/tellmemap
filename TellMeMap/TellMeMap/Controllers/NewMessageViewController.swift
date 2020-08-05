@@ -17,13 +17,13 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var okButton: UIBarButtonItem!
     
     
-    //MARK: - Properties
+    // MARK: - Properties
     let locationManager = CLLocationManager()
     var lastCurrentLocation = CLLocationCoordinate2D()
-    let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var ckManager = CloudKitManager()
     
     
-    //MARK: - View Controller Functions
+    // MARK: - View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -67,7 +67,6 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
         if (segue.identifier == "saveMessageAndLeave") {
             if let title = newPlaceTitle.text {
                 if let description = newPlaceDescription.text {
-                    
                     newPlace(name: title, message: description, coordinates: lastCurrentLocation)
                 }
             }
@@ -75,26 +74,14 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     // MARK: - Methods
-    func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, public: Bool = true) {
-        let newPlace = Place(context: viewContext)
-        
-        newPlace.name = name
-        newPlace.date = Date()
-        newPlace.latitude = coordinates.latitude
-        newPlace.longitude = coordinates.longitude
-        newPlace.message = message
-        
-        newPlace.user = UserSessionSingleton.session.user
-        UserSessionSingleton.session.user.addToPlaces(newPlace)
-        
-        do {
-            try viewContext.save()
-        } catch {
-            print("ERROR: \(error)")
+    func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, isPublic: Bool = true) {
+        if isPublic {
+            ckManager.addPlace(name: name, message: message, coordinates: coordinates)
         }
     }
 
 }
+
 
 extension NewMessageViewController: UITextViewDelegate {
     

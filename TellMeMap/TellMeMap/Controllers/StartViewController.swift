@@ -13,6 +13,7 @@ import CoreData
 class StartViewController: UIViewController {
     
     // MARK: - Properties
+    var ckManager = CloudKitManager()
     let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
 
     override func viewDidLoad() {
@@ -42,26 +43,31 @@ class StartViewController: UIViewController {
     }
     
     func checkingiCloudCredentials() {
-                        
         getCloudID(withCompletionHandler: {
             (success, recordName, accountAvailable) in
                 if success {
-                    if !self.userIsSignUp(recordUser: recordName) {
-                        DispatchQueue.main.async(execute: {
-                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpViewController
-                            {
-                                vc.modalPresentationStyle = .popover
-                                self.present(vc, animated: true, completion: nil)
-                            }
-                        })
-                    } else {
-                        DispatchQueue.main.async(execute: {
-                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabNav") as? UITabBarController
-                            {
-                                vc.modalPresentationStyle = .fullScreen
-                                self.present(vc, animated: true, completion: nil)
-                            }
-                        })
+                    self.userIsSignUp(recordUser: recordName) {
+                        (isSigned) in
+                        if isSigned {
+                            
+                            self.initSession()
+                            
+                            DispatchQueue.main.async(execute: {
+                                if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabNav") as? UITabBarController
+                                {
+                                    vc.modalPresentationStyle = .fullScreen
+                                    self.present(vc, animated: true, completion: nil)
+                                }
+                            })
+                        } else {
+                            DispatchQueue.main.async(execute: {
+                                if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpViewController
+                                {
+                                    vc.modalPresentationStyle = .popover
+                                    self.present(vc, animated: true, completion: nil)
+                                }
+                            })
+                        }
                     }
                 } else if !accountAvailable {
                     DispatchQueue.main.async(execute: {
@@ -74,38 +80,36 @@ class StartViewController: UIViewController {
         })
     }
     
-    func userIsSignUp(recordUser: String) -> Bool {
-        let request = NSFetchRequest<User>(entityName: "User")
-        let pred = NSPredicate(format: "icloud_id LIKE %@", argumentArray: [recordUser])
-        request.predicate = pred
+    func userIsSignUp(recordUser: String, completion: @escaping (_ isSigned: Bool) -> Void) {
+        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [recordUser]))
         
-        do {
-            let users = try viewContext.fetch(request)
-            
-            if users.isEmpty {
-                return false
-            } else {
-                UserSessionSingleton.session.user = users[0]
-
-                initSession()
-                
-                return true
+        ckManager.privateDB.perform(query, inZoneWith: nil, completionHandler: {
+            (users, error) in
+            if error == nil {
+                if users!.isEmpty {
+                    completion(false)
+                } else {
+                    UserSessionSingleton.session.user = UserItem(record: users![0])
+                    
+                    completion(true)
+                }
             }
-        } catch {
-            fatalError("Failed to fetch entities: \(error)")
-        }
+        })
     }
     
     func initSession(){
         let request: NSFetchRequest<Session> = NSFetchRequest(entityName:"Session")
-        let session = try? viewContext.fetch(request)
+        let sessions = try? viewContext.fetch(request)
         
-        if session!.count > 0 {
-            session![0].nickname = UserSessionSingleton.session.user.nickname
+        if sessions!.count > 0 {
+            print("Loading User Session \(UserSessionSingleton.session.user.nickname)")
+            sessions![0].nickname = UserSessionSingleton.session.user.nickname
         } else {
-            let session = Session(context: viewContext)
-            session.nickname = UserSessionSingleton.session.user.nickname
+            print("New User Session \(UserSessionSingleton.session.user.nickname)")
+            let newSession = Session(context: viewContext)
+            newSession.nickname = UserSessionSingleton.session.user.nickname
         }
+        
         do {
             try viewContext.save()
         } catch {

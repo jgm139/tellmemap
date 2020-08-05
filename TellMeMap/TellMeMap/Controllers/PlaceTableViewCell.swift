@@ -8,10 +8,11 @@
 
 import UIKit
 import MapKit
+import CloudKit
 
 class PlaceTableViewCell: UITableViewCell {
     
-    //MARK: - Outlets
+    // MARK: - Outlets
     @IBOutlet weak var userName: UILabel?
     @IBOutlet weak var userPhoto: UIImageView?
     @IBOutlet weak var placeTitle: UILabel!
@@ -20,7 +21,7 @@ class PlaceTableViewCell: UITableViewCell {
     @IBOutlet weak var mapViewLocation: MKMapView!
     
     
-    //MARK: - Table View Cell Functions
+    // MARK: - Table View Cell Functions
     override func awakeFromNib() {
         super.awakeFromNib()
     }
@@ -29,7 +30,7 @@ class PlaceTableViewCell: UITableViewCell {
         super.setSelected(selected, animated: animated)
     }
     
-    func setContent(item: Place) {
+    func setContent(item: PlaceItem) {
         if let nickname = item.user?.nickname {
             self.userName!.text = nickname
         }
@@ -42,9 +43,9 @@ class PlaceTableViewCell: UITableViewCell {
         self.placeDescription.text = item.message
         self.placeDate.text = getDateFormat(date: item.date!)
         
-        centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.latitude, longitude: item.longitude))
+        centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.location!.latitude, longitude: item.location!.longitude))
         
-        let artPin = ArtworkPin(title: item.name!, subtitle: item.description, coordinate: CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude))
+        let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, coordinate: item.location!)
         
         self.mapViewLocation.addAnnotation(artPin)
         

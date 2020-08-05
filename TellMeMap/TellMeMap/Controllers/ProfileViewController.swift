@@ -8,13 +8,18 @@
 
 import UIKit
 import CoreData
+import CloudKit
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    // MARK: - Properties
+    var ckManager = CloudKitManager()
     
     // MARK: - Outlets
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var nicknameTextField: UITextField!
 
+    
     // MARK: - View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,45 +58,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func saveChanges(_ sender: UIButton) {
-        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
         
-        let myContext = myDelegate.persistentContainer.viewContext
+        ckManager.updateUser(newNickname: self.nicknameTextField.text, newImage: self.photoImageView.image?.pngData())
+            
+        let alert = UIAlertController(title: "Gestión de perfil", message: "Cambios guardados correctamente.", preferredStyle: .alert)
         
-        let request: NSFetchRequest<User> = NSFetchRequest(entityName:"User")
-        
-        do {
-            let users = try myContext.fetch(request)
-            
-            for user in users {
-                if user == UserSessionSingleton.session.user {
-                    if let nickname = self.nicknameTextField.text {
-                        user.nickname = nickname
-                    }
-                    
-                    if let photo = self.photoImageView.image?.pngData() {
-                        user.image = photo
-                    }
-                    
-                    UserSessionSingleton.session.user = user
-                }
-            }
-        } catch {
-            print("Error buscando usuarios")
-        }
-        
-        do {
-           try myContext.save()
-            
-            let alert = UIAlertController(title: "Gestión de perfil", message: "Cambios guardados correctamente.", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
-        } catch {
-           print("Error al guardar el contexto: \(error)")
-        }
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true, completion: nil)
     }
     
     
