@@ -18,7 +18,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     // MARK: - Outlets
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var nicknameTextField: UITextField!
-
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
     
     // MARK: - View Controller Functions
     override func viewDidLoad() {
@@ -35,7 +36,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.nicknameTextField.text = UserSessionSingleton.session.user.nickname
         
         if let photo = UserSessionSingleton.session.user.image {
-            self.photoImageView.image = UIImage(data: photo)
+            self.photoImageView.image = photo
             self.photoImageView.contentMode = .scaleAspectFill
         }
     }
@@ -58,13 +59,20 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func saveChanges(_ sender: UIButton) {
+        self.activityIndicator.startAnimating()
         
-        ckManager.updateUser(newNickname: self.nicknameTextField.text, newImage: self.photoImageView.image?.pngData())
-            
-        let alert = UIAlertController(title: "Gestión de perfil", message: "Cambios guardados correctamente.", preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true, completion: nil)
+        ckManager.updateUser(newNickname: self.nicknameTextField.text, newImage: self.photoImageView.image) {
+            (finish) in
+            if finish {
+                DispatchQueue.main.async( execute: {
+                    self.activityIndicator.stopAnimating()
+                    let alert = UIAlertController(title: "Gestión de perfil", message: "Cambios guardados correctamente.", preferredStyle: .alert)
+                    
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                })
+            }
+        }
     }
     
     

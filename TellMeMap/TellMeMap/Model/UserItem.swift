@@ -12,13 +12,14 @@ import CloudKit
 
 class UserItem {
     private var id: CKRecord.ID?
-
-    var icloud_id: String
-    var image: Data?
-    var nickname: String
+    private var record: CKRecord?
+    
+    var icloud_id: String?
+    var image: UIImage?
+    var nickname: String?
     var name: String?
     var surnames: String?
-    private(set) var places: [PlaceItem]? = nil
+    //private(set) var places: [PlaceItem]? = nil
     
     init(nickname: String, name: String?, surnames: String?, icloud_id: String) {
         self.icloud_id = icloud_id
@@ -27,22 +28,58 @@ class UserItem {
         self.surnames = surnames
     }
     
-    convenience init?(record: CKRecord) {
+    init?(record: CKRecord) {
+        self.record = record
+        self.id = record.recordID
+        
         guard
             let icloud_id = record["icloud_id"] as? String,
             let nickname = record["nickname"] as? String,
             let name = record["name"] as? String,
             let surnames = record["surnames"] as? String
-        else { return nil }
+        else { return }
         
-        self.init(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id)
-        //self.image = image
-        self.id = record.recordID
+        self.icloud_id = icloud_id
+        self.nickname = nickname
+        self.name = name
+        self.surnames = surnames
         
-        if let placeRecords = record["places"] as? [CKRecord.Reference] {
+        if let file = record["image"] as? CKAsset {
+            do {
+                let data = try Data(contentsOf: file.fileURL!)
+                self.image = UIImage(data: data as Data)
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+    }
+    
+    /*func getUser(_ completion: @escaping (_ success: Bool) -> Void) {
+        guard
+            let icloud_id = record!["icloud_id"] as? String,
+            let nickname = record!["nickname"] as? String,
+            let name = record!["name"] as? String,
+            let surnames = record!["surnames"] as? String
+        else { return }
+        
+        self.icloud_id = icloud_id
+        self.nickname = nickname
+        self.name = name
+        self.surnames = surnames
+        
+        if let file = record!["name"] as? CKAsset {
+            do {
+                let data = try Data(contentsOf: file.fileURL!)
+                self.image = UIImage(data: data as Data)
+            } catch {
+                print("Error: \(error)")
+            }
+        }
+        
+        if let placeRecords = record!["places"] as? [CKRecord.Reference] {
             PlaceItem.fetchPlaces(for: placeRecords) { (places) in
                 self.places = places
             }
         }
-    }
+    }*/
 }

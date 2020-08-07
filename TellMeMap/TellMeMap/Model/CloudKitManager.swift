@@ -57,7 +57,7 @@ class CloudKitManager {
     }
     
     func addPlace(name: String, message: String, coordinates: CLLocationCoordinate2D) {
-        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id]))
+        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id!]))
         
         self.privateDB.perform(query, inZoneWith: nil, completionHandler: {
             (results, error) in
@@ -123,8 +123,8 @@ class CloudKitManager {
         })
     }
     
-    func updateUser(newNickname: String?, newImage: Data?) {
-        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id]))
+    func updateUser(newNickname: String?, newImage: UIImage?, _ completion: @escaping (_ finish: Bool) -> Void) {
+        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id!]))
         
         self.privateDB.perform(query, inZoneWith: nil, completionHandler: {
             (users, error) in
@@ -136,14 +136,29 @@ class CloudKitManager {
                     }
                     
                     if let image = newImage {
-                        user["image"] = image
+                        
+                        let imageFilePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("lastImage")
+                        
+                        do {
+                            try image.pngData()?.write(to: imageFilePath!, options: .atomicWrite)
+                        } catch {
+                            print("Error: \(error)")
+                        }
+                        
+                        let asset = CKAsset(fileURL: imageFilePath!)
+                        
+                        user["image"] = asset
                     }
                     
                     self.privateDB.save(user, completionHandler: {
-                        (recordID, error) in print("Error: \(String(describing: error))")
+                        (recordID, error) in
+                        if let e = error {
+                            print("Error: \(e)")
+                        } else {
+                            UserSessionSingleton.session.user = UserItem(record: user)
+                            completion(true)
+                        }
                     })
-                    
-                    UserSessionSingleton.session.user = UserItem(record: user)
                 }
             }
         })

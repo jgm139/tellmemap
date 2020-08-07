@@ -36,7 +36,7 @@ class PlaceTableViewCell: UITableViewCell {
         }
         
         if let photo = item.user?.image {
-            self.userPhoto!.image = UIImage(data: photo)
+            self.userPhoto!.image = photo
         }
         
         self.placeTitle.text = item.name

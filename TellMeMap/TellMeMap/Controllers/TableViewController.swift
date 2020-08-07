@@ -38,11 +38,10 @@ class TableViewController: UITableViewController {
             if finish {
                 DispatchQueue.main.async( execute: {
                     self.tableView.reloadData()
+                    self.refreshControl?.endRefreshing()
                 })
             }
         }
-        
-        self.refreshControl?.endRefreshing()
     }
     
     
