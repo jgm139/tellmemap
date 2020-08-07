@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6D889E5924D82B6000EB3616 /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D889E5824D82B6000EB3616 /* UserItem.swift */; };
 		6D93141324DD7B2D00B12575 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D93141224DD7B2D00B12575 /* ProfileViewController.swift */; };
+		6D93141524DDAEB100B12575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D93141424DDAEB100B12575 /* MapViewController.swift */; };
 		6DCBFFE524D72532002B43D7 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCBFFE424D72532002B43D7 /* CloudKitManager.swift */; };
 		6DCBFFE924D768EF002B43D7 /* PlaceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCBFFE824D768EF002B43D7 /* PlaceItem.swift */; };
 		841506AD24CDE76D00283EF7 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841506AC24CDE76D00283EF7 /* SignUpViewController.swift */; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		6D889E5824D82B6000EB3616 /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserItem.swift; path = TellMeMap/Model/UserItem.swift; sourceTree = SOURCE_ROOT; };
 		6D93141224DD7B2D00B12575 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = TellMeMap/Controllers/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
+		6D93141424DDAEB100B12575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = TellMeMap/Controllers/MapViewController.swift; sourceTree = SOURCE_ROOT; };
 		6DCBFFE424D72532002B43D7 /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CloudKitManager.swift; path = TellMeMap/Model/CloudKitManager.swift; sourceTree = SOURCE_ROOT; };
 		6DCBFFE824D768EF002B43D7 /* PlaceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlaceItem.swift; path = TellMeMap/Model/PlaceItem.swift; sourceTree = SOURCE_ROOT; };
 		841506AC24CDE76D00283EF7 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -137,6 +139,7 @@
 				84B5D8D324C8C2BC00C2EA1B /* NewMessageViewController.swift */,
 				842D3EB824CA07420033EA1A /* StartViewController.swift */,
 				841506AC24CDE76D00283EF7 /* SignUpViewController.swift */,
+				6D93141424DDAEB100B12575 /* MapViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -227,6 +230,7 @@
 				6D93141324DD7B2D00B12575 /* ProfileViewController.swift in Sources */,
 				84B5D8B724C8C0B600C2EA1B /* SceneDelegate.swift in Sources */,
 				84B5D8BF24C8C0B600C2EA1B /* tellMeMap.xcdatamodeld in Sources */,
+				6D93141524DDAEB100B12575 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

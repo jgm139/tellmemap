@@ -102,7 +102,35 @@
                     </connections>
                 </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="-626.08695652173913" y="873.88392857142856"/>
+            <point key="canvasLocation" x="-626" y="1489"/>
+        </scene>
+        <!--Mapa-->
+        <scene sceneID="8yM-RK-APr">
+            <objects>
+                <viewController id="Pl5-i3-7X3" customClass="MapViewController" customModule="tellMeMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ms2-jJ-7aC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" showsUserLocation="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1J9-Xt-jqi">
+                                <rect key="frame" x="0.0" y="44" width="414" height="769"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="1J9-Xt-jqi" firstAttribute="leading" secondItem="Yxi-JS-Ckb" secondAttribute="leading" id="3mZ-hL-nMb"/>
+                            <constraint firstItem="1J9-Xt-jqi" firstAttribute="centerX" secondItem="Ms2-jJ-7aC" secondAttribute="centerX" id="NLq-aF-JgG"/>
+                            <constraint firstItem="1J9-Xt-jqi" firstAttribute="top" secondItem="Yxi-JS-Ckb" secondAttribute="top" id="elx-Ao-4oe"/>
+                            <constraint firstItem="1J9-Xt-jqi" firstAttribute="bottom" secondItem="Yxi-JS-Ckb" secondAttribute="bottom" id="kfJ-Ew-h0F"/>
+                            <constraint firstItem="1J9-Xt-jqi" firstAttribute="trailing" secondItem="Yxi-JS-Ckb" secondAttribute="trailing" id="nWW-Pq-1ez"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Yxi-JS-Ckb"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" title="Mapa" image="map" catalog="system" id="VhL-KP-BEh"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="b2b-uH-b4O" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-626.08695652173913" y="798.88392857142856"/>
         </scene>
         <!--Start View Controller-->
         <scene sceneID="Jot-Tn-SSJ">
@@ -370,15 +398,17 @@
                     </tabBar>
                     <connections>
                         <segue destination="zyR-5v-GtH" kind="relationship" relationship="viewControllers" id="hP5-ie-O3X"/>
+                        <segue destination="Pl5-i3-7X3" kind="relationship" relationship="viewControllers" id="cek-Hz-5op"/>
                         <segue destination="Q6l-Q0-CjL" kind="relationship" relationship="viewControllers" id="dpG-Wn-gfU"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FPh-pq-9H6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1536.2318840579712" y="129.91071428571428"/>
+            <point key="canvasLocation" x="-2242" y="799"/>
         </scene>
     </scenes>
     <resources>
+        <image name="map" catalog="system" width="128" height="113"/>
         <image name="mappin.circle" catalog="system" width="128" height="121"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="plus.circle" catalog="system" width="128" height="121"/>
