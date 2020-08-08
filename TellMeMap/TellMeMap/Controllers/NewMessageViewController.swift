@@ -76,6 +76,10 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - Methods
     func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, isPublic: Bool = true) {
         if isPublic {
+            let itemPlace = PlaceItem(name: name, message: message, date: Date(), user: UserSessionSingleton.session.user, location: coordinates)
+            
+            CloudKitManager.places.append(itemPlace)
+            
             ckManager.addPlace(name: name, message: message, coordinates: coordinates)
         }
     }
