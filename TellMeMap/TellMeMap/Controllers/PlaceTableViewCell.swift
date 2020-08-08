@@ -41,9 +41,14 @@ class PlaceTableViewCell: UITableViewCell {
         
         self.placeTitle.text = item.name
         self.placeDescription.text = item.message
-        self.placeDate.text = getDateFormat(date: item.date!)
         
-        centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.location!.latitude, longitude: item.location!.longitude))
+        if let date = getDateFormat(date: item.date) {
+            self.placeDate.text = date
+        }
+        
+        if let location = item.location {
+            centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.location!.latitude, longitude: item.location!.longitude))
+        }
         
         let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, coordinate: item.location!)
         
@@ -60,11 +65,11 @@ class PlaceTableViewCell: UITableViewCell {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    func getDateFormat(date: Date) -> String {
+    func getDateFormat(date: Date?) -> String? {
         let dataFormatter = DateFormatter()
         dataFormatter.dateFormat = "hh:mm"
         
-        return dataFormatter.string(from: date)
+        return (date != nil ? dataFormatter.string(from: date!) : nil)
     }
 
 }

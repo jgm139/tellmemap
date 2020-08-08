@@ -19,9 +19,7 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.refreshControl?.addTarget(self, action: #selector(refreshPlaces), for: .valueChanged)
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
+        
         ckManager.getPlaces {
             (finish) in
             if finish {
@@ -31,6 +29,8 @@ class TableViewController: UITableViewController {
             }
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {}
     
     @objc func refreshPlaces() {
         ckManager.getPlaces {
@@ -46,16 +46,20 @@ class TableViewController: UITableViewController {
     
     
     // MARK: - Actions
-    @IBAction func unwindToPlaceList(sender: UIStoryboardSegue) {}
+    @IBAction func unwindToPlaceList(sender: UIStoryboardSegue) {
+        if (sender.identifier == "saveMessageAndLeave") {
+            self.tableView.reloadData()
+        }
+    }
     
     
     // MARK: - Table View Controller
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return ckManager.places.count
+        return CloudKitManager.places.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = ckManager.places[indexPath.row]
+        let item = CloudKitManager.places[indexPath.row]
         
         guard let newCell = tableView.dequeueReusableCell(withIdentifier: "placeTableViewCell", for: indexPath) as? PlaceTableViewCell else {
             fatalError("The dequeued cell is not an instance of PlaceTableViewCell.")
@@ -70,8 +74,13 @@ class TableViewController: UITableViewController {
         
         switch editingStyle {
             case .delete:
-                let placeToDelete = ckManager.places[indexPath.row]
+                let placeToDelete = CloudKitManager.places[indexPath.row]
                 ckManager.deletePlace(withName: placeToDelete.name!)
+                CloudKitManager.places.remove(at: indexPath.row)
+                
+                DispatchQueue.main.async( execute: {
+                    self.tableView.deleteRows(at: [indexPath], with: .right)
+                })
             default: break
         }
     }

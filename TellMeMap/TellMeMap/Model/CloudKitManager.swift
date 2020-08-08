@@ -17,7 +17,7 @@ class CloudKitManager {
     let privateDB: CKDatabase
     
     // MARK: - Properties
-    public var places = [PlaceItem]()
+    static public var places = [PlaceItem]()
     
     init() {
         container = CKContainer.default()
@@ -26,28 +26,32 @@ class CloudKitManager {
     }
     
     func getPlaces(_ completion: @escaping (_ finish: Bool) -> Void) {
-        places = [PlaceItem]()
-        
         let query = CKQuery(recordType: "Place", predicate: NSPredicate(value:true))
         let group = DispatchGroup()
         
         self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
             (results, error) in
             if error == nil {
-                for result in results! {
-                    if let itemPlace = PlaceItem(record: result) {
-                        self.places.append(itemPlace)
+                if results?.count != CloudKitManager.places.count {
+                    CloudKitManager.places = [PlaceItem]()
+                    
+                    for result in results! {
+                        if let itemPlace = PlaceItem(record: result) {
+                            CloudKitManager.places.append(itemPlace)
+                        }
                     }
-                }
-                
-                self.places.forEach { (place) in
-                    group.enter()
-                    place.getPlace { (succes) in
-                        group.leave()
+                    
+                    CloudKitManager.self.places.forEach { (place) in
+                        group.enter()
+                        place.getPlace { (succes) in
+                            group.leave()
+                        }
                     }
-                }
-                
-                group.notify(queue: .main) {
+                    
+                    group.notify(queue: .main) {
+                        completion(true)
+                    }
+                } else {
                     completion(true)
                 }
             } else {
@@ -73,10 +77,6 @@ class CloudKitManager {
                     place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
                     place["date"] = Date()
                     place["user"] = reference
-                    
-                    let itemPlace = PlaceItem(name: name, message: message, date: Date(), user: UserSessionSingleton.session.user, location: coordinates)
-                    
-                    self.places.append(itemPlace)
                     
                     self.publicDB.save(place, completionHandler: {
                         (recordID, error) in
