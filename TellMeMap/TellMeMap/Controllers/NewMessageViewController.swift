@@ -66,7 +66,9 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if (segue.identifier == "saveMessageAndLeave") {
             if let title = newPlaceTitle.text {
-                if let description = newPlaceDescription.text {
+                if let text = newPlaceDescription.text {
+                    let lines = text.split(separator: "\n").map(String.init)
+                    let description = lines[1...lines.count-1].joined(separator: "\n")
                     newPlace(name: title, message: description, coordinates: lastCurrentLocation)
                 }
             }
