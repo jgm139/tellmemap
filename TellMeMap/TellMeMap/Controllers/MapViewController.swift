@@ -13,6 +13,7 @@ class MapViewController: UIViewController {
     
     // MARK: - Properties
     var ckManager = CloudKitManager()
+    var annotations = [MKAnnotation]()
     
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -20,22 +21,47 @@ class MapViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        self.mapView.delegate = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        self.mapView.removeAnnotations(self.annotations)
+        
         ckManager.getPlaces {
             (finish) in
             if finish {
-                self.ckManager.places.forEach {
+                CloudKitManager.places.forEach {
                     (item) in
                     let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, coordinate: item.location!)
                     
-                    self.mapView.addAnnotation(artPin)
+                    self.annotations.append(artPin)
+                    
+                    DispatchQueue.main.async(execute: {
+                        self.mapView.addAnnotation(artPin)
+                    })
                 }
             }
         }
     }
 
+}
+
+extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
+        
+        if ((annotation as? ArtworkPin) != nil) {
+            view.canShowCallout = true
+            
+            let pin = annotation as! ArtworkPin
+            view.annotation = pin
+        } else {
+            return nil
+        }
+        
+        view.displayPriority = .required
+        
+        return view
+    }
 }
