@@ -12,15 +12,51 @@ import CoreData
 
 class SignUpViewController: UIViewController {
     
-    // MARK: Outlets
+    // MARK: - Outlets
     @IBOutlet weak var nicknameTextField: UITextField!
+    
+    
+    // MARK: - Properties
     var userInformation: [String: String]?
-
+    let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    var ckManager = CloudKitManager()
+    
+    
+    // MARK: - View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         self.userInformation = [String: String]()
     }
     
+    
+    // MARK: - Actions
+    @IBAction func signUpAction(_ sender: UIButton) {
+        if let nickname = nicknameTextField.text {
+            
+            getUserInformation(withCompletionHandler: {
+                (success) in
+                
+                if success {
+                    if let icloud_id = self.userInformation?["icloud_id"] {
+                        self.newUser(nickname: nickname, name: self.userInformation?["name"], surnames: self.userInformation?["surnames"], icloud_id: icloud_id)
+                        
+                        DispatchQueue.main.async(execute: {
+                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabNav") as? UITabBarController
+                            {
+                                vc.modalPresentationStyle = .fullScreen
+                                self.present(vc, animated: true, completion: nil)
+                            }
+                        })
+                    }
+                } else {
+                    print("ERROR: no se pudo obtener la información del usuario")
+                }
+                
+            })
+        }
+    }
+    
+    // MARK: - Methods
     func getUserInformation(withCompletionHandler completion: @escaping (_ success: Bool) -> Void) {
         CKContainer.default().requestApplicationPermission(.userDiscoverability) {
             (status, error) in
@@ -38,68 +74,31 @@ class SignUpViewController: UIViewController {
         }
     }
     
-    // MARK: Actions
-    @IBAction func signUpAction(_ sender: UIButton) {
-        if let nickname = nicknameTextField.text {
-            guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
-                return
-            }
-            
-            let myContext = myDelegate.persistentContainer.viewContext
-            
-            getUserInformation(withCompletionHandler: {
-                (success) in
-                
-                if success {
-                    let newUser = User(context: myContext)
-                    newUser.nickname = nickname
-                    newUser.name = self.userInformation?["name"]
-                    newUser.surnames = self.userInformation?["surnames"]
-                    newUser.icloud_id = self.userInformation?["icloud_id"]
-                    
-                    do {
-                        try myContext.save()
-
-                        DispatchQueue.main.async( execute: {
-                            UserSessionSingleton.session.user = newUser
-                            
-                            self.initSession()
-                            
-                            if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabNav") as? UITabBarController
-                            {
-                                vc.modalPresentationStyle = .fullScreen
-                                self.present(vc, animated: true, completion: nil)
-                            }
-                        })
-                    } catch {
-                        print("ERROR: \(error)")
-                    }
-                } else {
-                    print("ERROR: no se pudo obtener la información del usuario")
-                }
-                
-            })
-        }
+    func newUser(nickname: String, name: String?, surnames: String?, icloud_id: String) {
+        let itemUser = UserItem(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id)
+        
+        ckManager.addUser(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id)
+        
+        UserSessionSingleton.session.user = itemUser
+        
+        self.initSession()
+        
     }
     
     func initSession(){
-        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
+        let request: NSFetchRequest<Session> = NSFetchRequest(entityName:"Session")
+        let sessions = try? viewContext.fetch(request)
         
-        let myContext = myDelegate.persistentContainer.viewContext
-        
-        let request : NSFetchRequest<Session> = NSFetchRequest(entityName:"Session")
-        let session = try? myContext.fetch(request)
-        
-        if session!.count > 0 {
-            session![0].nickname = UserSessionSingleton.session.user.nickname
+        if sessions!.count > 0 {
+            sessions![0].nickname = UserSessionSingleton.session.user.nickname
         } else {
-            let session = Session(context: myContext)
-            session.nickname = UserSessionSingleton.session.user.nickname
+            print("New User Session \(UserSessionSingleton.session.user.nickname)")
+            let newSession = Session(context: viewContext)
+            newSession.nickname = UserSessionSingleton.session.user.nickname
         }
+        
         do {
-            try myContext.save()
+            try viewContext.save()
         } catch {
            print("Error al guardar el contexto: \(error)")
         }

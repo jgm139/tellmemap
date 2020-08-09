@@ -8,10 +8,11 @@
 
 import UIKit
 import MapKit
+import CloudKit
 
 class PlaceTableViewCell: UITableViewCell {
     
-    //MARK: Properties
+    // MARK: - Outlets
     @IBOutlet weak var userName: UILabel?
     @IBOutlet weak var userPhoto: UIImageView?
     @IBOutlet weak var placeTitle: UILabel!
@@ -20,39 +21,43 @@ class PlaceTableViewCell: UITableViewCell {
     @IBOutlet weak var mapViewLocation: MKMapView!
     
     
-    //MARK: Functions
+    // MARK: - Table View Cell Functions
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
-    func setContent(item: Place) {
+    func setContent(item: PlaceItem) {
         if let nickname = item.user?.nickname {
             self.userName!.text = nickname
         }
         
         if let photo = item.user?.image {
-            self.userPhoto!.image = UIImage(data: photo)
+            self.userPhoto!.image = photo
         }
         
         self.placeTitle.text = item.name
         self.placeDescription.text = item.message
-        self.placeDate.text = getDateFormat(date: item.date!)
         
-        centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.latitude, longitude: item.longitude))
+        if let date = getDateFormat(date: item.date) {
+            self.placeDate.text = date
+        }
         
-        let artPin = ArtworkPin(title: item.name!, subtitle: item.description, coordinate: CLLocationCoordinate2D(latitude: item.latitude, longitude: item.longitude))
+        if let location = item.location {
+            centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: item.location!.latitude, longitude: item.location!.longitude))
+        }
+        
+        let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, coordinate: item.location!)
         
         self.mapViewLocation.addAnnotation(artPin)
         
     }
     
+    
+    // MARK: - Methods
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
         let regionRadius: CLLocationDistance = 100
         let coordinateRegion =
@@ -60,12 +65,11 @@ class PlaceTableViewCell: UITableViewCell {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    func getDateFormat(date: Date) -> String {
+    func getDateFormat(date: Date?) -> String? {
         let dataFormatter = DateFormatter()
         dataFormatter.dateFormat = "hh:mm"
         
-        return dataFormatter.string(from: date)
+        return (date != nil ? dataFormatter.string(from: date!) : nil)
     }
-
 
 }

@@ -8,13 +8,20 @@
 
 import UIKit
 import CoreData
+import CloudKit
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    // MARK: Outlets
+    // MARK: - Properties
+    var ckManager = CloudKitManager()
+    
+    // MARK: - Outlets
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var nicknameTextField: UITextField!
-
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
+    
+    // MARK: - View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -29,7 +36,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         self.nicknameTextField.text = UserSessionSingleton.session.user.nickname
         
         if let photo = UserSessionSingleton.session.user.image {
-            self.photoImageView.image = UIImage(data: photo)
+            self.photoImageView.image = photo
             self.photoImageView.contentMode = .scaleAspectFill
         }
     }
@@ -38,7 +45,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
        view.endEditing(true)
     }
     
-    // MARK: Actions
+    // MARK: - Actions
     @IBAction func exportImage(_ sender: UITapGestureRecognizer) {
         let image = UIImagePickerController()
         
@@ -52,47 +59,21 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     @IBAction func saveChanges(_ sender: UIButton) {
-        guard let myDelegate = UIApplication.shared.delegate as? AppDelegate else {
-            return
-        }
+        self.activityIndicator.startAnimating()
         
-        let myContext = myDelegate.persistentContainer.viewContext
-        
-        let request : NSFetchRequest<User> = NSFetchRequest(entityName:"User")
-        
-        do {
-            let users = try myContext.fetch(request)
-            
-            for user in users {
-                if user == UserSessionSingleton.session.user {
-                    if let nickname = self.nicknameTextField.text {
-                        user.nickname = nickname
-                    }
+        ckManager.updateUser(newNickname: self.nicknameTextField.text, newImage: self.photoImageView.image) {
+            (finish) in
+            if finish {
+                DispatchQueue.main.async( execute: {
+                    self.activityIndicator.stopAnimating()
+                    let alert = UIAlertController(title: "Gestión de perfil", message: "Cambios guardados correctamente.", preferredStyle: .alert)
                     
-                    if let photo = self.photoImageView.image?.pngData() {
-                        user.image = photo
-                    }
-                    
-                    UserSessionSingleton.session.user = user
-                }
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+                })
             }
-        } catch {
-            print("Error buscando usuarios")
-        }
-        
-        do {
-           try myContext.save()
-            
-            let alert = UIAlertController(title: "Gestión de perfil", message: "Cambios guardados correctamente.", preferredStyle: .alert)
-            
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true, completion: nil)
-            
-        } catch {
-           print("Error al guardar el contexto: \(error)")
         }
     }
-    
     
     
     // MARK: - Picker Controller Delegate

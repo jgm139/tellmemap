@@ -51,17 +51,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let localStoreDescription = NSPersistentStoreDescription(url: localURL)
         localStoreDescription.configuration = "Local"
         
-        // Create a store description for a CloudKit-backed local store
+        /* Create a store description for a CloudKit-backed local store
         let cloudURL = defaultDirectoryURL.appendingPathComponent("tellMeMap.sqlite")
         let cloudStoreDescription = NSPersistentStoreDescription(url: cloudURL)
         cloudStoreDescription.configuration = "Cloud"
 
         // Set the container options on the cloud store
-        cloudStoreDescription.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.es.ua.mastermoviles.TellMeMap")
+        cloudStoreDescription.cloudKitContainerOptions = NSPersistentCloudKitContainerOptions(containerIdentifier: "iCloud.es.ua.mastermoviles.TellMeMap")*/
         
         // Update the container's list of store descriptions
         container.persistentStoreDescriptions = [
-            cloudStoreDescription,
+            /*cloudStoreDescription,*/
             localStoreDescription
         ]
         
