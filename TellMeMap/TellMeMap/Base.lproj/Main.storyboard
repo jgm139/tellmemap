@@ -352,21 +352,29 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="NU9-m8-oXl" userLabel="New Place Description">
-                                <rect key="frame" x="10" y="189" width="394" height="624"/>
+                                <rect key="frame" x="10" y="189" width="394" height="408"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <pickerView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hSJ-Me-LmT">
+                                <rect key="frame" x="0.0" y="597" width="414" height="216"/>
+                            </pickerView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="hSJ-Me-LmT" firstAttribute="centerX" secondItem="tE7-Dk-868" secondAttribute="centerX" id="0ik-fp-hif"/>
+                            <constraint firstItem="hSJ-Me-LmT" firstAttribute="leading" secondItem="XoD-Zf-iOm" secondAttribute="leading" id="46E-iF-qJX"/>
                             <constraint firstItem="NU9-m8-oXl" firstAttribute="leading" secondItem="XoD-Zf-iOm" secondAttribute="leading" constant="10" id="BEA-My-laf"/>
                             <constraint firstItem="NU9-m8-oXl" firstAttribute="trailing" secondItem="XoD-Zf-iOm" secondAttribute="trailing" constant="-10" id="IJf-b5-OIl"/>
+                            <constraint firstItem="hSJ-Me-LmT" firstAttribute="bottom" secondItem="XoD-Zf-iOm" secondAttribute="bottom" id="Mf2-x2-xN8"/>
+                            <constraint firstItem="XoD-Zf-iOm" firstAttribute="trailing" secondItem="hSJ-Me-LmT" secondAttribute="trailing" id="ah4-QM-5qx"/>
+                            <constraint firstItem="NU9-m8-oXl" firstAttribute="centerX" secondItem="tE7-Dk-868" secondAttribute="centerX" id="c4m-b1-U7Z"/>
+                            <constraint firstItem="hSJ-Me-LmT" firstAttribute="top" secondItem="NU9-m8-oXl" secondAttribute="bottom" id="cum-Ep-h71"/>
                             <constraint firstItem="NU9-m8-oXl" firstAttribute="top" secondItem="fKc-4s-ZVa" secondAttribute="bottom" constant="50" id="gs2-wu-TUN"/>
                             <constraint firstItem="fKc-4s-ZVa" firstAttribute="top" secondItem="XoD-Zf-iOm" secondAttribute="top" constant="30" id="ld8-OH-zdn"/>
                             <constraint firstItem="fKc-4s-ZVa" firstAttribute="centerX" secondItem="tE7-Dk-868" secondAttribute="centerX" id="vB6-WB-0Px"/>
-                            <constraint firstItem="NU9-m8-oXl" firstAttribute="bottom" secondItem="XoD-Zf-iOm" secondAttribute="bottom" id="vwz-CB-AvZ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="XoD-Zf-iOm"/>
                     </view>
@@ -382,6 +390,7 @@
                         <outlet property="newPlaceDescription" destination="NU9-m8-oXl" id="Hzk-Ym-eU1"/>
                         <outlet property="newPlaceTitle" destination="fKc-4s-ZVa" id="eU3-Rh-85e"/>
                         <outlet property="okButton" destination="tzL-ap-ecW" id="x7p-qO-6UG"/>
+                        <outlet property="pickerView" destination="hSJ-Me-LmT" id="IUs-qB-1gc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AL5-gt-czb" sceneMemberID="firstResponder"/>

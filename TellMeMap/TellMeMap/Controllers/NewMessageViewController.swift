@@ -15,6 +15,7 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var newPlaceDescription: UITextView!
     @IBOutlet weak var newPlaceTitle: UILabel!
     @IBOutlet weak var okButton: UIBarButtonItem!
+    @IBOutlet weak var pickerView: UIPickerView!
     
     
     // MARK: - Properties
@@ -45,6 +46,9 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+        
+        self.pickerView.delegate = self
+        self.pickerView.dataSource = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -122,4 +126,22 @@ extension NewMessageViewController: UITextViewDelegate {
             self.okButton.isEnabled = false
         }
     }
+}
+
+
+extension NewMessageViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return Category.allCases.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return Category.allCases[row].rawValue
+    }
+    
 }

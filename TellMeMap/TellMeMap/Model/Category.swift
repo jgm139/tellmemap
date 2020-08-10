@@ -8,7 +8,7 @@
 
 import UIKit
 
-enum Category: String {
+enum Category: String, CaseIterable {
     case bar = "Bar"
     case restaurant = "Restaurant"
     case cafe = "Cafe"
@@ -21,4 +21,22 @@ enum Category: String {
     case events_room = "Events Room"
     case beauty_salon = "Beauty salon"
     case garage = "Garage"
+    
+    init?(id: Int) {
+        switch id {
+            case 1: self = .bar
+            case 2: self = .restaurant
+            case 3: self = .cafe
+            case 4: self = .shop
+            case 5: self = .library
+            case 6: self = .academy
+            case 7: self = .nightclub
+            case 8: self = .laundry
+            case 9: self = .outlet
+            case 10: self = .events_room
+            case 11: self = .beauty_salon
+            case 12: self = .garage
+            default: return nil
+        }
+    }
 }
