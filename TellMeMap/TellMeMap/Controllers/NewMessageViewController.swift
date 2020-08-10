@@ -68,15 +68,22 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
             if let title = newPlaceTitle.text {
                 if let text = newPlaceDescription.text {
                     let lines = text.split(separator: "\n").map(String.init)
-                    let description = lines[1...lines.count-1].joined(separator: "\n")
-                    newPlace(name: title, message: description, coordinates: lastCurrentLocation)
+                    let description: String
+                    
+                    if lines.count > 1 {
+                        description = lines[1...lines.count-1].joined(separator: "\n")
+                    } else {
+                        description = text
+                    }
+                    
+                    newPlace(name: title, message: description, coordinates: lastCurrentLocation, category: pickerView.selectedRow(inComponent: 0))
                 }
             }
         }
     }
     
     // MARK: - Methods
-    func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, isPublic: Bool = true) {
+    func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, category: Int, isPublic: Bool = true) {
         if isPublic {
             let itemPlace = PlaceItem(name: name, message: message, date: Date(), user: UserSessionSingleton.session.user, location: coordinates)
             
