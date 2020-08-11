@@ -24,6 +24,7 @@ class PlaceTableViewCell: UITableViewCell {
     // MARK: - Table View Cell Functions
     override func awakeFromNib() {
         super.awakeFromNib()
+        self.mapViewLocation.delegate = self
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -48,12 +49,13 @@ class PlaceTableViewCell: UITableViewCell {
         
         if let location = item.location {
             centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: location.latitude, longitude: location.longitude))
+            
+            if let category = item.category {
+                let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, category: category, coordinate: location)
+                
+                self.mapViewLocation.addAnnotation(artPin)
+            }
         }
-        
-        let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, coordinate: item.location!)
-        
-        self.mapViewLocation.addAnnotation(artPin)
-        
     }
     
     
@@ -72,4 +74,25 @@ class PlaceTableViewCell: UITableViewCell {
         return (date != nil ? dataFormatter.string(from: date!) : nil)
     }
 
+}
+
+extension PlaceTableViewCell: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
+        
+        if ((annotation as? ArtworkPin) != nil) {
+            view.canShowCallout = true
+            
+            let pin = annotation as! ArtworkPin
+            view.annotation = pin
+            view.pinTintColor = pin.colour
+        } else {
+            return nil
+        }
+        
+        view.displayPriority = .required
+        
+        return view
+    }
 }
