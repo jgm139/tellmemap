@@ -227,7 +227,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="stm-vx-VWA" userLabel="Cell Stack View">
-                                            <rect key="frame" x="20" y="26" width="220" height="202.5"/>
+                                            <rect key="frame" x="20" y="26" width="220" height="209.5"/>
                                             <subviews>
                                                 <stackView opaque="NO" userInteractionEnabled="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Dqz-sp-O6s" userLabel="User Stack">
                                                     <rect key="frame" x="0.0" y="0.0" width="162.5" height="60"/>
@@ -248,8 +248,8 @@
                                                         </label>
                                                     </subviews>
                                                 </stackView>
-                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="NxE-5T-Hiu" userLabel="Message Stack">
-                                                    <rect key="frame" x="0.0" y="68" width="220" height="134.5"/>
+                                                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="NxE-5T-Hiu" userLabel="Message Stack">
+                                                    <rect key="frame" x="0.0" y="68" width="220" height="141.5"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="66w-At-cq3" userLabel="Place Title">
                                                             <rect key="frame" x="0.0" y="0.0" width="31.5" height="19.5"/>
@@ -257,8 +257,14 @@
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
                                                         </label>
+                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tQg-fL-2hE">
+                                                            <rect key="frame" x="0.0" y="24.5" width="44.5" height="12"/>
+                                                            <fontDescription key="fontDescription" type="italicSystem" pointSize="10"/>
+                                                            <nil key="textColor"/>
+                                                            <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                        </label>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" text="Here is showing the description of the message." translatesAutoresizingMaskIntoConstraints="NO" id="KJC-4q-QWn" userLabel="Place Description">
-                                                            <rect key="frame" x="0.0" y="34.5" width="220" height="100"/>
+                                                            <rect key="frame" x="0.0" y="41.5" width="220" height="100"/>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                             <constraints>
                                                                 <constraint firstAttribute="height" constant="100" id="8jq-XW-w9l"/>
@@ -279,16 +285,16 @@
                                             </constraints>
                                         </stackView>
                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="W30-9h-g7u" userLabel="Info Stack">
-                                            <rect key="frame" x="254" y="26" width="140" height="202.5"/>
+                                            <rect key="frame" x="254" y="26" width="140" height="209.5"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qC0-CL-awM" userLabel="Message Date">
-                                                    <rect key="frame" x="0.0" y="0.0" width="140" height="47.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="140" height="54.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Dq5-31-cNG">
-                                                    <rect key="frame" x="0.0" y="62.5" width="140" height="140"/>
+                                                    <rect key="frame" x="0.0" y="69.5" width="140" height="140"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" constant="140" id="fci-PJ-hkf"/>
                                                         <constraint firstAttribute="height" constant="140" id="sNj-Rc-Iml"/>
@@ -312,6 +318,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="mapViewLocation" destination="Dq5-31-cNG" id="atw-yf-fmq"/>
+                                    <outlet property="placeCategory" destination="tQg-fL-2hE" id="WqX-U3-pfE"/>
                                     <outlet property="placeDate" destination="qC0-CL-awM" id="IBP-vW-phr"/>
                                     <outlet property="placeDescription" destination="KJC-4q-QWn" id="b4Y-8A-Gri"/>
                                     <outlet property="placeTitle" destination="66w-At-cq3" id="48V-V2-Oc3"/>

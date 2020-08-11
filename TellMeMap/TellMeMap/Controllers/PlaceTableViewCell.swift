@@ -15,6 +15,7 @@ class PlaceTableViewCell: UITableViewCell {
     // MARK: - Outlets
     @IBOutlet weak var userName: UILabel?
     @IBOutlet weak var userPhoto: UIImageView?
+    @IBOutlet var placeCategory: UILabel!
     @IBOutlet weak var placeTitle: UILabel!
     @IBOutlet weak var placeDescription: UITextView!
     @IBOutlet weak var placeDate: UILabel!
@@ -51,6 +52,7 @@ class PlaceTableViewCell: UITableViewCell {
             centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: location.latitude, longitude: location.longitude))
             
             if let category = item.category {
+                self.placeCategory.text = item.category?.rawValue
                 let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, category: category, coordinate: location)
                 
                 self.mapViewLocation.addAnnotation(artPin)
