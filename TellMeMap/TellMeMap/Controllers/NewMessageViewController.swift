@@ -15,6 +15,7 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var newPlaceDescription: UITextView!
     @IBOutlet weak var newPlaceTitle: UILabel!
     @IBOutlet weak var okButton: UIBarButtonItem!
+    @IBOutlet weak var pickerView: UIPickerView!
     
     
     // MARK: - Properties
@@ -45,6 +46,9 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
+        
+        self.pickerView.delegate = self
+        self.pickerView.dataSource = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -68,21 +72,28 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
             if let title = newPlaceTitle.text {
                 if let text = newPlaceDescription.text {
                     let lines = text.split(separator: "\n").map(String.init)
-                    let description = lines[1...lines.count-1].joined(separator: "\n")
-                    newPlace(name: title, message: description, coordinates: lastCurrentLocation)
+                    let description: String
+                    
+                    if lines.count > 1 {
+                        description = lines[1...lines.count-1].joined(separator: "\n")
+                    } else {
+                        description = text
+                    }
+                    
+                    newPlace(name: title, message: description, coordinates: lastCurrentLocation, category: pickerView.selectedRow(inComponent: 0))
                 }
             }
         }
     }
     
     // MARK: - Methods
-    func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, isPublic: Bool = true) {
+    func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, category: Int, isPublic: Bool = true) {
         if isPublic {
-            let itemPlace = PlaceItem(name: name, message: message, date: Date(), user: UserSessionSingleton.session.user, location: coordinates)
+            let itemPlace = PlaceItem(name: name, message: message, category: category, date: Date(), user: UserSessionSingleton.session.user, location: coordinates)
             
             CloudKitManager.places.append(itemPlace)
             
-            ckManager.addPlace(name: name, message: message, coordinates: coordinates)
+            ckManager.addPlace(name: name, message: message, category: category, coordinates: coordinates)
         }
     }
 
@@ -115,4 +126,22 @@ extension NewMessageViewController: UITextViewDelegate {
             self.okButton.isEnabled = false
         }
     }
+}
+
+
+extension NewMessageViewController: UIPickerViewDelegate, UIPickerViewDataSource {
+    
+    
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return Category.allCases.count
+    }
+    
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        return Category.allCases[row].rawValue
+    }
+    
 }

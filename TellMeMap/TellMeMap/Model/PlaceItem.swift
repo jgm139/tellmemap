@@ -19,10 +19,12 @@ class PlaceItem {
     var date: Date?
     var user: UserItem?
     var location: CLLocationCoordinate2D?
+    var category: Category?
     
-    init(name: String, message: String, date: Date, user: UserItem, location: CLLocationCoordinate2D) {
+    init(name: String, message: String, category: Int, date: Date, user: UserItem, location: CLLocationCoordinate2D) {
         self.name = name
         self.message = message
+        self.category = Category(id: category)
         self.date = date
         self.user = user
         self.location = location
@@ -34,12 +36,11 @@ class PlaceItem {
     }
     
     func getPlace(_ completion: @escaping (_ success: Bool) -> Void) {
-        guard
-            let name = record!.object(forKey: "name") as? String,
-            let message = record!.object(forKey: "message") as? String,
-            let date = record!.object(forKey: "date") as? Date,
-            let location = record!.object(forKey: "location") as? CLLocation
-            else { return }
+        let name = record!.object(forKey: "name") as? String
+        let message = record!.object(forKey: "message") as? String
+        let category = record!.object(forKey: "category") as? Int
+        let date = record!.object(forKey: "date") as? Date
+        let location = record!.object(forKey: "location") as? CLLocation
         
         if let userRecordReference = record!.object(forKey: "user") as? CKRecord.Reference {
             getSiteUser(recordReference: userRecordReference) {
@@ -47,9 +48,14 @@ class PlaceItem {
                 if let user = userItem {
                     self.name = name
                     self.message = message
+                    
+                    if let c = category{
+                        self.category = Category(id: c)
+                    }
+                    
                     self.date = date
                     self.user = user
-                    self.location = location.coordinate
+                    self.location = location?.coordinate
                     
                     completion(true)
                 }

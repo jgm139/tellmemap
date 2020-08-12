@@ -32,18 +32,20 @@ class MapViewController: UIViewController {
             if finish {
                 CloudKitManager.places.forEach {
                     (item) in
-                    let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, coordinate: item.location!)
                     
-                    self.annotations.append(artPin)
-                    
-                    DispatchQueue.main.async(execute: {
-                        self.mapView.addAnnotation(artPin)
-                    })
+                    if let location = item.location, let category = item.category {
+                            let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, category: category, coordinate: location)
+                        
+                            self.annotations.append(artPin)
+                        
+                            DispatchQueue.main.async(execute: {
+                                self.mapView.addAnnotation(artPin)
+                            })
+                        }
+                    }
                 }
             }
         }
-    }
-
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -56,6 +58,7 @@ extension MapViewController: MKMapViewDelegate {
             
             let pin = annotation as! ArtworkPin
             view.annotation = pin
+            view.pinTintColor = pin.colour
         } else {
             return nil
         }

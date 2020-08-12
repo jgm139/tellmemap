@@ -60,7 +60,7 @@ class CloudKitManager {
         })
     }
     
-    func addPlace(name: String, message: String, coordinates: CLLocationCoordinate2D) {
+    func addPlace(name: String, message: String, category: Int, coordinates: CLLocationCoordinate2D) {
         let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id!]))
         
         self.privateDB.perform(query, inZoneWith: nil, completionHandler: {
@@ -74,6 +74,7 @@ class CloudKitManager {
                     
                     place["name"] = name
                     place["message"] = message
+                    place["category"] = category
                     place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
                     place["date"] = Date()
                     place["user"] = reference
