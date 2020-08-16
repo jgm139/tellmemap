@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		6D4D2FD624E2A8AA00EC62D0 /* PlaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D4D2FD524E2A8AA00EC62D0 /* PlaceTableViewCell.swift */; };
+		6D6AC57424E9950000A3C37C /* ChooseLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D6AC57324E994FF00A3C37C /* ChooseLocationViewController.swift */; };
 		6D889E5924D82B6000EB3616 /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D889E5824D82B6000EB3616 /* UserItem.swift */; };
 		6D93141324DD7B2D00B12575 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D93141224DD7B2D00B12575 /* ProfileViewController.swift */; };
 		6D93141524DDAEB100B12575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D93141424DDAEB100B12575 /* MapViewController.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		6D4D2FD524E2A8AA00EC62D0 /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaceTableViewCell.swift; path = TellMeMap/Controllers/PlaceTableViewCell.swift; sourceTree = SOURCE_ROOT; };
+		6D6AC57324E994FF00A3C37C /* ChooseLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseLocationViewController.swift; path = TellMeMap/Controllers/ChooseLocationViewController.swift; sourceTree = SOURCE_ROOT; };
 		6D889E5824D82B6000EB3616 /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserItem.swift; path = TellMeMap/Model/UserItem.swift; sourceTree = SOURCE_ROOT; };
 		6D93141224DD7B2D00B12575 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = TellMeMap/Controllers/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
 		6D93141424DDAEB100B12575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = TellMeMap/Controllers/MapViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -133,6 +135,7 @@
 		84B5D8DA24C8C32B00C2EA1B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6D6AC57324E994FF00A3C37C /* ChooseLocationViewController.swift */,
 				6D4D2FD524E2A8AA00EC62D0 /* PlaceTableViewCell.swift */,
 				6DE69C8824E19D360090B8F8 /* NewMessageViewController.swift */,
 				6D93141224DD7B2D00B12575 /* ProfileViewController.swift */,
@@ -221,6 +224,7 @@
 				8480721224D040E200009E7E /* UserSessionSingleton.swift in Sources */,
 				6D889E5924D82B6000EB3616 /* UserItem.swift in Sources */,
 				84B5D8D824C8C2D800C2EA1B /* TableViewController.swift in Sources */,
+				6D6AC57424E9950000A3C37C /* ChooseLocationViewController.swift in Sources */,
 				841506AD24CDE76D00283EF7 /* SignUpViewController.swift in Sources */,
 				6DE69C8924E19D360090B8F8 /* NewMessageViewController.swift in Sources */,
 				6DCBFFE524D72532002B43D7 /* CloudKitManager.swift in Sources */,
