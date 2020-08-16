@@ -14,11 +14,9 @@ class PlaceTableViewCell: UITableViewCell {
     
     // MARK: - Outlets
     @IBOutlet weak var userName: UILabel?
-    @IBOutlet weak var userPhoto: UIImageView?
     @IBOutlet var placeCategory: UILabel!
     @IBOutlet weak var placeTitle: UILabel!
     @IBOutlet weak var placeDescription: UITextView!
-    @IBOutlet weak var placeDate: UILabel!
     @IBOutlet weak var mapViewLocation: MKMapView!
     
     
@@ -37,16 +35,8 @@ class PlaceTableViewCell: UITableViewCell {
             self.userName!.text = nickname
         }
         
-        if let photo = item.user?.image {
-            self.userPhoto!.image = photo
-        }
-        
         self.placeTitle.text = item.name
         self.placeDescription.text = item.message
-        
-        if let date = getDateFormat(date: item.date) {
-            self.placeDate.text = date
-        }
         
         if let location = item.location {
             centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: location.latitude, longitude: location.longitude))
