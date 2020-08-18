@@ -66,6 +66,7 @@ class TableViewController: UITableViewController {
         }
         
         newCell.setContent(item: item)
+        newCell.selectionStyle = .none
         
         return newCell
     }
