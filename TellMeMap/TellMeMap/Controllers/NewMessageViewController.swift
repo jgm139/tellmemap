@@ -9,18 +9,17 @@
 import UIKit
 import CoreLocation
 
-class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
+class NewMessageViewController: UIViewController {
     
     // MARK: - Outlets
     @IBOutlet weak var newPlaceDescription: UITextView!
-    @IBOutlet weak var newPlaceTitle: UILabel!
+    @IBOutlet var newPlaceTitle: UITextField!
     @IBOutlet weak var okButton: UIBarButtonItem!
     @IBOutlet weak var pickerView: UIPickerView!
     
     
     // MARK: - Properties
-    let locationManager = CLLocationManager()
-    var lastCurrentLocation = CLLocationCoordinate2D()
+    var placeLocation = CLLocationCoordinate2D()
     var ckManager = CloudKitManager()
     
     
@@ -28,41 +27,28 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let tapView: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        
+        self.view.addGestureRecognizer(tapView)
+        
         self.okButton.isEnabled = false
         
-        self.newPlaceDescription.text = "Description"
+        self.newPlaceDescription.text = "Message description..."
         self.newPlaceDescription.textColor = UIColor.lightGray
         
         self.newPlaceDescription.delegate = self
-        
-        // Ask for Authorisation from the User.
-        self.locationManager.requestAlwaysAuthorization()
-
-        // For use in foreground
-        self.locationManager.requestWhenInUseAuthorization()
-
-        if CLLocationManager.locationServicesEnabled() {
-            locationManager.delegate = self
-            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
-        }
         
         self.pickerView.delegate = self
         self.pickerView.dataSource = self
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.newPlaceDescription.text = "Description"
+        self.newPlaceDescription.text = "Message description..."
         self.newPlaceDescription.textColor = UIColor.lightGray
     }
     
-    
-    // MARK: - LocationManager
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        
-        self.lastCurrentLocation.latitude = locValue.latitude
-        self.lastCurrentLocation.longitude = locValue.longitude
+    @objc func dismissKeyboard() {
+       view.endEditing(true)
     }
     
     
@@ -80,7 +66,19 @@ class NewMessageViewController: UIViewController, CLLocationManagerDelegate {
                         description = text
                     }
                     
-                    newPlace(name: title, message: description, coordinates: lastCurrentLocation, category: pickerView.selectedRow(inComponent: 0))
+                    newPlace(name: title, message: description, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0))
+                }
+            }
+        }
+    }
+    
+    @IBAction func unwindToNewMessageView(sender: UIStoryboardSegue) {
+        if (sender.identifier == "chooseLocationAndLeave") {
+            if let sourceViewController = sender.source as? ChooseLocationViewController {
+                if let location = sourceViewController.lastLocation {
+                    placeLocation = location
+                } else {
+                    placeLocation = sourceViewController.userCurrentLocation
                 }
             }
         }
@@ -111,18 +109,15 @@ extension NewMessageViewController: UITextViewDelegate {
 
     func textViewDidEndEditing(_ textView: UITextView) {
         if textView.text.isEmpty {
-            textView.text = "Description"
+            textView.text = "Message description..."
             textView.textColor = UIColor.lightGray
         }
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        if textView.text.split(separator: "\n").count > 0 {
-            let firstLine = String(textView.text.split(separator: "\n")[0])
-            self.newPlaceTitle.text = firstLine
+        if !textView.text.isEmpty {
             self.okButton.isEnabled = true
         } else {
-            self.newPlaceTitle.text = ""
             self.okButton.isEnabled = false
         }
     }

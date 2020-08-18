@@ -9,18 +9,18 @@
 import UIKit
 
 enum Category: String, CaseIterable {
-    case bar = "Bar"
-    case restaurant = "Restaurant"
-    case cafe = "Cafe"
-    case shop = "Shop"
-    case library = "Library"
-    case academy = "Academy"
-    case nightclub = "Night Club"
-    case laundry = "Laundry/Launderette"
-    case outlet = "Outlet"
-    case events_room = "Events Room"
-    case beauty_salon = "Beauty salon"
-    case garage = "Garage"
+    case bar = "Bar 🍻"
+    case restaurant = "Restaurant 🍽"
+    case cafe = "Cafe ☕️"
+    case shop = "Shop 🛍"
+    case library = "Library 📚"
+    case academy = "Academy 📖"
+    case nightclub = "Night Club 🕺🏽"
+    case laundry = "Laundry/Launderette 🧺"
+    case outlet = "Outlet 💸"
+    case events_room = "Events Room 🎉"
+    case beauty_salon = "Beauty salon 💅🏼"
+    case garage = "Garage 🛠"
     
     init?(id: Int) {
         switch id {

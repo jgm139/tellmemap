@@ -16,6 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        
+        // Definición de los colores de los elementos de la app
+        AppButton.appearance().tintColor = UIColor.MyPalette.charcoal
+        AppButton.appearance().setTitleColor(UIColor.MyPalette.charcoal, for: .normal)
+        
+        UIImageView.appearance().tintColor = UIColor.MyPalette.sandy_brown
+        
+        UITabBar.appearance().tintColor = UIColor.MyPalette.charcoal
+        UITabBar.appearance().barTintColor = UIColor.MyPalette.middle_blue_green
+        UITabBar.appearance().unselectedItemTintColor = UIColor.white
+        
+        UINavigationBar.appearance().barTintColor = UIColor.MyPalette.middle_blue_green
+        UINavigationBar.appearance().tintColor = UIColor.MyPalette.charcoal
+        
         return true
     }
 
