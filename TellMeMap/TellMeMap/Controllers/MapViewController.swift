@@ -22,6 +22,9 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mapView.delegate = self
+        
+        let userTrackingButton = MKUserTrackingBarButtonItem(mapView: mapView)
+        self.navigationItem.leftBarButtonItem = userTrackingButton
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -34,21 +37,42 @@ class MapViewController: UIViewController {
                     (item) in
                     
                     if let location = item.location, let category = item.category {
-                            let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, category: category, coordinate: location)
-                        
-                            self.annotations.append(artPin)
-                        
-                            DispatchQueue.main.async(execute: {
-                                self.mapView.addAnnotation(artPin)
-                            })
+                        let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, category: category, coordinate: location)
+                    
+                        self.annotations.append(artPin)
+                    
+                        DispatchQueue.main.async(execute: {
+                            self.mapView.addAnnotation(artPin)
+                        })
+                    }
+                }
+            }
+        }
+    }
+    
+    
+    // MARK: - Actions
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "placeDetail" {
+            if let pin = (sender as? MKAnnotationView)?.annotation as? ArtworkPin {
+                if let vc = segue.destination as? PlaceDetailViewController {
+                    CloudKitManager.places.forEach {
+                        (item) in
+                        if item.name == pin.title && item.category == pin.category {
+                            vc.item = item
                         }
                     }
                 }
             }
         }
+    }
 }
 
 extension MapViewController: MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        performSegue(withIdentifier: "placeDetail", sender: view)
+    }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         let view = MKPinAnnotationView(annotation: annotation, reuseIdentifier: nil)
@@ -59,6 +83,8 @@ extension MapViewController: MKMapViewDelegate {
             let pin = annotation as! ArtworkPin
             view.annotation = pin
             view.pinTintColor = pin.colour
+            
+            view.rightCalloutAccessoryView = UIButton(type: UIButton.ButtonType.detailDisclosure)
         } else {
             return nil
         }

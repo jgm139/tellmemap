@@ -11,6 +11,10 @@ import CoreData
 
 class TableViewController: UITableViewController {
     
+    // MARK: - Outlets
+    @IBOutlet var tv: UITableView!
+    
+    
     // MARK: - Properties
     var ckManager = CloudKitManager()
     
@@ -47,11 +51,18 @@ class TableViewController: UITableViewController {
     
     // MARK: - Actions
     @IBAction func unwindToPlaceList(sender: UIStoryboardSegue) {
-        if (sender.identifier == "saveMessageAndLeave") {
+        if sender.identifier == "saveMessageAndLeave" {
             self.tableView.reloadData()
         }
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "placeDetail" {
+            if let vc = segue.destination as? PlaceDetailViewController {
+                vc.item = CloudKitManager.places[self.tv.indexPathForSelectedRow!.row]
+            }
+        }
+    }
     
     // MARK: - Table View Controller
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
