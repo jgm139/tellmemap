@@ -11,6 +11,7 @@ import CloudKit
 import MapKit
 
 class CloudKitManager {
+    
     // MARK: - iCloud properties
     let container: CKContainer
     let publicDB: CKDatabase
@@ -27,6 +28,7 @@ class CloudKitManager {
     
     func getPlaces(_ completion: @escaping (_ finish: Bool) -> Void) {
         let query = CKQuery(recordType: "Place", predicate: NSPredicate(value:true))
+        query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         let group = DispatchGroup()
         
         self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
