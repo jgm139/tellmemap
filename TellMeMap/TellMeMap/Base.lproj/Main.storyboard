@@ -438,7 +438,7 @@
                         <viewLayoutGuide key="safeArea" id="EDT-zL-sfH"/>
                     </view>
                     <navigationItem key="navigationItem" title="Choose location" id="ydc-A1-g3x">
-                        <barButtonItem key="rightBarButtonItem" title="OK" style="plain" id="cgD-5U-JTL">
+                        <barButtonItem key="rightBarButtonItem" title="OK" style="done" id="cgD-5U-JTL">
                             <connections>
                                 <segue destination="hcj-fm-qdE" kind="unwind" identifier="chooseLocationAndLeave" unwindAction="unwindToNewMessageViewWithSender:" id="rPY-OY-qtc"/>
                             </connections>
