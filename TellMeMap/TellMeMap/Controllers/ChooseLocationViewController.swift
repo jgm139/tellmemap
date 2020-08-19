@@ -43,8 +43,6 @@ class ChooseLocationViewController: UIViewController, CLLocationManagerDelegate 
         self.userCurrentLocation.longitude = locValue.longitude
         
         centerMapOnLocation(mapView: mapView, loc: CLLocation(latitude: userCurrentLocation.latitude, longitude: userCurrentLocation.longitude))
-        
-        self.lastLocation = CLLocationCoordinate2D()
     }
     
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
