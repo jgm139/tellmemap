@@ -42,11 +42,6 @@ class NewMessageViewController: UIViewController {
         self.pickerView.dataSource = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        self.newPlaceDescription.text = "Message description..."
-        self.newPlaceDescription.textColor = UIColor.lightGray
-    }
-    
     @objc func dismissKeyboard() {
        view.endEditing(true)
     }
