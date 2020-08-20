@@ -67,14 +67,14 @@ class PlaceItem {
         let privateDB: CKDatabase = CKContainer.default().privateCloudDatabase
         let operation = CKFetchRecordsOperation(recordIDs: [recordReference.recordID])
         
-        operation.qualityOfService = .utility
-
-        operation.fetchRecordsCompletionBlock = {
-            records, error in
-            if error == nil {
-                for record in records! {
-                    completion(UserItem(record: record.value))
-                }
+        operation.qualityOfService = .userInitiated
+        operation.desiredKeys = ["nickname"]
+        
+        operation.perRecordCompletionBlock = {
+            record, recordID, error in
+            
+            if let record = record {
+                completion(UserItem(record: record))
             } else {
                 print("ERROR: \(String(describing: error))")
             }

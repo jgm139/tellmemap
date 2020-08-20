@@ -34,30 +34,26 @@ class CloudKitManager {
         self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
             (results, error) in
             if error == nil {
-                if results?.count != CloudKitManager.places.count {
-                    CloudKitManager.places = [PlaceItem]()
-                    
-                    for result in results! {
-                        if let itemPlace = PlaceItem(record: result) {
-                            CloudKitManager.places.append(itemPlace)
-                        }
+                CloudKitManager.places = [PlaceItem]()
+                
+                for result in results! {
+                    if let itemPlace = PlaceItem(record: result) {
+                        CloudKitManager.places.append(itemPlace)
                     }
-                    
-                    CloudKitManager.self.places.forEach { (place) in
-                        group.enter()
-                        place.getPlace { (succes) in
-                            group.leave()
-                        }
+                }
+                
+                CloudKitManager.self.places.forEach { (place) in
+                    group.enter()
+                    place.getPlace { (succes) in
+                        group.leave()
                     }
-                    
-                    group.notify(queue: .main) {
-                        completion(true)
-                    }
-                } else {
+                }
+                
+                group.notify(queue: .main) {
                     completion(true)
                 }
             } else {
-                print("ERROR: \(String(describing: error))")
+                completion(true)
             }
         })
     }
