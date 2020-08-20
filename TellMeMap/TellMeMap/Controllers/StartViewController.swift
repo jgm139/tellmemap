@@ -83,7 +83,7 @@ class StartViewController: UIViewController {
     func userIsSignUp(recordUser: String, completion: @escaping (_ isSigned: Bool) -> Void) {
         let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [recordUser]))
         
-        ckManager.privateDB.perform(query, inZoneWith: nil, completionHandler: {
+        ckManager.publicDB.perform(query, inZoneWith: nil, completionHandler: {
             (users, error) in
             if error == nil {
                 if users!.isEmpty {

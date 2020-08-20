@@ -23,12 +23,6 @@ class ChooseLocationViewController: UIViewController, CLLocationManagerDelegate 
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // Ask for Authorisation from the User.
-        self.locationManager.requestAlwaysAuthorization()
-
-        // For use in foreground
-        self.locationManager.requestWhenInUseAuthorization()
 
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -37,8 +31,8 @@ class ChooseLocationViewController: UIViewController, CLLocationManagerDelegate 
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        centerMapOnLocation(mapView: mapView, loc: CLLocation(latitude: userCurrentLocation.latitude, longitude: userCurrentLocation.longitude))
+    override func viewDidDisappear(_ animated: Bool) {
+        locationManager.stopUpdatingLocation()
     }
     
     // MARK: - LocationManager
@@ -48,7 +42,7 @@ class ChooseLocationViewController: UIViewController, CLLocationManagerDelegate 
         self.userCurrentLocation.latitude = locValue.latitude
         self.userCurrentLocation.longitude = locValue.longitude
         
-        self.lastLocation = CLLocationCoordinate2D()
+        centerMapOnLocation(mapView: mapView, loc: CLLocation(latitude: userCurrentLocation.latitude, longitude: userCurrentLocation.longitude))
     }
     
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {

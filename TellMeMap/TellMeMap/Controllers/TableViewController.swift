@@ -17,6 +17,7 @@ class TableViewController: UITableViewController {
     
     // MARK: - Properties
     var ckManager = CloudKitManager()
+    var indicator = UIActivityIndicatorView()
     
     // MARK: - Table View Controller Functions
     override func viewDidLoad() {
@@ -24,11 +25,19 @@ class TableViewController: UITableViewController {
         
         self.refreshControl?.addTarget(self, action: #selector(refreshPlaces), for: .valueChanged)
         
+        activityIndicator()
+        indicator.startAnimating()
+        indicator.backgroundColor = .white
+        tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
+        
         ckManager.getPlaces {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {
+                    self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
                     self.tableView.reloadData()
+                    self.indicator.stopAnimating()
+                    self.indicator.hidesWhenStopped = true
                 })
             }
         }
@@ -46,6 +55,13 @@ class TableViewController: UITableViewController {
                 })
             }
         }
+    }
+    
+    func activityIndicator() {
+        indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
+        indicator.style = UIActivityIndicatorView.Style.medium
+        indicator.center = self.view.center
+        self.view.addSubview(indicator)
     }
     
     

@@ -9,11 +9,13 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - Properties
     var ckManager = CloudKitManager()
     var annotations = [MKAnnotation]()
+    let locationManager = CLLocationManager()
+    var userCurrentLocation = CLLocationCoordinate2D()
     
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -25,6 +27,12 @@ class MapViewController: UIViewController {
         
         let userTrackingButton = MKUserTrackingBarButtonItem(mapView: mapView)
         self.navigationItem.leftBarButtonItem = userTrackingButton
+        
+        if CLLocationManager.locationServicesEnabled() {
+            locationManager.delegate = self
+            locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+            locationManager.startUpdatingLocation()
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -50,6 +58,9 @@ class MapViewController: UIViewController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        locationManager.stopUpdatingLocation()
+    }
     
     // MARK: - Actions
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -65,6 +76,23 @@ class MapViewController: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - LocationManager
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        
+        self.userCurrentLocation.latitude = locValue.latitude
+        self.userCurrentLocation.longitude = locValue.longitude
+        
+        centerMapOnLocation(mapView: mapView, loc: CLLocation(latitude: userCurrentLocation.latitude, longitude: userCurrentLocation.longitude))
+    }
+    
+    func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
+        let regionRadius: CLLocationDistance = 100
+        let coordinateRegion =
+            MKCoordinateRegion(center: loc.coordinate, latitudinalMeters: regionRadius * 4.0, longitudinalMeters: regionRadius * 4.0)
+        mapView.setRegion(coordinateRegion, animated: true)
     }
 }
 

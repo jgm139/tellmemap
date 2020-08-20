@@ -11,10 +11,10 @@ import CloudKit
 import MapKit
 
 class CloudKitManager {
+    
     // MARK: - iCloud properties
     let container: CKContainer
     let publicDB: CKDatabase
-    let privateDB: CKDatabase
     
     // MARK: - Properties
     static public var places = [PlaceItem]()
@@ -22,40 +22,36 @@ class CloudKitManager {
     init() {
         container = CKContainer.default()
         publicDB = container.publicCloudDatabase
-        privateDB = container.privateCloudDatabase
     }
     
     func getPlaces(_ completion: @escaping (_ finish: Bool) -> Void) {
         let query = CKQuery(recordType: "Place", predicate: NSPredicate(value:true))
+        query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         let group = DispatchGroup()
         
         self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
             (results, error) in
             if error == nil {
-                if results?.count != CloudKitManager.places.count {
-                    CloudKitManager.places = [PlaceItem]()
-                    
-                    for result in results! {
-                        if let itemPlace = PlaceItem(record: result) {
-                            CloudKitManager.places.append(itemPlace)
-                        }
+                CloudKitManager.places = [PlaceItem]()
+                
+                for result in results! {
+                    if let itemPlace = PlaceItem(record: result) {
+                        CloudKitManager.places.append(itemPlace)
                     }
-                    
-                    CloudKitManager.self.places.forEach { (place) in
-                        group.enter()
-                        place.getPlace { (succes) in
-                            group.leave()
-                        }
+                }
+                
+                CloudKitManager.self.places.forEach { (place) in
+                    group.enter()
+                    place.getPlace { (succes) in
+                        group.leave()
                     }
-                    
-                    group.notify(queue: .main) {
-                        completion(true)
-                    }
-                } else {
+                }
+                
+                group.notify(queue: .main) {
                     completion(true)
                 }
             } else {
-                print("ERROR: \(String(describing: error))")
+                completion(true)
             }
         })
     }
@@ -63,7 +59,7 @@ class CloudKitManager {
     func addPlace(name: String, message: String, category: Int, coordinates: CLLocationCoordinate2D) {
         let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id!]))
         
-        self.privateDB.perform(query, inZoneWith: nil, completionHandler: {
+        self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
             (results, error) in
             if error == nil {
                 for result in results! {
@@ -116,7 +112,7 @@ class CloudKitManager {
         user["surnames"] = surnames
         user["icloud_id"] = icloud_id
         
-        self.privateDB.save(user, completionHandler: {
+        self.publicDB.save(user, completionHandler: {
             (recordID, error) in
             if let e = error {
                 print("Error: \(e)")
@@ -127,7 +123,7 @@ class CloudKitManager {
     func updateUser(newNickname: String?, newImage: UIImage?, _ completion: @escaping (_ finish: Bool) -> Void) {
         let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id!]))
         
-        self.privateDB.perform(query, inZoneWith: nil, completionHandler: {
+        self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
             (users, error) in
             if error == nil {
                 let user = users![0]
@@ -151,7 +147,7 @@ class CloudKitManager {
                         user["image"] = asset
                     }
                     
-                    self.privateDB.save(user, completionHandler: {
+                    self.publicDB.save(user, completionHandler: {
                         (recordID, error) in
                         if let e = error {
                             print("Error: \(e)")

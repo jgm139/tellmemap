@@ -8,15 +8,27 @@
 
 import UIKit
 import CoreData
+import CoreLocation
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
 
-
+    // MARK: - Properties
+    let locationManager = CLLocationManager()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         
+        // MARK: - Location Manager
+        self.locationManager.delegate = self
+        
+        // Ask for Authorisation from the User.
+        self.locationManager.requestAlwaysAuthorization()
+
+        // For use in foreground
+        self.locationManager.requestWhenInUseAuthorization()
+        
+        
+        // MARK: - UI
         // Definición de los colores de los elementos de la app
         AppButton.appearance().tintColor = UIColor.MyPalette.charcoal
         AppButton.appearance().setTitleColor(UIColor.MyPalette.charcoal, for: .normal)

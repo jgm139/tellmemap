@@ -42,11 +42,6 @@ class NewMessageViewController: UIViewController {
         self.pickerView.dataSource = self
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        self.newPlaceDescription.text = "Message description..."
-        self.newPlaceDescription.textColor = UIColor.lightGray
-    }
-    
     @objc func dismissKeyboard() {
        view.endEditing(true)
     }
@@ -89,7 +84,7 @@ class NewMessageViewController: UIViewController {
         if isPublic {
             let itemPlace = PlaceItem(name: name, message: message, category: category, date: Date(), user: UserSessionSingleton.session.user, location: coordinates)
             
-            CloudKitManager.places.append(itemPlace)
+            CloudKitManager.places.insert(itemPlace, at: 0)
             
             ckManager.addPlace(name: name, message: message, category: category, coordinates: coordinates)
         }
