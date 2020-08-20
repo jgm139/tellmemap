@@ -64,7 +64,7 @@ class PlaceItem {
     }
     
     func getSiteUser(recordReference: CKRecord.Reference, _ completion: @escaping (UserItem?) -> Void) {
-        let privateDB: CKDatabase = CKContainer.default().privateCloudDatabase
+        let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
         let operation = CKFetchRecordsOperation(recordIDs: [recordReference.recordID])
         
         operation.qualityOfService = .userInitiated
@@ -80,7 +80,7 @@ class PlaceItem {
             }
         }
 
-        privateDB.add(operation)
+        publicDB.add(operation)
     }
     
     static func fetchPlaces(for references: [CKRecord.Reference], _ completion: @escaping ([PlaceItem]) -> Void) {

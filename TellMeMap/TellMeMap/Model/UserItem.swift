@@ -49,34 +49,11 @@ class UserItem {
                 print("Error: \(error)")
             }
         }
-    }
-    
-    /*func getUser(_ completion: @escaping (_ success: Bool) -> Void) {
-        guard
-            let icloud_id = record!["icloud_id"] as? String,
-            let nickname = record!["nickname"] as? String,
-            let name = record!["name"] as? String,
-            let surnames = record!["surnames"] as? String
-        else { return }
         
-        self.icloud_id = icloud_id
-        self.nickname = nickname
-        self.name = name
-        self.surnames = surnames
-        
-        if let file = record!["name"] as? CKAsset {
-            do {
-                let data = try Data(contentsOf: file.fileURL!)
-                self.image = UIImage(data: data as Data)
-            } catch {
-                print("Error: \(error)")
-            }
-        }
-        
-        if let placeRecords = record!["places"] as? [CKRecord.Reference] {
+        /*if let placeRecords = record!["places"] as? [CKRecord.Reference] {
             PlaceItem.fetchPlaces(for: placeRecords) { (places) in
                 self.places = places
             }
-        }
-    }*/
+        }*/
+    }
 }
