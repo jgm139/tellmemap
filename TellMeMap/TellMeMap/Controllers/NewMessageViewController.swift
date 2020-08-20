@@ -84,7 +84,7 @@ class NewMessageViewController: UIViewController {
         if isPublic {
             let itemPlace = PlaceItem(name: name, message: message, category: category, date: Date(), user: UserSessionSingleton.session.user, location: coordinates)
             
-            CloudKitManager.places.append(itemPlace)
+            CloudKitManager.places.insert(itemPlace, at: 0)
             
             ckManager.addPlace(name: name, message: message, category: category, coordinates: coordinates)
         }
