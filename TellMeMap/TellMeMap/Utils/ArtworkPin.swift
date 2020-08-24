@@ -12,19 +12,24 @@ import MapKit
 class ArtworkPin: NSObject, MKAnnotation {
     
     //MARK: Properties
-    var category: Category?
+    var placeItem: PlaceItem?
+    
     var colour: UIColor?
+    var thumbImage: UIImage?
+    
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
     
-    init(title: String, subtitle: String, category: Category, coordinate: CLLocationCoordinate2D) {
-        self.title = title
-        self.subtitle = category.rawValue
-        self.coordinate = coordinate
-        self.category = category
+    
+    init(place: PlaceItem) {
+        self.placeItem = place
+        self.title = place.name
+        self.subtitle = place.category?.rawValue
+        self.thumbImage = place.image
+        self.coordinate = CLLocationCoordinate2D(latitude: place.location!.latitude, longitude: place.location!.longitude)
         
-        switch self.category {
+        switch self.placeItem?.category {
             case .academy://#00BFFF
                 self.colour = UIColor(red: 0.00, green: 0.75, blue: 1.00, alpha: 1.00)
             case .bar://#3CB371

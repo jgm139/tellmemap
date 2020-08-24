@@ -44,8 +44,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                 CloudKitManager.places.forEach {
                     (item) in
                     
-                    if let location = item.location, let category = item.category {
-                        let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, category: category, coordinate: location)
+                    if let _ = item.location, let _ = item.category {
+                        let artPin = ArtworkPin(place: item)
                     
                         self.annotations.append(artPin)
                     
@@ -67,12 +67,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         if segue.identifier == "placeDetail" {
             if let pin = (sender as? MKAnnotationView)?.annotation as? ArtworkPin {
                 if let vc = segue.destination as? PlaceDetailViewController {
-                    CloudKitManager.places.forEach {
-                        (item) in
-                        if item.name == pin.title && item.category == pin.category {
-                            vc.item = item
-                        }
-                    }
+                    vc.item = pin.placeItem
                 }
             }
         }
@@ -111,6 +106,13 @@ extension MapViewController: MKMapViewDelegate {
             let pin = annotation as! ArtworkPin
             view.annotation = pin
             view.pinTintColor = pin.colour
+            
+            if let _ = pin.thumbImage {
+                let thumbnailImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 60, height: 60))
+                thumbnailImageView.image = pin.thumbImage
+                
+                view.leftCalloutAccessoryView = thumbnailImageView
+            }
             
             view.rightCalloutAccessoryView = UIButton(type: UIButton.ButtonType.detailDisclosure)
         } else {

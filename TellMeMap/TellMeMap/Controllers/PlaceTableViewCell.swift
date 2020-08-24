@@ -41,9 +41,9 @@ class PlaceTableViewCell: UITableViewCell {
         if let location = item.location {
             centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: location.latitude, longitude: location.longitude))
             
-            if let category = item.category {
+            if let _ = item.category {
                 self.placeCategory.text = item.category?.rawValue
-                let artPin = ArtworkPin(title: item.name!, subtitle: item.message!, category: category, coordinate: location)
+                let artPin = ArtworkPin(place: item)
                 
                 self.mapViewLocation.addAnnotation(artPin)
             }
