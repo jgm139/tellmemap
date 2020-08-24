@@ -20,7 +20,7 @@ class ArtworkPin: NSObject, MKAnnotation {
     
     init(title: String, subtitle: String, category: Category, coordinate: CLLocationCoordinate2D) {
         self.title = title
-        self.subtitle = subtitle
+        self.subtitle = category.rawValue
         self.coordinate = coordinate
         self.category = category
         

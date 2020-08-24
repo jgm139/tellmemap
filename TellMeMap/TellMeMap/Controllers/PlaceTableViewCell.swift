@@ -58,13 +58,6 @@ class PlaceTableViewCell: UITableViewCell {
             MKCoordinateRegion(center: loc.coordinate, latitudinalMeters: regionRadius * 4.0, longitudinalMeters: regionRadius * 4.0)
         mapView.setRegion(coordinateRegion, animated: true)
     }
-    
-    func getDateFormat(date: Date?) -> String? {
-        let dataFormatter = DateFormatter()
-        dataFormatter.dateFormat = "hh:mm"
-        
-        return (date != nil ? dataFormatter.string(from: date!) : nil)
-    }
 
 }
 
