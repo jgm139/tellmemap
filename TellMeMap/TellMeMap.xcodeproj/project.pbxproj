@@ -35,7 +35,7 @@
 
 /* Begin PBXFileReference section */
 		6D4A8B1A24EC11F5009361DF /* ThemeElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ThemeElements.swift; path = TellMeMap/Utils/ThemeElements.swift; sourceTree = SOURCE_ROOT; };
-		6D4A8B1C24EC243E009361DF /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlaceDetailViewController.swift; path = TellMeMap/Controllers/PlaceDetailViewController.swift; sourceTree = SOURCE_ROOT; };
+		6D4A8B1C24EC243E009361DF /* PlaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlaceDetailViewController.swift; path = tellMeMap/Controllers/PlaceDetailViewController.swift; sourceTree = SOURCE_ROOT; };
 		6D4A8B1E24EC2868009361DF /* TableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TableViewController.swift; path = TellMeMap/Controllers/TableViewController.swift; sourceTree = SOURCE_ROOT; };
 		6D4D2FD524E2A8AA00EC62D0 /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaceTableViewCell.swift; path = TellMeMap/Controllers/PlaceTableViewCell.swift; sourceTree = SOURCE_ROOT; };
 		6D6AC57324E994FF00A3C37C /* ChooseLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChooseLocationViewController.swift; path = TellMeMap/Controllers/ChooseLocationViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -110,7 +110,6 @@
 				84B5D8B424C8C0B600C2EA1B /* AppDelegate.swift */,
 				84B5D8B624C8C0B600C2EA1B /* SceneDelegate.swift */,
 				84B5D8BA24C8C0B600C2EA1B /* Main.storyboard */,
-				6D4A8B1C24EC243E009361DF /* PlaceDetailViewController.swift */,
 				84B5D8C224C8C0B700C2EA1B /* LaunchScreen.storyboard */,
 				6DCBFFE324D724F7002B43D7 /* Model */,
 				84B5D8DA24C8C32B00C2EA1B /* Controllers */,
@@ -144,6 +143,7 @@
 		84B5D8DA24C8C32B00C2EA1B /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				6D4A8B1C24EC243E009361DF /* PlaceDetailViewController.swift */,
 				6D4A8B1E24EC2868009361DF /* TableViewController.swift */,
 				6D6AC57324E994FF00A3C37C /* ChooseLocationViewController.swift */,
 				6D4D2FD524E2A8AA00EC62D0 /* PlaceTableViewCell.swift */,

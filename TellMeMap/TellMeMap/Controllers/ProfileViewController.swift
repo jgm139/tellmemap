@@ -13,6 +13,7 @@ import CloudKit
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: - Properties
+    let imagePicker = UIImagePickerController()
     var ckManager = CloudKitManager()
     
     // MARK: - Outlets
@@ -24,6 +25,8 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     // MARK: - View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.imagePicker.delegate = self
         
         let tapView: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         
@@ -47,15 +50,12 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // MARK: - Actions
     @IBAction func exportImage(_ sender: UITapGestureRecognizer) {
-        let image = UIImagePickerController()
         
-        image.delegate = self
+        self.imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
         
-        image.sourceType = UIImagePickerController.SourceType.photoLibrary
+        self.imagePicker.allowsEditing = false
         
-        image.allowsEditing = false
-        
-        self.present(image, animated: true) {}
+        self.present(imagePicker, animated: true)
     }
     
     @IBAction func saveChanges(_ sender: UIButton) {

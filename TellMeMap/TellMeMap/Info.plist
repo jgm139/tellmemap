@@ -20,6 +20,8 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Permiso para usar la cámara.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Localización cuando se use la aplicación.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
