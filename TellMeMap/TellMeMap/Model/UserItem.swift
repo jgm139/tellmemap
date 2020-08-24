@@ -11,8 +11,8 @@ import MapKit
 import CloudKit
 
 class UserItem {
-    private var id: CKRecord.ID?
-    private var record: CKRecord?
+    var id: CKRecord.ID?
+    var record: CKRecord?
     
     var icloud_id: String?
     var image: UIImage?
