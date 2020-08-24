@@ -336,13 +336,17 @@
                             <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="18" translatesAutoresizingMaskIntoConstraints="NO" id="70M-BY-ezw" userLabel="Line_1 View">
                                 <rect key="frame" x="20" y="98" width="384" height="80"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Dnw-hr-pcX">
+                                    <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Dnw-hr-pcX">
                                         <rect key="frame" x="0.0" y="0.5" width="80" height="79"/>
                                         <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <gestureRecognizers/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="80" id="8Wh-WO-4xm"/>
                                             <constraint firstAttribute="height" constant="80" id="EEg-3P-xvY"/>
                                         </constraints>
+                                        <connections>
+                                            <outletCollection property="gestureRecognizers" destination="OwW-PF-UPB" appends="YES" id="jYs-hs-BOq"/>
+                                        </connections>
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Message title" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="I02-Wh-Ad9">
                                         <rect key="frame" x="98" y="29.5" width="286" height="21"/>
@@ -409,11 +413,17 @@
                         <outlet property="newPlaceDescription" destination="Dgj-dA-Mwa" id="sGY-Sq-bZO"/>
                         <outlet property="newPlaceTitle" destination="I02-Wh-Ad9" id="9Sx-7y-xZL"/>
                         <outlet property="okButton" destination="tzL-ap-ecW" id="x7p-qO-6UG"/>
+                        <outlet property="photoImageView" destination="Dnw-hr-pcX" id="EUM-fx-RdM"/>
                         <outlet property="pickerView" destination="hSJ-Me-LmT" id="IUs-qB-1gc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="AL5-gt-czb" sceneMemberID="firstResponder"/>
                 <exit id="A7E-gx-caH" userLabel="Exit" sceneMemberID="exit"/>
+                <tapGestureRecognizer id="OwW-PF-UPB">
+                    <connections>
+                        <action selector="addImage:" destination="0DI-f3-gub" id="RRg-E4-jul"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1047.8260869565217" y="129.91071428571428"/>
         </scene>
@@ -494,6 +504,7 @@
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="b4t-6b-60f">
                                 <rect key="frame" x="107" y="165" width="200" height="199"/>
+                                <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="j4w-ew-FnM"/>
                                     <constraint firstAttribute="height" constant="200" id="rQ1-3u-jmu"/>

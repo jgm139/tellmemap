@@ -29,7 +29,11 @@ class PlaceDetailViewController: UIViewController {
             autorLabel.text = place.user?.nickname
             dateLabel.text = getDateFormat(date: place.date)
             descriptionTextView.text = place.message
-            //imageView.image = place.image
+            
+            if let image = place.image {
+                imageView.image = image
+                imageView.contentMode = .scaleAspectFill
+            }
         }
     }
     

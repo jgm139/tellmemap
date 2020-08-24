@@ -56,7 +56,7 @@ class CloudKitManager {
         })
     }
     
-    func addPlace(name: String, message: String, category: Int, coordinates: CLLocationCoordinate2D) {
+    func addPlace(name: String, message: String, category: Int, coordinates: CLLocationCoordinate2D, image: UIImage?) {
         let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id!]))
         
         self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
@@ -74,6 +74,12 @@ class CloudKitManager {
                     place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
                     place["date"] = Date()
                     place["user"] = reference
+                    
+                    if let image = image {
+                        let asset = self.createAsset(from: image)
+                        
+                        place["image"] = asset
+                    }
                     
                     self.publicDB.save(place, completionHandler: {
                         (recordID, error) in
@@ -134,15 +140,7 @@ class CloudKitManager {
                     
                     if let image = newImage {
                         
-                        let imageFilePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("lastImage")
-                        
-                        do {
-                            try image.pngData()?.write(to: imageFilePath!, options: .atomicWrite)
-                        } catch {
-                            print("Error: \(error)")
-                        }
-                        
-                        let asset = CKAsset(fileURL: imageFilePath!)
+                        let asset = self.createAsset(from: image)
                         
                         user["image"] = asset
                     }
@@ -159,5 +157,17 @@ class CloudKitManager {
                 }
             }
         })
+    }
+    
+    func createAsset(from image: UIImage) -> CKAsset {
+        let imageFilePath = NSURL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("lastImage")
+        
+        do {
+            try image.pngData()?.write(to: imageFilePath!, options: .atomicWrite)
+        } catch {
+            print("Error: \(error)")
+        }
+        
+        return CKAsset(fileURL: imageFilePath!)
     }
 }
