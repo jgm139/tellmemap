@@ -19,15 +19,17 @@ class PlaceItem {
     var date: Date?
     var user: UserItem?
     var location: CLLocationCoordinate2D?
+    var image: UIImage?
     var category: Category?
     
-    init(name: String, message: String, category: Int, date: Date, user: UserItem, location: CLLocationCoordinate2D) {
+    init(name: String, message: String, category: Int, date: Date, user: UserItem, location: CLLocationCoordinate2D, image: UIImage?) {
         self.name = name
         self.message = message
         self.category = Category(id: category)
         self.date = date
         self.user = user
         self.location = location
+        self.image = image
     }
     
     init?(record: CKRecord) {
@@ -56,6 +58,15 @@ class PlaceItem {
                     self.date = date
                     self.user = user
                     self.location = location?.coordinate
+                    
+                    if let asset = self.record?.object(forKey: "image") as? CKAsset {
+                        do {
+                            let data = try Data(contentsOf: asset.fileURL!)
+                            self.image = UIImage(data: data as Data)
+                        } catch {
+                            print("Error: \(error)")
+                        }
+                    }
                     
                     completion(true)
                 }

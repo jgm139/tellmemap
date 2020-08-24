@@ -16,16 +16,20 @@ class NewMessageViewController: UIViewController {
     @IBOutlet var newPlaceTitle: UITextField!
     @IBOutlet weak var okButton: UIBarButtonItem!
     @IBOutlet weak var pickerView: UIPickerView!
+    @IBOutlet var photoImageView: UIImageView!
     
     
     // MARK: - Properties
     var placeLocation = CLLocationCoordinate2D()
+    var imagePicker = UIImagePickerController()
     var ckManager = CloudKitManager()
     
     
     // MARK: - View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.imagePicker.delegate = self
         
         let tapView: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         
@@ -61,7 +65,7 @@ class NewMessageViewController: UIViewController {
                         description = text
                     }
                     
-                    newPlace(name: title, message: description, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0))
+                    newPlace(name: title, message: description, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0), image: photoImageView.image)
                 }
             }
         }
@@ -80,15 +84,43 @@ class NewMessageViewController: UIViewController {
     }
     
     // MARK: - Methods
-    func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, category: Int, isPublic: Bool = true) {
+    func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, category: Int, image: UIImage?, isPublic: Bool = true) {
         if isPublic {
-            let itemPlace = PlaceItem(name: name, message: message, category: category, date: Date(), user: UserSessionSingleton.session.user, location: coordinates)
+            let itemPlace = PlaceItem(name: name, message: message, category: category, date: Date(), user: UserSessionSingleton.session.user, location: coordinates, image: image)
             
             CloudKitManager.places.insert(itemPlace, at: 0)
             
-            ckManager.addPlace(name: name, message: message, category: category, coordinates: coordinates)
+            ckManager.addPlace(name: name, message: message, category: category, coordinates: coordinates, image: image)
         }
     }
+    
+    
+    // MARK: - Actions
+    @IBAction func addImage(_ sender: UITapGestureRecognizer) {
+        let alert = UIAlertController(title: "Add photo of the place", message: "", preferredStyle: .actionSheet)
+        
+        let action1 = UIAlertAction(title: "Take photo", style: .default) {
+            (_) in
+            self.takePhoto()
+        }
+        
+        let action2 = UIAlertAction(title: "Choose from photo library", style: .default) {
+            (_) in
+            self.choosePhotoLibrary()
+        }
+        
+        let action3 = UIAlertAction(title: "Cancel", style: .cancel) {
+            (_) in
+            print("Cancel")
+        }
+        
+        alert.addAction(action1)
+        alert.addAction(action2)
+        alert.addAction(action3)
+        
+        self.present(alert, animated: true, completion: nil)
+    }
+    
 
 }
 
@@ -134,4 +166,32 @@ extension NewMessageViewController: UIPickerViewDelegate, UIPickerViewDataSource
         return Category.allCases[row].rawValue
     }
     
+}
+
+
+extension NewMessageViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func takePhoto() {
+        imagePicker.sourceType = .camera
+
+        self.present(imagePicker, animated: true, completion: nil)
+    }
+    
+    func choosePhotoLibrary() {
+        imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        
+        imagePicker.allowsEditing = false
+        
+        self.present(imagePicker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        guard let image = info[.originalImage] as? UIImage else { return }
+        
+        self.photoImageView.image = image
+        self.photoImageView.contentMode = .scaleAspectFill
+            
+        self.dismiss(animated: true, completion: nil)
+    }
 }
