@@ -18,12 +18,18 @@ class TableViewController: UITableViewController {
     // MARK: - Properties
     var ckManager = CloudKitManager()
     var indicator = UIActivityIndicatorView()
+    var placesSorted = [Category: [PlaceItem]]()
+    var heightSection: CGFloat = 30
+    
     
     // MARK: - Table View Controller Functions
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.refreshControl?.addTarget(self, action: #selector(refreshPlaces), for: .valueChanged)
+        
+        tableView.delegate = self
+        tableView.dataSource = self
         
         activityIndicator()
         indicator.startAnimating()
@@ -34,6 +40,7 @@ class TableViewController: UITableViewController {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {
+                    self.sortData()
                     self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
                     self.tableView.reloadData()
                     self.indicator.stopAnimating()
@@ -43,13 +50,32 @@ class TableViewController: UITableViewController {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {}
+    override func viewDidAppear(_ animated: Bool) {
+        self.sortData()
+        self.tableView.reloadData()
+    }
+    
+    func sortData() {
+        placesSorted[.bar] = CloudKitManager.places.filter({ $0.category == Category.bar })
+        placesSorted[.restaurant] = CloudKitManager.places.filter({ $0.category == Category.restaurant })
+        placesSorted[.cafe] = CloudKitManager.places.filter({ $0.category == Category.cafe })
+        placesSorted[.shop] = CloudKitManager.places.filter({ $0.category == Category.shop })
+        placesSorted[.library] = CloudKitManager.places.filter({ $0.category == Category.library })
+        placesSorted[.academy] = CloudKitManager.places.filter({ $0.category == Category.academy })
+        placesSorted[.nightclub] = CloudKitManager.places.filter({ $0.category == Category.nightclub })
+        placesSorted[.laundry] = CloudKitManager.places.filter({ $0.category == Category.laundry })
+        placesSorted[.outlet] = CloudKitManager.places.filter({ $0.category == Category.outlet })
+        placesSorted[.events_room] = CloudKitManager.places.filter({ $0.category == Category.events_room })
+        placesSorted[.beauty_salon] = CloudKitManager.places.filter({ $0.category == Category.beauty_salon })
+        placesSorted[.garage] = CloudKitManager.places.filter({ $0.category == Category.garage })
+    }
     
     @objc func refreshPlaces() {
         ckManager.getPlaces {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {
+                    self.sortData()
                     self.tableView.reloadData()
                     self.refreshControl?.endRefreshing()
                 })
@@ -75,18 +101,64 @@ class TableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "placeDetail" {
             if let vc = segue.destination as? PlaceDetailViewController {
-                vc.item = CloudKitManager.places[self.tv.indexPathForSelectedRow!.row]
+                vc.item = self.placesSorted[Category(id: self.tv.indexPathForSelectedRow!.section)!]![self.tv.indexPathForSelectedRow!.row]
             }
         }
     }
     
     // MARK: - Table View Controller
+    override func numberOfSections(in tableView: UITableView) -> Int {
+        return Category.allCases.count
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return CloudKitManager.places.count
+        if let tableSection = Category(id: section), let placeData = placesSorted[tableSection] {
+            return placeData.count
+        }
+        
+        return 0
+    }
+    
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if let tableSection = Category(id: section), let placeData = placesSorted[tableSection] {
+            if placeData.count > 0 {
+                return Category.allCases[section].rawValue
+            }
+        }
+        return nil
+    }
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if let tableSection = Category(id: section), let placeData = placesSorted[tableSection] {
+            if placeData.count > 0 {
+                return heightSection
+            }
+        }
+        return 0
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if let tableSection = Category(id: section), let placeData = placesSorted[tableSection] {
+            if placeData.count > 0 {
+                let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: heightSection))
+                view.backgroundColor = UIColor(red: 250/255, green: 240/255, blue: 219/255, alpha: 1.0)
+                
+                let label = UILabel(frame: CGRect(x: 15, y: 0, width: tableView.bounds.width - 30, height: heightSection))
+                label.font = UIFont.boldSystemFont(ofSize: 18)
+                label.textColor = UIColor.black
+                label.text = Category(id: section)?.rawValue
+                
+                view.addSubview(label)
+                
+                return view
+            }
+        }
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = CloudKitManager.places[indexPath.row]
+        let tableSection = Category(id: indexPath.section)!
+        let item = placesSorted[tableSection]![indexPath.row]
         
         guard let newCell = tableView.dequeueReusableCell(withIdentifier: "placeTableViewCell", for: indexPath) as? PlaceTableViewCell else {
             fatalError("The dequeued cell is not an instance of PlaceTableViewCell.")
@@ -102,9 +174,11 @@ class TableViewController: UITableViewController {
         
         switch editingStyle {
             case .delete:
-                let placeToDelete = CloudKitManager.places[indexPath.row]
+                let tableSection = Category(id: indexPath.section)!
+                let placeToDelete = placesSorted[tableSection]![indexPath.row]
+                
                 ckManager.deletePlace(withName: placeToDelete.name!)
-                CloudKitManager.places.remove(at: indexPath.row)
+                self.placesSorted[tableSection]?.remove(at: indexPath.row)
                 
                 DispatchQueue.main.async( execute: {
                     self.tableView.deleteRows(at: [indexPath], with: .right)
