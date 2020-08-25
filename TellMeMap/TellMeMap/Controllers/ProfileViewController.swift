@@ -78,8 +78,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     // MARK: - Picker Controller Delegate
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
         guard let image = info[.originalImage] as? UIImage else { return }
-        self.photoImageView.image = image
+        
+        self.photoImageView.image = image.fixOrientation()
         self.photoImageView.contentMode = .scaleAspectFill
             
         self.dismiss(animated: true, completion: nil)

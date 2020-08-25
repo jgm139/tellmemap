@@ -127,36 +127,25 @@ class CloudKitManager {
     }
     
     func updateUser(newNickname: String?, newImage: UIImage?, _ completion: @escaping (_ finish: Bool) -> Void) {
-        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id!]))
+        if let nickname = newNickname {
+            UserSessionSingleton.session.user.record!["nickname"] = nickname
+            UserSessionSingleton.session.user.nickname = nickname
+        }
         
-        self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
-            (users, error) in
-            if error == nil {
-                let user = users![0]
-                if user["icloud_id"] == UserSessionSingleton.session.user.icloud_id {
-                    if let nickname = newNickname {
-                        user["nickname"] = nickname
-                    }
-                    
-                    if let image = newImage {
-                        
-                        let asset = self.createAsset(from: image)
-                        
-                        user["image"] = asset
-                    }
-                    
-                    self.publicDB.save(user, completionHandler: {
-                        (recordID, error) in
-                        if let e = error {
-                            print("Error: \(e)")
-                        } else {
-                            UserSessionSingleton.session.user = UserItem(record: user)
-                            completion(true)
-                        }
-                    })
-                }
-            }
-        })
+        if let image = newImage {
+            
+            let asset = self.createAsset(from: image)
+            
+            UserSessionSingleton.session.user.record!["image"] = asset
+            
+            UserSessionSingleton.session.user.image = image
+        }
+        
+        let operation = CKModifyRecordsOperation(recordsToSave: [UserSessionSingleton.session.user.record!], recordIDsToDelete: nil)
+
+        operation.completionBlock = { completion(true) }
+
+        self.publicDB.add(operation)
     }
     
     func createAsset(from image: UIImage) -> CKAsset {

@@ -85,7 +85,8 @@ class TableViewController: UITableViewController {
     
     func activityIndicator() {
         indicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 80, height: 80))
-        indicator.style = UIActivityIndicatorView.Style.medium
+        indicator.style = UIActivityIndicatorView.Style.large
+        indicator.color = UIColor.MyPalette.charcoal
         indicator.center = self.view.center
         self.view.addSubview(indicator)
     }
