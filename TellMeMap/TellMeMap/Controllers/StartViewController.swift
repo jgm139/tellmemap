@@ -15,6 +15,11 @@ class StartViewController: UIViewController {
     // MARK: - Properties
     var ckManager = CloudKitManager()
     let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    
+    // MARK: - Outlets
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,6 +48,8 @@ class StartViewController: UIViewController {
     }
     
     func checkingiCloudCredentials() {
+        self.activityIndicator.startAnimating()
+        
         getCloudID(withCompletionHandler: {
             (success, recordName, accountAvailable) in
                 if success {
@@ -53,6 +60,8 @@ class StartViewController: UIViewController {
                             self.initSession()
                             
                             DispatchQueue.main.async(execute: {
+                                self.activityIndicator.stopAnimating()
+                                
                                 if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "TabNav") as? UITabBarController
                                 {
                                     vc.modalPresentationStyle = .fullScreen
@@ -61,6 +70,8 @@ class StartViewController: UIViewController {
                             })
                         } else {
                             DispatchQueue.main.async(execute: {
+                                self.activityIndicator.stopAnimating()
+                                
                                 if let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SignUpVC") as? SignUpViewController
                                 {
                                     vc.modalPresentationStyle = .popover
@@ -71,6 +82,8 @@ class StartViewController: UIViewController {
                     }
                 } else if !accountAvailable {
                     DispatchQueue.main.async(execute: {
+                        self.activityIndicator.stopAnimating()
+                        
                         let alert = UIAlertController(title: "Sign in to iCloud", message: "Sign in to your iCloud account to use TellMeMap. On the Home screen, launch Settings, tap iCloud, and enter your Apple ID. Turn iCloud Drive on. If you don't have an iCloud account, tap Create a new Apple ID.", preferredStyle: .alert)
 
                         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
