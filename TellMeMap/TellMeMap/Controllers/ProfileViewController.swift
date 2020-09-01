@@ -35,6 +35,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
         setData()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        setData()
+    }
+    
     func setData() {
         self.nicknameTextField.text = UserSessionSingleton.session.user.nickname
         

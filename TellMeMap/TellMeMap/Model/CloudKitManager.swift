@@ -127,25 +127,39 @@ class CloudKitManager {
     }
     
     func updateUser(newNickname: String?, newImage: UIImage?, _ completion: @escaping (_ finish: Bool) -> Void) {
-        if let nickname = newNickname {
+        var changes = false
+        
+        if let nickname = newNickname, nickname != UserSessionSingleton.session.user.nickname {
             UserSessionSingleton.session.user.record!["nickname"] = nickname
+            
             UserSessionSingleton.session.user.nickname = nickname
+            
+            changes = true
         }
         
-        if let image = newImage {
+        if let image = newImage, !image.isEqual(UserSessionSingleton.session.user.image) {
             
             let asset = self.createAsset(from: image)
             
             UserSessionSingleton.session.user.record!["image"] = asset
             
             UserSessionSingleton.session.user.image = image
+            
+            changes = true
         }
         
-        let operation = CKModifyRecordsOperation(recordsToSave: [UserSessionSingleton.session.user.record!], recordIDsToDelete: nil)
-
-        operation.completionBlock = { completion(true) }
-
-        self.publicDB.add(operation)
+        if changes {
+            
+            self.publicDB.save(UserSessionSingleton.session.user.record!, completionHandler: {
+                (recordID, error) in
+                if let e = error {
+                    print("Error: \(e)")
+                } else {
+                    completion(true)
+                }
+            })
+        }
+        
     }
     
     func createAsset(from image: UIImage) -> CKAsset {
