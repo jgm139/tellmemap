@@ -13,6 +13,7 @@ import CloudKit
 class PlaceItem {
     private var id: CKRecord.ID?
     private var record: CKRecord?
+    private let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
     
     var name: String?
     var message: String?
@@ -21,7 +22,20 @@ class PlaceItem {
     var location: CLLocationCoordinate2D?
     var image: UIImage?
     var category: Category?
-    var likes: Int?
+    var likes: Int? {
+        willSet {
+            if let r = record {
+                r["likes"] = newValue
+                
+                self.publicDB.save(r, completionHandler: {
+                    (recordID, error) in
+                    if let e = error {
+                        print("Error: \(e)")
+                    }
+                })
+            }
+        }
+    }
     
     init(name: String, message: String, category: Int, date: Date, user: UserItem, location: CLLocationCoordinate2D, image: UIImage?) {
         self.name = name
@@ -79,7 +93,6 @@ class PlaceItem {
     }
     
     func getSiteUser(recordReference: CKRecord.Reference, _ completion: @escaping (UserItem?) -> Void) {
-        let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
         let operation = CKFetchRecordsOperation(recordIDs: [recordReference.recordID])
         
         operation.qualityOfService = .userInitiated
@@ -98,8 +111,7 @@ class PlaceItem {
         publicDB.add(operation)
     }
     
-    static func fetchPlaces(for references: [CKRecord.Reference], _ completion: @escaping ([PlaceItem]) -> Void) {
-        let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
+    func fetchPlaces(for references: [CKRecord.Reference], _ completion: @escaping ([PlaceItem]) -> Void) {
         let recordIDs = references.map { $0.recordID }
         let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
         operation.qualityOfService = .utility
@@ -120,6 +132,6 @@ class PlaceItem {
             }
         }
 
-        publicDB.add(operation)
+        self.publicDB.add(operation)
     }
 }
