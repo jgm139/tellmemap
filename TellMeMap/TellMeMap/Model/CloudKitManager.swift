@@ -74,6 +74,7 @@ class CloudKitManager {
                     place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
                     place["date"] = Date()
                     place["user"] = reference
+                    place["likes"] = 0
                     
                     if let image = image {
                         let asset = self.createAsset(from: image)

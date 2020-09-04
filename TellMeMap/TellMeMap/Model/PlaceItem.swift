@@ -21,6 +21,7 @@ class PlaceItem {
     var location: CLLocationCoordinate2D?
     var image: UIImage?
     var category: Category?
+    var likes: Int?
     
     init(name: String, message: String, category: Int, date: Date, user: UserItem, location: CLLocationCoordinate2D, image: UIImage?) {
         self.name = name
@@ -30,6 +31,7 @@ class PlaceItem {
         self.user = user
         self.location = location
         self.image = image
+        self.likes = 0
     }
     
     init?(record: CKRecord) {
@@ -43,6 +45,7 @@ class PlaceItem {
         let category = record!.object(forKey: "category") as? Int
         let date = record!.object(forKey: "date") as? Date
         let location = record!.object(forKey: "location") as? CLLocation
+        let likes = record!.object(forKey: "likes") as? Int
         
         if let userRecordReference = record!.object(forKey: "user") as? CKRecord.Reference {
             getSiteUser(recordReference: userRecordReference) {
@@ -58,6 +61,7 @@ class PlaceItem {
                     self.date = date
                     self.user = user
                     self.location = location?.coordinate
+                    self.likes = likes
                     
                     if let asset = self.record?.object(forKey: "image") as? CKAsset {
                         do {

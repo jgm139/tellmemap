@@ -514,18 +514,22 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="camera.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="b4t-6b-60f">
                                 <rect key="frame" x="107" y="165" width="200" height="199"/>
                                 <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="j4w-ew-FnM"/>
                                     <constraint firstAttribute="height" constant="200" id="rQ1-3u-jmu"/>
                                 </constraints>
                             </imageView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="zJF-i3-TdE">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="justified" translatesAutoresizingMaskIntoConstraints="NO" id="zJF-i3-TdE">
                                 <rect key="frame" x="20" y="486" width="374" height="241.5"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                 <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="5g6-5Z-MLS" appends="YES" id="YrQ-v8-Hip"/>
+                                </connections>
                             </textView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Category" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ki4-0r-yq9">
                                 <rect key="frame" x="170" y="118" width="74.5" height="21.5"/>
@@ -554,15 +558,25 @@
                                     <constraint firstItem="Hn2-MP-wb4" firstAttribute="width" secondItem="Rhr-0o-WDy" secondAttribute="width" multiplier="0.5" id="6m5-dY-y98"/>
                                 </constraints>
                             </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="heart" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="7Tg-0W-NeT">
+                                <rect key="frame" x="20" y="739" width="50" height="47.5"/>
+                                <color key="tintColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="50" id="5Vf-I8-9mD"/>
+                                    <constraint firstAttribute="height" constant="50" id="qAM-xz-Nzj"/>
+                                </constraints>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="b4t-6b-60f" firstAttribute="top" secondItem="Ki4-0r-yq9" secondAttribute="bottom" constant="25" id="8Qt-8z-fci"/>
+                            <constraint firstItem="7Tg-0W-NeT" firstAttribute="top" secondItem="zJF-i3-TdE" secondAttribute="bottom" constant="10" id="EN6-Dc-DkI"/>
                             <constraint firstItem="Rhr-0o-WDy" firstAttribute="top" secondItem="b4t-6b-60f" secondAttribute="bottom" constant="50" id="ETQ-I8-QvF"/>
                             <constraint firstItem="zJF-i3-TdE" firstAttribute="top" secondItem="Rhr-0o-WDy" secondAttribute="bottom" constant="50" id="J8J-2I-Km1"/>
                             <constraint firstItem="Ki4-0r-yq9" firstAttribute="top" secondItem="iqY-R0-0sd" secondAttribute="top" constant="30" id="LaM-5h-NrZ"/>
                             <constraint firstItem="Ki4-0r-yq9" firstAttribute="centerX" secondItem="C7w-VX-oDc" secondAttribute="centerX" id="Ntn-m6-8q7"/>
                             <constraint firstItem="zJF-i3-TdE" firstAttribute="leading" secondItem="iqY-R0-0sd" secondAttribute="leading" constant="20" id="R45-Qu-4Df"/>
+                            <constraint firstItem="7Tg-0W-NeT" firstAttribute="leading" secondItem="iqY-R0-0sd" secondAttribute="leading" constant="20" id="UPl-f1-zz8"/>
                             <constraint firstItem="zJF-i3-TdE" firstAttribute="centerX" secondItem="C7w-VX-oDc" secondAttribute="centerX" id="Zoz-Pj-7yq"/>
                             <constraint firstItem="b4t-6b-60f" firstAttribute="centerX" secondItem="C7w-VX-oDc" secondAttribute="centerX" id="aOD-6M-8PN"/>
                             <constraint firstItem="iqY-R0-0sd" firstAttribute="trailing" secondItem="zJF-i3-TdE" secondAttribute="trailing" constant="20" id="cEO-3a-YSm"/>
@@ -579,11 +593,17 @@
                         <outlet property="dateLabel" destination="Hn2-MP-wb4" id="N4E-xt-OMB"/>
                         <outlet property="descriptionTextView" destination="zJF-i3-TdE" id="gKk-Pf-dWY"/>
                         <outlet property="imageView" destination="b4t-6b-60f" id="fTz-BE-dRe"/>
+                        <outlet property="likesView" destination="7Tg-0W-NeT" id="ADa-Sq-VRM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qle-vu-2OO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer numberOfTapsRequired="2" id="5g6-5Z-MLS">
+                    <connections>
+                        <action selector="actionDoubleTapLike:" destination="uEO-30-xcg" id="yB2-BD-xXG"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1048" y="978"/>
+            <point key="canvasLocation" x="1047.8260869565217" y="977.67857142857133"/>
         </scene>
         <!--Mapa-->
         <scene sceneID="751-Vk-CeD">
@@ -612,6 +632,7 @@
         <image name="ImageIcon" width="1024" height="1024"/>
         <image name="camera.circle" catalog="system" width="128" height="121"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
+        <image name="heart" catalog="system" width="128" height="109"/>
         <image name="map" catalog="system" width="128" height="113"/>
         <image name="mappin.circle" catalog="system" width="128" height="121"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
