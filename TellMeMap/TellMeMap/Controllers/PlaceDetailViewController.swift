@@ -17,6 +17,7 @@ class PlaceDetailViewController: UIViewController {
     @IBOutlet weak var descriptionTextView: UITextView!
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var likesView: UIImageView!
+    @IBOutlet weak var numLikesLabel: UILabel!
     
     
     // MARK: - Properties
@@ -27,22 +28,33 @@ class PlaceDetailViewController: UIViewController {
         
         if let place = item {
             self.title = place.name
-            categoryLabel.text = place.category?.rawValue
-            autorLabel.text = place.user?.nickname
-            dateLabel.text = getDateFormat(date: place.date)
-            descriptionTextView.text = place.message
+            self.categoryLabel.text = place.category?.rawValue
+            self.autorLabel.text = place.user?.nickname
+            self.dateLabel.text = getDateFormat(date: place.date)
+            self.descriptionTextView.text = place.message
+            
+            if let likes = place.likes {
+                self.numLikesLabel.text = "\(likes)"
+            }
+            
+            if UserSessionSingleton.session.user.isLikedPlace(place) {
+                self.likesView.image = UIImage(systemName: "heart.fill")
+            }
             
             if let image = place.image {
-                imageView.image = image
-                imageView.contentMode = .scaleAspectFill
+                self.imageView.image = image
+                self.imageView.contentMode = .scaleAspectFill
             }
         }
     }
     
     @IBAction func actionDoubleTapLike(_ sender: UITapGestureRecognizer) {
-        item?.likes! += 1
-        animationLike()
-        print("Likes en el lugar: \(String(describing: item?.likes))")
+        if let i = item, let _ = i.likes  {
+            i.likes! += 1
+            UserSessionSingleton.session.user.addLikedPlace(i)
+            numLikesLabel.text = "\(i.likes ?? 0)"
+            animationLike()
+        }
     }
     
     

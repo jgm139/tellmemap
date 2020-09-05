@@ -11,15 +11,18 @@ import MapKit
 import CloudKit
 
 class UserItem {
+    
     var id: CKRecord.ID?
     var record: CKRecord?
+    
+    private let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
     
     var icloud_id: String?
     var image: UIImage?
     var nickname: String?
     var name: String?
     var surnames: String?
-    //private(set) var places: [PlaceItem]? = nil
+    private var likedPlaces: [PlaceItem] = []
     
     init(nickname: String, name: String?, surnames: String?, icloud_id: String?) {
         self.icloud_id = icloud_id
@@ -50,10 +53,49 @@ class UserItem {
             }
         }
         
-        /*if let placeRecords = record!["places"] as? [CKRecord.Reference] {
-            PlaceItem.fetchPlaces(for: placeRecords) { (places) in
-                self.places = places
+        if let likedPlacesRecords = record["likedPlaces"] as? [CKRecord.Reference] {
+            PlaceItem.fetchPlaces(for: likedPlacesRecords) {
+                (places) in
+                self.likedPlaces = places
             }
-        }*/
+        }
+    }
+    
+    func addLikedPlace(_ item: PlaceItem) {
+        if !isLikedPlace(item) {
+            
+            item.record!["likes"] = item.likes
+            
+            self.publicDB.save(item.record!, completionHandler: {
+                (recordID, error) in
+                if let e = error {
+                    print("Error saving likes: \(e)")
+                }
+            })
+            
+            self.likedPlaces.append(item)
+            
+            let reference = CKRecord.Reference(recordID: item.record!.recordID, action: .deleteSelf)
+            
+            if var ls = record!["likedPlaces"] as? [CKRecord.Reference] {
+                ls.append(reference)
+                record!["likedPlaces"] = ls
+            } else {
+                var newLikedPlaces: [CKRecord.Reference] = []
+                newLikedPlaces.append(reference)
+                record!["likedPlaces"] = newLikedPlaces
+            }
+            
+            self.publicDB.save(record!, completionHandler: {
+                (recordID, error) in
+                if let e = error {
+                    print("Error: \(e)")
+                }
+            })
+        }
+    }
+    
+    func isLikedPlace(_ item: PlaceItem) -> Bool {
+        return self.likedPlaces.contains(item)
     }
 }

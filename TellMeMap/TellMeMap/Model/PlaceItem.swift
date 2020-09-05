@@ -10,9 +10,11 @@ import UIKit
 import MapKit
 import CloudKit
 
-class PlaceItem {
-    private var id: CKRecord.ID?
-    private var record: CKRecord?
+class PlaceItem: Equatable {
+    
+    var id: CKRecord.ID?
+    var record: CKRecord?
+    
     private let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
     
     var name: String?
@@ -22,20 +24,7 @@ class PlaceItem {
     var location: CLLocationCoordinate2D?
     var image: UIImage?
     var category: Category?
-    var likes: Int? {
-        willSet {
-            if let r = record {
-                r["likes"] = newValue
-                
-                self.publicDB.save(r, completionHandler: {
-                    (recordID, error) in
-                    if let e = error {
-                        print("Error: \(e)")
-                    }
-                })
-            }
-        }
-    }
+    var likes: Int?
     
     init(name: String, message: String, category: Int, date: Date, user: UserItem, location: CLLocationCoordinate2D, image: UIImage?) {
         self.name = name
@@ -51,6 +40,10 @@ class PlaceItem {
     init?(record: CKRecord) {
         self.record = record
         self.id = record.recordID
+    }
+    
+    static func == (lhs: PlaceItem, rhs: PlaceItem) -> Bool {
+        return lhs.name == rhs.name && lhs.user?.nickname == rhs.user?.nickname && lhs.date == rhs.date
     }
     
     func getPlace(_ completion: @escaping (_ success: Bool) -> Void) {
@@ -111,10 +104,14 @@ class PlaceItem {
         publicDB.add(operation)
     }
     
-    func fetchPlaces(for references: [CKRecord.Reference], _ completion: @escaping ([PlaceItem]) -> Void) {
+    static func fetchPlaces(for references: [CKRecord.Reference], _ completion: @escaping ([PlaceItem]) -> Void) {
+        let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
         let recordIDs = references.map { $0.recordID }
         let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
+        let group = DispatchGroup()
+        
         operation.qualityOfService = .utility
+        operation.desiredKeys = ["name", "user", "date"]
 
         operation.fetchRecordsCompletionBlock = {
             records, error in
@@ -127,11 +124,18 @@ class PlaceItem {
                 }
             }
             
-            DispatchQueue.main.async {
+            places.forEach { (place) in
+                group.enter()
+                place.getPlace { (succes) in
+                    group.leave()
+                }
+            }
+            
+            group.notify(queue: .main) {
                 completion(places)
             }
         }
 
-        self.publicDB.add(operation)
+        publicDB.add(operation)
     }
 }
