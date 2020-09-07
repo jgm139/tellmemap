@@ -99,6 +99,21 @@
             </objects>
             <point key="canvasLocation" x="-626" y="1849"/>
         </scene>
+        <!--Filter View Controller-->
+        <scene sceneID="5h2-7W-fEw">
+            <objects>
+                <viewController id="UcQ-vu-n3J" customClass="FilterViewController" customModule="tellMeMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ShY-Cn-qmA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <viewLayoutGuide key="safeArea" id="agn-YS-d3p"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bot-4g-7ge" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="225" y="1849"/>
+        </scene>
         <!--Map View Controller-->
         <scene sceneID="8yM-RK-APr">
             <objects>
@@ -121,7 +136,15 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Yxi-JS-Ckb"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dND-SD-zqp"/>
+                    <navigationItem key="navigationItem" id="dND-SD-zqp">
+                        <barButtonItem key="leftBarButtonItem" title="Filter" image="line.horizontal.3.decrease.circle" catalog="system" id="nAH-hc-0zH">
+                            <connections>
+                                <segue destination="UcQ-vu-n3J" kind="popoverPresentation" popoverAnchorBarButtonItem="nAH-hc-0zH" id="4co-lW-IpL">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="1J9-Xt-jqi" id="iwE-KX-PJe"/>
                         <segue destination="uEO-30-xcg" kind="show" identifier="placeDetail" id="9QI-ex-wkK"/>
@@ -661,13 +684,14 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="sbn-h6-Iuc"/>
+        <segue reference="9QI-ex-wkK"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ImageIcon" width="1024" height="1024"/>
         <image name="camera.circle" catalog="system" width="128" height="121"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="line.horizontal.3.decrease.circle" catalog="system" width="128" height="121"/>
         <image name="map" catalog="system" width="128" height="113"/>
         <image name="mappin.circle" catalog="system" width="128" height="121"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>

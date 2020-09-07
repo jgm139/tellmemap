@@ -26,7 +26,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         self.mapView.delegate = self
         
         let userTrackingButton = MKUserTrackingBarButtonItem(mapView: mapView)
-        self.navigationItem.leftBarButtonItem = userTrackingButton
+        self.navigationItem.rightBarButtonItem = userTrackingButton
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
