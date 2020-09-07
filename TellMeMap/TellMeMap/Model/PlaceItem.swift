@@ -10,9 +10,12 @@ import UIKit
 import MapKit
 import CloudKit
 
-class PlaceItem {
-    private var id: CKRecord.ID?
-    private var record: CKRecord?
+class PlaceItem: Equatable {
+    
+    var id: CKRecord.ID?
+    var record: CKRecord?
+    
+    private let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
     
     var name: String?
     var message: String?
@@ -21,6 +24,7 @@ class PlaceItem {
     var location: CLLocationCoordinate2D?
     var image: UIImage?
     var category: Category?
+    var likes: Int?
     
     init(name: String, message: String, category: Int, date: Date, user: UserItem, location: CLLocationCoordinate2D, image: UIImage?) {
         self.name = name
@@ -30,11 +34,16 @@ class PlaceItem {
         self.user = user
         self.location = location
         self.image = image
+        self.likes = 0
     }
     
     init?(record: CKRecord) {
         self.record = record
         self.id = record.recordID
+    }
+    
+    static func == (lhs: PlaceItem, rhs: PlaceItem) -> Bool {
+        return lhs.name == rhs.name && lhs.user?.nickname == rhs.user?.nickname && lhs.date == rhs.date
     }
     
     func getPlace(_ completion: @escaping (_ success: Bool) -> Void) {
@@ -43,6 +52,7 @@ class PlaceItem {
         let category = record!.object(forKey: "category") as? Int
         let date = record!.object(forKey: "date") as? Date
         let location = record!.object(forKey: "location") as? CLLocation
+        let likes = record!.object(forKey: "likes") as? Int
         
         if let userRecordReference = record!.object(forKey: "user") as? CKRecord.Reference {
             getSiteUser(recordReference: userRecordReference) {
@@ -58,6 +68,7 @@ class PlaceItem {
                     self.date = date
                     self.user = user
                     self.location = location?.coordinate
+                    self.likes = likes
                     
                     if let asset = self.record?.object(forKey: "image") as? CKAsset {
                         do {
@@ -75,7 +86,6 @@ class PlaceItem {
     }
     
     func getSiteUser(recordReference: CKRecord.Reference, _ completion: @escaping (UserItem?) -> Void) {
-        let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
         let operation = CKFetchRecordsOperation(recordIDs: [recordReference.recordID])
         
         operation.qualityOfService = .userInitiated
@@ -98,7 +108,10 @@ class PlaceItem {
         let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
         let recordIDs = references.map { $0.recordID }
         let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
+        let group = DispatchGroup()
+        
         operation.qualityOfService = .utility
+        operation.desiredKeys = ["name", "user", "date"]
 
         operation.fetchRecordsCompletionBlock = {
             records, error in
@@ -111,7 +124,14 @@ class PlaceItem {
                 }
             }
             
-            DispatchQueue.main.async {
+            places.forEach { (place) in
+                group.enter()
+                place.getPlace { (succes) in
+                    group.leave()
+                }
+            }
+            
+            group.notify(queue: .main) {
                 completion(places)
             }
         }
