@@ -41,7 +41,11 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        setupAnnotations()
+        if UserDefaults.standard.bool(forKey: "filter") {
+            filterAnnotations()
+        } else {
+            setupAnnotations()
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -61,16 +65,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBAction func unwindToMapView(sender: UIStoryboardSegue) {
         if sender.identifier == "applyFilterAndLeave" {
-            var array: [Category : Bool]  = [:]
-            
-            Category.allCases.forEach {
-                (category) in
-                array[category] = ud.bool(forKey: category.rawValue)
-            }
-            
-            self.arraySelectedCategories = array
-            
-            filterPlaces()
+            filterAnnotations()
+        } else if sender.identifier == "clearFilterAndLeave" {
+            setupAnnotations()
         }
     }
     
@@ -117,13 +114,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func filterPlaces() {
+    func filterAnnotations() {
         if UserDefaults.standard.bool(forKey: "filter") {
             self.mapView.removeAnnotations(self.annotations)
             
             Category.allCases.forEach {
                 category in
-                placesSorted[category] = CloudKitManager.places.filter({ $0.category == category })
+                self.arraySelectedCategories[category] = UserDefaults.standard.bool(forKey: category.rawValue)
+                self.placesSorted[category] = CloudKitManager.places.filter({ $0.category == category })
             }
             
             self.arraySelectedCategories.forEach {
