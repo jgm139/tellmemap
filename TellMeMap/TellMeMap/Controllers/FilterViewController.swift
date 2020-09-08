@@ -46,6 +46,7 @@ class FilterViewController: UIViewController {
         button.setTitle(category.rawValue, for: .normal)
         button.setTitleColor(UIColor.MyPalette.charcoal, for: .normal)
         button.addTarget(self, action: #selector(clickCategoryButton(sender:)), for: .touchUpInside)
+        button.tag = Category.getIntFromCategory(category)
         
         return button
     }
@@ -55,9 +56,21 @@ class FilterViewController: UIViewController {
         
         let sv = stackView()
         
+        if ud.bool(forKey: "filter") {
+            for (category, _) in self.arraySelectedCategories {
+                self.arraySelectedCategories.updateValue(ud.bool(forKey: category.rawValue), forKey: category)
+            }
+        }
+        
         Category.allCases.forEach {
             (category) in
-            sv.addArrangedSubview(categoryButton(category))
+            let button = categoryButton(category)
+            
+            if let selectedCategory = self.arraySelectedCategories[category], selectedCategory {
+                button.isSelected = true
+            }
+            
+            sv.addArrangedSubview(button)
         }
         
         sv.translatesAutoresizingMaskIntoConstraints = false
@@ -72,7 +85,7 @@ class FilterViewController: UIViewController {
     @objc func clickCategoryButton(sender: UIButton) {
         sender.isSelected = !sender.isSelected
         
-        if let category = Category(rawValue: (sender.titleLabel?.text)!) {
+        if let category = Category(id: sender.tag) {
             if sender.isSelected {
                 self.arraySelectedCategories.updateValue(true, forKey: category)
             } else {
@@ -90,4 +103,16 @@ class FilterViewController: UIViewController {
         
         ud.set(true, forKey: "filter")
     }
+    
+    @IBAction func clearAction(_ sender: Any) {
+        self.arraySelectedCategories.forEach {
+            (key: Category, value: Bool) in
+            
+            self.arraySelectedCategories.updateValue(false, forKey: key)
+            ud.set(false, forKey: key.rawValue)
+        }
+        
+        ud.set(false, forKey: "filter")
+    }
+    
 }

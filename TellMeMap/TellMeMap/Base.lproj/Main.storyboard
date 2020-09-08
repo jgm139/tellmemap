@@ -113,21 +113,34 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIO-yo-BSq">
-                                <rect key="frame" x="187" y="748" width="40" height="30"/>
-                                <state key="normal" title="Apply"/>
-                                <connections>
-                                    <action selector="applyFilterAction:" destination="UcQ-vu-n3J" eventType="touchUpInside" id="xsR-im-U0w"/>
-                                    <segue destination="H1T-Vh-wCU" kind="unwind" identifier="applyFilterAndLeave" unwindAction="unwindToMapViewWithSender:" id="bb2-Ye-ENY"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="b5D-1j-wsH">
+                                <rect key="frame" x="161.5" y="748" width="91" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIO-yo-BSq">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="30"/>
+                                        <state key="normal" title="Apply"/>
+                                        <connections>
+                                            <action selector="applyFilterAction:" destination="UcQ-vu-n3J" eventType="touchUpInside" id="xsR-im-U0w"/>
+                                            <segue destination="H1T-Vh-wCU" kind="unwind" identifier="applyFilterAndLeave" unwindAction="unwindToMapViewWithSender:" id="bb2-Ye-ENY"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c86-bw-03l">
+                                        <rect key="frame" x="55" y="0.0" width="36" height="30"/>
+                                        <state key="normal" title="Clear"/>
+                                        <connections>
+                                            <action selector="clearAction:" destination="UcQ-vu-n3J" eventType="touchUpInside" id="LHs-kw-w6c"/>
+                                            <segue destination="H1T-Vh-wCU" kind="unwind" identifier="clearFilterAndLeave" unwindAction="unwindToMapViewWithSender:" id="bMB-1l-fpb"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="agn-YS-d3p" firstAttribute="bottom" secondItem="XIO-yo-BSq" secondAttribute="bottom" constant="30" id="298-X5-RoH"/>
                             <constraint firstItem="CSo-np-0Xa" firstAttribute="leading" secondItem="agn-YS-d3p" secondAttribute="leading" constant="50" id="6Xr-RJ-ckN"/>
-                            <constraint firstItem="XIO-yo-BSq" firstAttribute="centerX" secondItem="ShY-Cn-qmA" secondAttribute="centerX" id="cq4-4q-2kY"/>
                             <constraint firstItem="CSo-np-0Xa" firstAttribute="top" secondItem="agn-YS-d3p" secondAttribute="top" constant="50" id="pH8-D1-a0j"/>
+                            <constraint firstItem="b5D-1j-wsH" firstAttribute="centerX" secondItem="ShY-Cn-qmA" secondAttribute="centerX" id="qvu-1v-dlf"/>
+                            <constraint firstItem="agn-YS-d3p" firstAttribute="bottom" secondItem="b5D-1j-wsH" secondAttribute="bottom" constant="30" id="uzV-Ma-Twe"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="agn-YS-d3p"/>
                     </view>
