@@ -14,8 +14,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     // MARK: - Properties
     var ckManager = CloudKitManager()
     var annotations = [MKAnnotation]()
+    var placesSorted = [Category: [PlaceItem]]()
     let locationManager = CLLocationManager()
     var userCurrentLocation = CLLocationCoordinate2D()
+    
+    let ud = UserDefaults.standard
+    var arraySelectedCategories: [Category : Bool] = [:]
+    
     
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
@@ -36,26 +41,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.mapView.removeAnnotations(self.annotations)
-        
-        ckManager.getPlaces {
-            (finish) in
-            if finish {
-                CloudKitManager.places.forEach {
-                    (item) in
-                    
-                    if let _ = item.location, let _ = item.category {
-                        let artPin = ArtworkPin(place: item)
-                    
-                        self.annotations.append(artPin)
-                    
-                        DispatchQueue.main.async(execute: {
-                            self.mapView.addAnnotation(artPin)
-                        })
-                    }
-                }
-            }
-        }
+        setupAnnotations()
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -70,6 +56,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                     vc.item = pin.placeItem
                 }
             }
+        }
+    }
+    
+    @IBAction func unwindToMapView(sender: UIStoryboardSegue) {
+        if sender.identifier == "applyFilterAndLeave" {
+            var array: [Category : Bool]  = [:]
+            
+            Category.allCases.forEach {
+                (category) in
+                array[category] = ud.bool(forKey: category.rawValue)
+            }
+            
+            self.arraySelectedCategories = array
+            
+            filterPlaces()
         }
     }
     
@@ -88,6 +89,64 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         let coordinateRegion =
             MKCoordinateRegion(center: loc.coordinate, latitudinalMeters: regionRadius * 4.0, longitudinalMeters: regionRadius * 4.0)
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    
+    // MARK: - Methods
+    func setupAnnotations() {
+        self.mapView.removeAnnotations(self.annotations)
+        
+        ckManager.getPlaces {
+            (finish) in
+            if finish {
+                CloudKitManager.places.forEach {
+                    (item) in
+                    
+                    if let _ = item.location, let _ = item.category {
+                        
+                        let artPin = ArtworkPin(place: item)
+                    
+                        self.annotations.append(artPin)
+                    
+                        DispatchQueue.main.async(execute: {
+                            self.mapView.addAnnotation(artPin)
+                        })
+                    }
+                }
+            }
+        }
+    }
+    
+    func filterPlaces() {
+        if UserDefaults.standard.bool(forKey: "filter") {
+            self.mapView.removeAnnotations(self.annotations)
+            
+            Category.allCases.forEach {
+                category in
+                placesSorted[category] = CloudKitManager.places.filter({ $0.category == category })
+            }
+            
+            self.arraySelectedCategories.forEach {
+                (key: Category, value: Bool) in
+                
+                if value {
+                    placesSorted[key]?.forEach({
+                        (item) in
+                        
+                        if let _ = item.location, let _ = item.category {
+                            
+                            let artPin = ArtworkPin(place: item)
+                        
+                            self.annotations.append(artPin)
+                        
+                            DispatchQueue.main.async(execute: {
+                                self.mapView.addAnnotation(artPin)
+                            })
+                        }
+                    })
+                }
+            }
+        }
     }
 }
 

@@ -72,7 +72,7 @@ class NewMessageViewController: UIViewController {
     }
     
     @IBAction func unwindToNewMessageView(sender: UIStoryboardSegue) {
-        if (sender.identifier == "chooseLocationAndLeave") {
+        if sender.identifier == "chooseLocationAndLeave" {
             if let sourceViewController = sender.source as? ChooseLocationViewController {
                 if let location = sourceViewController.lastLocation {
                     placeLocation = location

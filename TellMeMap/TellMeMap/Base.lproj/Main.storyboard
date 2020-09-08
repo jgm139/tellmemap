@@ -106,11 +106,38 @@
                     <view key="view" contentMode="scaleToFill" id="ShY-Cn-qmA">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSo-np-0Xa">
+                                <rect key="frame" x="50" y="50" width="92.5" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIO-yo-BSq">
+                                <rect key="frame" x="187" y="748" width="40" height="30"/>
+                                <state key="normal" title="Apply"/>
+                                <connections>
+                                    <action selector="applyFilterAction:" destination="UcQ-vu-n3J" eventType="touchUpInside" id="xsR-im-U0w"/>
+                                    <segue destination="H1T-Vh-wCU" kind="unwind" identifier="applyFilterAndLeave" unwindAction="unwindToMapViewWithSender:" id="bb2-Ye-ENY"/>
+                                </connections>
+                            </button>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="agn-YS-d3p" firstAttribute="bottom" secondItem="XIO-yo-BSq" secondAttribute="bottom" constant="30" id="298-X5-RoH"/>
+                            <constraint firstItem="CSo-np-0Xa" firstAttribute="leading" secondItem="agn-YS-d3p" secondAttribute="leading" constant="50" id="6Xr-RJ-ckN"/>
+                            <constraint firstItem="XIO-yo-BSq" firstAttribute="centerX" secondItem="ShY-Cn-qmA" secondAttribute="centerX" id="cq4-4q-2kY"/>
+                            <constraint firstItem="CSo-np-0Xa" firstAttribute="top" secondItem="agn-YS-d3p" secondAttribute="top" constant="50" id="pH8-D1-a0j"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="agn-YS-d3p"/>
                     </view>
+                    <connections>
+                        <outlet property="applyButton" destination="XIO-yo-BSq" id="GCM-Y6-wxp"/>
+                        <outlet property="categoryLabel" destination="CSo-np-0Xa" id="Pkf-jI-zo2"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bot-4g-7ge" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="H1T-Vh-wCU" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="225" y="1849"/>
         </scene>

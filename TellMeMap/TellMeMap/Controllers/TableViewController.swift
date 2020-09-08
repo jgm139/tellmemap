@@ -56,18 +56,10 @@ class TableViewController: UITableViewController {
     }
     
     func sortData() {
-        placesSorted[.bar] = CloudKitManager.places.filter({ $0.category == Category.bar })
-        placesSorted[.restaurant] = CloudKitManager.places.filter({ $0.category == Category.restaurant })
-        placesSorted[.cafe] = CloudKitManager.places.filter({ $0.category == Category.cafe })
-        placesSorted[.shop] = CloudKitManager.places.filter({ $0.category == Category.shop })
-        placesSorted[.library] = CloudKitManager.places.filter({ $0.category == Category.library })
-        placesSorted[.academy] = CloudKitManager.places.filter({ $0.category == Category.academy })
-        placesSorted[.nightclub] = CloudKitManager.places.filter({ $0.category == Category.nightclub })
-        placesSorted[.laundry] = CloudKitManager.places.filter({ $0.category == Category.laundry })
-        placesSorted[.outlet] = CloudKitManager.places.filter({ $0.category == Category.outlet })
-        placesSorted[.events_room] = CloudKitManager.places.filter({ $0.category == Category.events_room })
-        placesSorted[.beauty_salon] = CloudKitManager.places.filter({ $0.category == Category.beauty_salon })
-        placesSorted[.garage] = CloudKitManager.places.filter({ $0.category == Category.garage })
+        Category.allCases.forEach {
+            category in
+            placesSorted[category] = CloudKitManager.places.filter({ $0.category == category })
+        }
     }
     
     @objc func refreshPlaces() {
