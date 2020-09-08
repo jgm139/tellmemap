@@ -58,6 +58,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    func applicationWillTerminate(_ application: UIApplication) {
+        print("Application will terminate")
+        
+        Category.allCases.forEach {
+            (category) in
+            UserDefaults.standard.set(false, forKey: category.rawValue)
+        }
+        
+        UserDefaults.standard.set(false, forKey: "filter")
+    }
 
     // MARK: - Core Data stack
 
