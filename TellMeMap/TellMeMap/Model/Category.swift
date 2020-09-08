@@ -39,4 +39,25 @@ enum Category: String, CaseIterable {
             default: return nil
         }
     }
+    
+    static func getIntFromCategory(_ category: Category) -> Int {
+        var indexCategory: Int
+        
+        switch category {
+            case .bar: indexCategory = 0
+            case .restaurant: indexCategory = 1
+            case .cafe: indexCategory = 2
+            case .shop: indexCategory = 3
+            case .library: indexCategory = 4
+            case .academy: indexCategory = 5
+            case .nightclub: indexCategory = 6
+            case .laundry: indexCategory = 7
+            case .outlet: indexCategory = 8
+            case .events_room: indexCategory = 9
+            case .beauty_salon: indexCategory = 10
+            case .garage: indexCategory = 11
+        }
+        
+        return indexCategory
+    }
 }
