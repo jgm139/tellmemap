@@ -14,6 +14,8 @@ class SignUpViewController: UIViewController {
     
     // MARK: - Outlets
     @IBOutlet weak var nicknameTextField: UITextField!
+    @IBOutlet weak var enterprisingButton: UIButton!
+    @IBOutlet weak var neighbourButton: UIButton!
     
     
     // MARK: - Properties
@@ -55,6 +57,18 @@ class SignUpViewController: UIViewController {
             })
         }
     }
+    
+    @IBAction func clickedEnterprisingButton(_ sender: UIButton) {
+        self.enterprisingButton.isSelected = true
+        self.neighbourButton.isSelected = false
+    }
+    
+    @IBAction func clickedNeighbourButton(_ sender: UIButton) {
+        self.enterprisingButton.isSelected = false
+        self.neighbourButton.isSelected = true
+    }
+    
+    
     
     // MARK: - Methods
     func getUserInformation(withCompletionHandler completion: @escaping (_ success: Bool) -> Void) {

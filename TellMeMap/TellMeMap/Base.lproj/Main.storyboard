@@ -265,31 +265,75 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="nickname" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="jJL-cX-KqE">
-                                <rect key="frame" x="103.5" y="218" width="207" height="34"/>
+                                <rect key="frame" x="103.5" y="148" width="207" height="34"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zrn-YC-CKV" customClass="AppButton" customModule="tellMeMap" customModuleProvider="target">
-                                <rect key="frame" x="168" y="302" width="78" height="30"/>
+                                <rect key="frame" x="168" y="533" width="78" height="30"/>
                                 <state key="normal" title="Registrarse"/>
                                 <connections>
                                     <action selector="signUpAction:" destination="lrw-gm-9K7" eventType="touchUpInside" id="DkW-57-LjW"/>
                                 </connections>
                             </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hfk-Us-T2H" userLabel="Type User Stack View">
+                                <rect key="frame" x="10" y="286" width="394" height="197"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sWd-rN-dGL" userLabel="enterprisingButton">
+                                        <rect key="frame" x="0.0" y="0.0" width="197" height="197"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="sWd-rN-dGL" secondAttribute="height" multiplier="1:1" id="nWl-mW-hRB"/>
+                                        </constraints>
+                                        <state key="normal" image="Emprendedor_normal"/>
+                                        <state key="selected" image="Emprendedor_selected"/>
+                                        <connections>
+                                            <action selector="clickedEnterprisingButton:" destination="lrw-gm-9K7" eventType="touchUpInside" id="rZ5-fr-4HC"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7yH-rV-gRJ" userLabel="neighbourButton">
+                                        <rect key="frame" x="197" y="0.0" width="197" height="197"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="7yH-rV-gRJ" secondAttribute="height" multiplier="1:1" id="0hE-qD-UJF"/>
+                                        </constraints>
+                                        <state key="normal" image="Vecino_normal"/>
+                                        <state key="selected" image="Vecino_selected"/>
+                                        <connections>
+                                            <action selector="clickedNeighbourButton:" destination="lrw-gm-9K7" eventType="touchUpInside" id="xiA-Pi-rcZ"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="7yH-rV-gRJ" firstAttribute="width" secondItem="hfk-Us-T2H" secondAttribute="width" multiplier="1:2" id="M3C-Ij-pbX"/>
+                                    <constraint firstItem="sWd-rN-dGL" firstAttribute="width" secondItem="hfk-Us-T2H" secondAttribute="width" multiplier="1:2" id="rpV-T8-X2v"/>
+                                </constraints>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Elige el tipo de usuario" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tKp-j4-H5s">
+                                <rect key="frame" x="107" y="232" width="200.5" height="24"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.45098039215686275" green="0.77647058823529413" blue="0.71372549019607845" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstItem="hfk-Us-T2H" firstAttribute="top" secondItem="tKp-j4-H5s" secondAttribute="bottom" constant="30" id="7th-Hv-zfw"/>
                             <constraint firstItem="3Ln-fV-4de" firstAttribute="centerX" secondItem="ykV-bT-wMH" secondAttribute="centerX" id="CVQ-C2-ddR"/>
                             <constraint firstItem="3Ln-fV-4de" firstAttribute="top" secondItem="4p0-Vv-xys" secondAttribute="top" constant="50" id="EY8-Rw-U8T"/>
-                            <constraint firstItem="zrn-YC-CKV" firstAttribute="top" secondItem="jJL-cX-KqE" secondAttribute="bottom" constant="50" id="OTd-tG-Zm4"/>
+                            <constraint firstAttribute="trailing" secondItem="hfk-Us-T2H" secondAttribute="trailing" constant="10" id="NrP-Sm-pIT"/>
                             <constraint firstItem="jJL-cX-KqE" firstAttribute="centerX" secondItem="ykV-bT-wMH" secondAttribute="centerX" id="Oar-sX-MMD"/>
                             <constraint firstItem="jJL-cX-KqE" firstAttribute="width" secondItem="4p0-Vv-xys" secondAttribute="width" multiplier="2:4" id="bED-A2-XKb"/>
                             <constraint firstItem="zrn-YC-CKV" firstAttribute="centerX" secondItem="ykV-bT-wMH" secondAttribute="centerX" id="cOn-Ye-v9C"/>
-                            <constraint firstItem="jJL-cX-KqE" firstAttribute="top" secondItem="3Ln-fV-4de" secondAttribute="bottom" constant="100" id="iiD-Qn-zUZ"/>
+                            <constraint firstItem="tKp-j4-H5s" firstAttribute="top" secondItem="jJL-cX-KqE" secondAttribute="bottom" constant="50" id="fAE-tF-PGE"/>
+                            <constraint firstItem="jJL-cX-KqE" firstAttribute="top" secondItem="3Ln-fV-4de" secondAttribute="bottom" constant="30" id="iiD-Qn-zUZ"/>
+                            <constraint firstItem="hfk-Us-T2H" firstAttribute="leading" secondItem="4p0-Vv-xys" secondAttribute="leading" constant="10" id="r2C-qN-tJ4"/>
+                            <constraint firstItem="zrn-YC-CKV" firstAttribute="top" secondItem="hfk-Us-T2H" secondAttribute="bottom" constant="50" id="rqJ-Nl-z52"/>
+                            <constraint firstItem="tKp-j4-H5s" firstAttribute="centerX" secondItem="ykV-bT-wMH" secondAttribute="centerX" id="ti6-lk-7Pp"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="4p0-Vv-xys"/>
                     </view>
                     <connections>
+                        <outlet property="enterprisingButton" destination="sWd-rN-dGL" id="Aan-Du-SLg"/>
+                        <outlet property="neighbourButton" destination="7yH-rV-gRJ" id="3dX-mu-JtV"/>
                         <outlet property="nicknameTextField" destination="jJL-cX-KqE" id="Ewh-Sx-hB5"/>
                     </connections>
                 </viewController>
@@ -740,7 +784,11 @@
         <segue reference="9QI-ex-wkK"/>
     </inferredMetricsTieBreakers>
     <resources>
+        <image name="Emprendedor_normal" width="250" height="250"/>
+        <image name="Emprendedor_selected" width="250" height="250"/>
         <image name="ImageIcon" width="1024" height="1024"/>
+        <image name="Vecino_normal" width="250" height="250"/>
+        <image name="Vecino_selected" width="250" height="250"/>
         <image name="camera.circle" catalog="system" width="128" height="121"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="heart" catalog="system" width="128" height="109"/>
