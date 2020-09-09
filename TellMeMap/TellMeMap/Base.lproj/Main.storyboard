@@ -479,6 +479,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                     </refreshControl>
                     <connections>
+                        <outlet property="addPlaceButton" destination="62l-aP-6ja" id="hgl-fs-RXY"/>
                         <outlet property="tv" destination="ikO-sc-G8e" id="JXc-n7-wC6"/>
                     </connections>
                 </tableViewController>
@@ -813,7 +814,7 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="9QI-ex-wkK"/>
+        <segue reference="sbn-h6-Iuc"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="Emprendedor_normal" width="250" height="250"/>

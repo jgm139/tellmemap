@@ -13,6 +13,7 @@ class TableViewController: UITableViewController {
     
     // MARK: - Outlets
     @IBOutlet var tv: UITableView!
+    @IBOutlet weak var addPlaceButton: UIBarButtonItem!
     
     
     // MARK: - Properties
@@ -27,6 +28,11 @@ class TableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.refreshControl?.addTarget(self, action: #selector(refreshPlaces), for: .valueChanged)
+        
+        if UserSessionSingleton.session.user.typeUser == UserType.entrepreneur {
+            addPlaceButton.isEnabled = false
+            addPlaceButton.tintColor = UIColor.clear
+        }
         
         tableView.delegate = self
         tableView.dataSource = self
