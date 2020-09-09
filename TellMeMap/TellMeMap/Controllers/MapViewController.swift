@@ -13,50 +13,47 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - Properties
     var ckManager = CloudKitManager()
-    var annotations = [MKAnnotation]()
     let locationManager = CLLocationManager()
     var userCurrentLocation = CLLocationCoordinate2D()
+    let ud = UserDefaults.standard
+    
+    var annotations = [MKAnnotation]()
+    var placesSorted = [Category: [PlaceItem]]()
+    
+    var arraySelectedCategories: [Category : Bool] = [:]
+    
     
     // MARK: - Outlets
     @IBOutlet weak var mapView: MKMapView!
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
         self.mapView.delegate = self
         
         let userTrackingButton = MKUserTrackingBarButtonItem(mapView: mapView)
-        self.navigationItem.leftBarButtonItem = userTrackingButton
+        self.navigationItem.rightBarButtonItem = userTrackingButton
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
+        
         self.mapView.removeAnnotations(self.annotations)
         
         ckManager.getPlaces {
             (finish) in
             if finish {
-                CloudKitManager.places.forEach {
-                    (item) in
-                    
-                    if let _ = item.location, let _ = item.category {
-                        let artPin = ArtworkPin(place: item)
-                    
-                        self.annotations.append(artPin)
-                    
-                        DispatchQueue.main.async(execute: {
-                            self.mapView.addAnnotation(artPin)
-                        })
-                    }
-                }
+                self.sortData()
+                
+                self.filterAnnotations()
+                
+                self.setupAnnotations()
             }
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {}
     
     override func viewDidDisappear(_ animated: Bool) {
         locationManager.stopUpdatingLocation()
@@ -73,9 +70,21 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    @IBAction func unwindToMapView(sender: UIStoryboardSegue) {
+        self.sortData()
+        
+        if sender.identifier == "applyFilterAndLeave" {
+            filterAnnotations()
+        }
+        
+        setupAnnotations()
+    }
+    
     // MARK: - LocationManager
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+        
+        self.locationManager.stopUpdatingLocation()
         
         self.userCurrentLocation.latitude = locValue.latitude
         self.userCurrentLocation.longitude = locValue.longitude
@@ -84,10 +93,58 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
-        let regionRadius: CLLocationDistance = 100
+        let regionRadius: CLLocationDistance = 250
         let coordinateRegion =
             MKCoordinateRegion(center: loc.coordinate, latitudinalMeters: regionRadius * 4.0, longitudinalMeters: regionRadius * 4.0)
         mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    
+    // MARK: - Methods
+    func sortData() {
+        Category.allCases.forEach {
+            category in
+            placesSorted[category] = CloudKitManager.places.filter({ $0.category == category })
+        }
+    }
+    
+    func setupAnnotations() {
+        self.mapView.removeAnnotations(self.annotations)
+        
+        for (_, places) in placesSorted {
+            places.forEach({
+                (item) in
+                
+                if let _ = item.location, let _ = item.category {
+                    
+                    let artPin = ArtworkPin(place: item)
+                
+                    self.annotations.append(artPin)
+                
+                    DispatchQueue.main.async(execute: {
+                        self.mapView.addAnnotation(artPin)
+                    })
+                }
+            })
+        }
+    }
+    
+    func filterAnnotations() {
+        if UserDefaults.standard.bool(forKey: "filter") {
+            
+            Category.allCases.forEach {
+                category in
+                self.arraySelectedCategories[category] = UserDefaults.standard.bool(forKey: category.rawValue)
+            }
+            
+            self.arraySelectedCategories.forEach {
+                (key: Category, value: Bool) in
+                
+                if !value {
+                    placesSorted.updateValue([], forKey: key)
+                }
+            }
+        }
     }
 }
 

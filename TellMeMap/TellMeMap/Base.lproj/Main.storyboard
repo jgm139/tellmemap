@@ -99,6 +99,74 @@
             </objects>
             <point key="canvasLocation" x="-626" y="1849"/>
         </scene>
+        <!--Filter View Controller-->
+        <scene sceneID="5h2-7W-fEw">
+            <objects>
+                <viewController id="UcQ-vu-n3J" customClass="FilterViewController" customModule="tellMeMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ShY-Cn-qmA">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSo-np-0Xa">
+                                <rect key="frame" x="50" y="85" width="92.5" height="21.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="b5D-1j-wsH">
+                                <rect key="frame" x="161.5" y="748" width="91" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XIO-yo-BSq">
+                                        <rect key="frame" x="0.0" y="0.0" width="40" height="30"/>
+                                        <state key="normal" title="Apply"/>
+                                        <connections>
+                                            <action selector="applyFilterAction:" destination="UcQ-vu-n3J" eventType="touchUpInside" id="xsR-im-U0w"/>
+                                            <segue destination="H1T-Vh-wCU" kind="unwind" identifier="applyFilterAndLeave" unwindAction="unwindToMapViewWithSender:" id="bb2-Ye-ENY"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c86-bw-03l">
+                                        <rect key="frame" x="55" y="0.0" width="36" height="30"/>
+                                        <state key="normal" title="Clear"/>
+                                        <connections>
+                                            <action selector="clearAction:" destination="UcQ-vu-n3J" eventType="touchUpInside" id="LHs-kw-w6c"/>
+                                            <segue destination="H1T-Vh-wCU" kind="unwind" identifier="clearFilterAndLeave" unwindAction="unwindToMapViewWithSender:" id="bMB-1l-fpb"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bqx-Fg-cp5" userLabel="closeButton">
+                                <rect key="frame" x="20" y="15" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="JwG-Sj-WcQ"/>
+                                    <constraint firstAttribute="width" constant="50" id="v4A-nn-wUr"/>
+                                </constraints>
+                                <state key="normal" image="multiply" catalog="system"/>
+                                <connections>
+                                    <action selector="closeViewAction:" destination="UcQ-vu-n3J" eventType="touchUpInside" id="UtC-OS-saN"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="CSo-np-0Xa" firstAttribute="leading" secondItem="agn-YS-d3p" secondAttribute="leading" constant="50" id="6Xr-RJ-ckN"/>
+                            <constraint firstItem="Bqx-Fg-cp5" firstAttribute="top" secondItem="agn-YS-d3p" secondAttribute="top" constant="15" id="8P2-E6-mhk"/>
+                            <constraint firstItem="CSo-np-0Xa" firstAttribute="top" secondItem="Bqx-Fg-cp5" secondAttribute="bottom" constant="20" id="pH8-D1-a0j"/>
+                            <constraint firstItem="Bqx-Fg-cp5" firstAttribute="leading" secondItem="agn-YS-d3p" secondAttribute="leading" constant="20" id="paA-Ca-kQz"/>
+                            <constraint firstItem="b5D-1j-wsH" firstAttribute="centerX" secondItem="ShY-Cn-qmA" secondAttribute="centerX" id="qvu-1v-dlf"/>
+                            <constraint firstItem="agn-YS-d3p" firstAttribute="bottom" secondItem="b5D-1j-wsH" secondAttribute="bottom" constant="30" id="uzV-Ma-Twe"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="agn-YS-d3p"/>
+                    </view>
+                    <connections>
+                        <outlet property="applyButton" destination="XIO-yo-BSq" id="GCM-Y6-wxp"/>
+                        <outlet property="categoryLabel" destination="CSo-np-0Xa" id="Pkf-jI-zo2"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bot-4g-7ge" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="H1T-Vh-wCU" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="225" y="1849"/>
+        </scene>
         <!--Map View Controller-->
         <scene sceneID="8yM-RK-APr">
             <objects>
@@ -121,7 +189,15 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="Yxi-JS-Ckb"/>
                     </view>
-                    <navigationItem key="navigationItem" id="dND-SD-zqp"/>
+                    <navigationItem key="navigationItem" id="dND-SD-zqp">
+                        <barButtonItem key="leftBarButtonItem" title="Filter" image="line.horizontal.3.decrease.circle" catalog="system" id="nAH-hc-0zH">
+                            <connections>
+                                <segue destination="UcQ-vu-n3J" kind="popoverPresentation" popoverAnchorBarButtonItem="nAH-hc-0zH" id="4co-lW-IpL">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="mapView" destination="1J9-Xt-jqi" id="iwE-KX-PJe"/>
                         <segue destination="uEO-30-xcg" kind="show" identifier="placeDetail" id="9QI-ex-wkK"/>
@@ -661,15 +737,17 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="sbn-h6-Iuc"/>
+        <segue reference="9QI-ex-wkK"/>
     </inferredMetricsTieBreakers>
     <resources>
         <image name="ImageIcon" width="1024" height="1024"/>
         <image name="camera.circle" catalog="system" width="128" height="121"/>
         <image name="chevron.left" catalog="system" width="96" height="128"/>
         <image name="heart" catalog="system" width="128" height="109"/>
+        <image name="line.horizontal.3.decrease.circle" catalog="system" width="128" height="121"/>
         <image name="map" catalog="system" width="128" height="113"/>
         <image name="mappin.circle" catalog="system" width="128" height="121"/>
+        <image name="multiply" catalog="system" width="128" height="111"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="plus.circle" catalog="system" width="128" height="121"/>
     </resources>
