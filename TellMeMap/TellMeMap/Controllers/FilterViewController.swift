@@ -23,7 +23,7 @@ class FilterViewController: UIViewController {
         
         Category.allCases.forEach {
             (category) in
-            array[category] = false
+            array[category] = true
         }
         
         return array
@@ -108,8 +108,8 @@ class FilterViewController: UIViewController {
         self.arraySelectedCategories.forEach {
             (key: Category, value: Bool) in
             
-            self.arraySelectedCategories.updateValue(false, forKey: key)
-            ud.set(false, forKey: key.rawValue)
+            self.arraySelectedCategories.updateValue(true, forKey: key)
+            ud.set(true, forKey: key.rawValue)
         }
         
         ud.set(false, forKey: "filter")

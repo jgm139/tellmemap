@@ -64,7 +64,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         Category.allCases.forEach {
             (category) in
-            UserDefaults.standard.set(false, forKey: category.rawValue)
+            UserDefaults.standard.set(true, forKey: category.rawValue)
         }
         
         UserDefaults.standard.set(false, forKey: "filter")

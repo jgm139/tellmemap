@@ -38,9 +38,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startUpdatingLocation()
         }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
+        
         self.mapView.removeAnnotations(self.annotations)
         
         ckManager.getPlaces {
@@ -54,6 +52,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
+    
+    override func viewDidAppear(_ animated: Bool) {}
     
     override func viewDidDisappear(_ animated: Bool) {
         locationManager.stopUpdatingLocation()
@@ -71,10 +71,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     @IBAction func unwindToMapView(sender: UIStoryboardSegue) {
+        self.sortData()
+        
         if sender.identifier == "applyFilterAndLeave" {
             filterAnnotations()
-        } else if sender.identifier == "clearFilterAndLeave" {
-            self.sortData()
         }
         
         setupAnnotations()
@@ -84,6 +84,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         
+        self.locationManager.stopUpdatingLocation()
+        
         self.userCurrentLocation.latitude = locValue.latitude
         self.userCurrentLocation.longitude = locValue.longitude
         
@@ -91,7 +93,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
-        let regionRadius: CLLocationDistance = 100
+        let regionRadius: CLLocationDistance = 250
         let coordinateRegion =
             MKCoordinateRegion(center: loc.coordinate, latitudinalMeters: regionRadius * 4.0, longitudinalMeters: regionRadius * 4.0)
         mapView.setRegion(coordinateRegion, animated: true)
