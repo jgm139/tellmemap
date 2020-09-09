@@ -102,3 +102,4 @@ iOSInjectionProject/
 **/xcshareddata/WorkspaceSettings.xcsettings
 
 # End of https://www.gitignore.io/api/xcode,swift
+TellMeMap/TellMeMap/Assets.xcassets/.DS_Store
