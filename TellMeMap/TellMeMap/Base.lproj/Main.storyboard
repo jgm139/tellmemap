@@ -108,7 +108,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Categories" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="CSo-np-0Xa">
-                                <rect key="frame" x="50" y="50" width="92.5" height="21.5"/>
+                                <rect key="frame" x="50" y="85" width="92.5" height="21.5"/>
                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -134,11 +134,24 @@
                                     </button>
                                 </subviews>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Bqx-Fg-cp5" userLabel="closeButton">
+                                <rect key="frame" x="20" y="15" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="JwG-Sj-WcQ"/>
+                                    <constraint firstAttribute="width" constant="50" id="v4A-nn-wUr"/>
+                                </constraints>
+                                <state key="normal" image="multiply" catalog="system"/>
+                                <connections>
+                                    <action selector="closeViewAction:" destination="UcQ-vu-n3J" eventType="touchUpInside" id="UtC-OS-saN"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="CSo-np-0Xa" firstAttribute="leading" secondItem="agn-YS-d3p" secondAttribute="leading" constant="50" id="6Xr-RJ-ckN"/>
-                            <constraint firstItem="CSo-np-0Xa" firstAttribute="top" secondItem="agn-YS-d3p" secondAttribute="top" constant="50" id="pH8-D1-a0j"/>
+                            <constraint firstItem="Bqx-Fg-cp5" firstAttribute="top" secondItem="agn-YS-d3p" secondAttribute="top" constant="15" id="8P2-E6-mhk"/>
+                            <constraint firstItem="CSo-np-0Xa" firstAttribute="top" secondItem="Bqx-Fg-cp5" secondAttribute="bottom" constant="20" id="pH8-D1-a0j"/>
+                            <constraint firstItem="Bqx-Fg-cp5" firstAttribute="leading" secondItem="agn-YS-d3p" secondAttribute="leading" constant="20" id="paA-Ca-kQz"/>
                             <constraint firstItem="b5D-1j-wsH" firstAttribute="centerX" secondItem="ShY-Cn-qmA" secondAttribute="centerX" id="qvu-1v-dlf"/>
                             <constraint firstItem="agn-YS-d3p" firstAttribute="bottom" secondItem="b5D-1j-wsH" secondAttribute="bottom" constant="30" id="uzV-Ma-Twe"/>
                         </constraints>
@@ -734,6 +747,7 @@
         <image name="line.horizontal.3.decrease.circle" catalog="system" width="128" height="121"/>
         <image name="map" catalog="system" width="128" height="113"/>
         <image name="mappin.circle" catalog="system" width="128" height="121"/>
+        <image name="multiply" catalog="system" width="128" height="111"/>
         <image name="person.circle" catalog="system" width="128" height="121"/>
         <image name="plus.circle" catalog="system" width="128" height="121"/>
     </resources>

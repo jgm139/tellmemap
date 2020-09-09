@@ -79,7 +79,7 @@ class FilterViewController: UIViewController {
         
         // Constraints
         sv.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 50).isActive = true
-        sv.topAnchor.constraint(equalTo: self.categoryLabel.bottomAnchor, constant: 30).isActive = true
+        sv.topAnchor.constraint(equalTo: self.categoryLabel.bottomAnchor, constant: 20).isActive = true
     }
     
     @objc func clickCategoryButton(sender: UIButton) {
@@ -114,5 +114,10 @@ class FilterViewController: UIViewController {
         
         ud.set(false, forKey: "filter")
     }
+    
+    @IBAction func closeViewAction(_ sender: Any) {
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     
 }
