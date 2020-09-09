@@ -112,12 +112,13 @@ class CloudKitManager {
         })
     }
     
-    func addUser(nickname: String, name: String?, surnames: String?, icloud_id: String) {
+    func addUser(nickname: String, name: String?, surnames: String?, icloud_id: String, typeUser: Int) {
         let user = CKRecord(recordType: "User")
         user["nickname"] = nickname
         user["name"] = name
         user["surnames"] = surnames
         user["icloud_id"] = icloud_id
+        user["typeUser"] = typeUser
         
         self.publicDB.save(user, completionHandler: {
             (recordID, error) in

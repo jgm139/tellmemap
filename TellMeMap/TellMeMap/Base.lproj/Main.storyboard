@@ -91,6 +91,7 @@
                         <outlet property="activityIndicator" destination="Yyl-87-VOU" id="w0Y-3G-6mR"/>
                         <outlet property="nicknameTextField" destination="UDp-Na-dim" id="yiV-Js-Q73"/>
                         <outlet property="photoImageView" destination="WtK-Uz-caS" id="H9D-H3-bT8"/>
+                        <outlet property="typeUserLabel" destination="TRA-f0-Zrh" id="9Zh-nQ-M1Q"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jbi-Gb-4D7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -310,7 +311,7 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tKJ-DN-9dV" userLabel="Neighbour Stack View">
                                         <rect key="frame" x="197" y="0.0" width="197" height="221"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7yH-rV-gRJ" userLabel="neighbourButton">
+                                            <button opaque="NO" contentMode="scaleToFill" selected="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7yH-rV-gRJ" userLabel="neighbourButton">
                                                 <rect key="frame" x="0.0" y="0.0" width="197" height="197"/>
                                                 <constraints>
                                                     <constraint firstAttribute="width" secondItem="7yH-rV-gRJ" secondAttribute="height" multiplier="1:1" id="0hE-qD-UJF"/>

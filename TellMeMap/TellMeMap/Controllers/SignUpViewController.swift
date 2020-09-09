@@ -22,6 +22,7 @@ class SignUpViewController: UIViewController {
     var userInformation: [String: String]?
     let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var ckManager = CloudKitManager()
+    var typeUser: UserType = .neighbour
     
     
     // MARK: - View Controller Functions
@@ -61,11 +62,13 @@ class SignUpViewController: UIViewController {
     @IBAction func clickedEnterprisingButton(_ sender: UIButton) {
         self.enterprisingButton.isSelected = true
         self.neighbourButton.isSelected = false
+        typeUser = .entrepreneur
     }
     
     @IBAction func clickedNeighbourButton(_ sender: UIButton) {
         self.enterprisingButton.isSelected = false
         self.neighbourButton.isSelected = true
+        typeUser = .neighbour
     }
     
     
@@ -89,9 +92,11 @@ class SignUpViewController: UIViewController {
     }
     
     func newUser(nickname: String, name: String?, surnames: String?, icloud_id: String) {
-        let itemUser = UserItem(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id)
+        let intUser = UserType.getIntFromUserType(typeUser)
         
-        ckManager.addUser(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id)
+        let itemUser = UserItem(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id, typeUser: intUser)
+        
+        ckManager.addUser(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id, typeUser: intUser)
         
         UserSessionSingleton.session.user = itemUser
         
@@ -106,7 +111,7 @@ class SignUpViewController: UIViewController {
         if sessions!.count > 0 {
             sessions![0].nickname = UserSessionSingleton.session.user.nickname
         } else {
-            print("New User Session \(UserSessionSingleton.session.user.nickname)")
+            print("New User Session \(String(describing: UserSessionSingleton.session.user.nickname))")
             let newSession = Session(context: viewContext)
             newSession.nickname = UserSessionSingleton.session.user.nickname
         }
