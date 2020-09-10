@@ -76,6 +76,9 @@ class CloudKitManager {
                     place["user"] = reference
                     place["likes"] = 0
                     
+                    let comments: [CKRecord.Reference] = []
+                    place["comments"] = comments
+                    
                     if let image = image {
                         let asset = self.createAsset(from: image)
                         

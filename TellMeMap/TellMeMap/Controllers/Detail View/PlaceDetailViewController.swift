@@ -18,6 +18,8 @@ class PlaceDetailViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var likesView: UIImageView!
     @IBOutlet weak var numLikesLabel: UILabel!
+    @IBOutlet var commentsTV: UITableView!
+    @IBOutlet weak var heightTV: NSLayoutConstraint!
     
     
     // MARK: - Properties
@@ -25,6 +27,10 @@ class PlaceDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.commentsTV.delegate = self
+        self.commentsTV.dataSource = self
+        //self.commentsTV.separatorStyle = UITableViewCell.SeparatorStyle.none
         
         if let place = item {
             self.title = place.name
@@ -44,6 +50,27 @@ class PlaceDetailViewController: UIViewController {
             if let image = place.image {
                 self.imageView.image = image
                 self.imageView.contentMode = .scaleAspectFill
+            }
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.commentsTV.addObserver(self, forKeyPath: "contentSize", options: .new, context: nil)
+        self.commentsTV.reloadData()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        self.commentsTV.removeObserver(self, forKeyPath: "contentSize")
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        
+        if keyPath == "contentSize" {
+            if object is UITableView {
+                if let newValue = change![.newKey] {
+                    let newSize = newValue as! CGSize
+                    self.heightTV.constant = newSize.height
+                }
             }
         }
     }
@@ -87,4 +114,38 @@ class PlaceDetailViewController: UIViewController {
                           completion: nil)
         
     }
+}
+
+
+extension PlaceDetailViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        if let item = item {
+            return item.comments.count
+        }
+        
+        return 0
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableView.automaticDimension
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let comment = item!.comments[indexPath.row]
+        
+        guard let newCell = tableView.dequeueReusableCell(withIdentifier: "idComment", for: indexPath) as? CommentTableViewCell else {
+            fatalError("The dequeued cell is not an instance of PlaceTableViewCell.")
+        }
+        
+        newCell.setContent(comment)
+        newCell.selectionStyle = .none
+        
+        return newCell
+    }
+    
 }
