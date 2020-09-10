@@ -18,12 +18,14 @@ class PlaceTableViewCell: UITableViewCell {
     @IBOutlet weak var placeTitle: UILabel!
     @IBOutlet weak var placeDescription: UITextView!
     @IBOutlet weak var mapViewLocation: MKMapView!
+    @IBOutlet weak var countLikesLabel: UILabel!
     
     
     // MARK: - Table View Cell Functions
     override func awakeFromNib() {
         super.awakeFromNib()
         self.mapViewLocation.delegate = self
+        self.placeDescription.textContainer.lineBreakMode = NSLineBreakMode.byTruncatingTail
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -37,6 +39,7 @@ class PlaceTableViewCell: UITableViewCell {
         
         self.placeTitle.text = item.name
         self.placeDescription.text = item.message
+        self.countLikesLabel.text = "\(item.likes ?? 0)"
         
         if let location = item.location {
             centerMapOnLocation(mapView: self.mapViewLocation, loc: CLLocation(latitude: location.latitude, longitude: location.longitude))
@@ -53,7 +56,7 @@ class PlaceTableViewCell: UITableViewCell {
     
     // MARK: - Methods
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
-        let regionRadius: CLLocationDistance = 100
+        let regionRadius: CLLocationDistance = 150
         let coordinateRegion =
             MKCoordinateRegion(center: loc.coordinate, latitudinalMeters: regionRadius * 4.0, longitudinalMeters: regionRadius * 4.0)
         mapView.setRegion(coordinateRegion, animated: true)
