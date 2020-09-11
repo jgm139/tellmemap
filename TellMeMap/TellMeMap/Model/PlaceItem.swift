@@ -25,6 +25,7 @@ class PlaceItem: Equatable {
     var image: UIImage?
     var category: Category?
     var likes: Int?
+    var comments: [CommentItem] = []
     
     init(name: String, message: String, category: Int, date: Date, user: UserItem, location: CLLocationCoordinate2D, image: UIImage?) {
         self.name = name
@@ -55,7 +56,7 @@ class PlaceItem: Equatable {
         let likes = record!.object(forKey: "likes") as? Int
         
         if let userRecordReference = record!.object(forKey: "user") as? CKRecord.Reference {
-            getSiteUser(recordReference: userRecordReference) {
+            getPlaceUser(recordReference: userRecordReference) {
                 (userItem) in
                 if let user = userItem {
                     self.name = name
@@ -79,13 +80,20 @@ class PlaceItem: Equatable {
                         }
                     }
                     
+                    if let commentsRecords = self.record!["comments"] as? [CKRecord.Reference] {
+                        PlaceItem.fetchComments(for: commentsRecords) {
+                            (comments) in
+                            self.comments = comments
+                        }
+                    }
+                    
                     completion(true)
                 }
             }
         }
     }
     
-    func getSiteUser(recordReference: CKRecord.Reference, _ completion: @escaping (UserItem?) -> Void) {
+    func getPlaceUser(recordReference: CKRecord.Reference, _ completion: @escaping (UserItem?) -> Void) {
         let operation = CKFetchRecordsOperation(recordIDs: [recordReference.recordID])
         
         operation.qualityOfService = .userInitiated
@@ -133,6 +141,40 @@ class PlaceItem: Equatable {
             
             group.notify(queue: .main) {
                 completion(places)
+            }
+        }
+
+        publicDB.add(operation)
+    }
+    
+    static func fetchComments(for references: [CKRecord.Reference], _ completion: @escaping ([CommentItem]) -> Void) {
+        let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
+        let recordIDs = references.map { $0.recordID }
+        let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
+        let group = DispatchGroup()
+        
+        operation.qualityOfService = .utility
+
+        operation.fetchRecordsCompletionBlock = {
+            records, error in
+            
+            var comments = [CommentItem]()
+            
+            for record in records! {
+                if let comment = CommentItem(record: record.value) {
+                    comments.append(comment)
+                }
+            }
+            
+            comments.forEach { (comment) in
+                group.enter()
+                comment.getComment { (succes) in
+                    group.leave()
+                }
+            }
+            
+            group.notify(queue: .main) {
+                completion(comments)
             }
         }
 

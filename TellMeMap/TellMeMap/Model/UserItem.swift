@@ -22,13 +22,15 @@ class UserItem {
     var nickname: String?
     var name: String?
     var surnames: String?
+    var typeUser: UserType?
     private var likedPlaces: [PlaceItem] = []
     
-    init(nickname: String, name: String?, surnames: String?, icloud_id: String?) {
+    init(nickname: String, name: String?, surnames: String?, icloud_id: String?, typeUser: Int) {
         self.icloud_id = icloud_id
         self.nickname = nickname
         self.name = name
         self.surnames = surnames
+        self.typeUser = UserType(id: typeUser)
     }
     
     init?(record: CKRecord) {
@@ -43,6 +45,10 @@ class UserItem {
         self.nickname = nickname
         self.name = record["name"] as? String
         self.surnames = record["surnames"] as? String
+        
+        if let t = record["typeUser"] as? Int {
+            self.typeUser = UserType(id: t)
+        }
         
         if let file = record["image"] as? CKAsset {
             do {

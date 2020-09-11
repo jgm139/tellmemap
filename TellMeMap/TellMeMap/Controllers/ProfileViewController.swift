@@ -19,6 +19,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     // MARK: - Outlets
     @IBOutlet weak var photoImageView: UIImageView!
     @IBOutlet weak var nicknameTextField: UITextField!
+    @IBOutlet weak var typeUserLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     
@@ -41,6 +42,10 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     
     func setData() {
         self.nicknameTextField.text = UserSessionSingleton.session.user.nickname
+        
+        if let typeUser = UserSessionSingleton.session.user.typeUser?.rawValue {
+            self.typeUserLabel.text = typeUser
+        }
         
         if let photo = UserSessionSingleton.session.user.image {
             self.photoImageView.image = photo
