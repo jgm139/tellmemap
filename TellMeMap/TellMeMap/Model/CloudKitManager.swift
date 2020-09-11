@@ -25,7 +25,7 @@ class CloudKitManager {
     }
     
     func getPlaces(_ completion: @escaping (_ finish: Bool) -> Void) {
-        let query = CKQuery(recordType: "Place", predicate: NSPredicate(value:true))
+        let query = CKQuery(recordType: "Place", predicate: NSPredicate(value: true))
         query.sortDescriptors = [NSSortDescriptor(key: "date", ascending: false)]
         let group = DispatchGroup()
         
@@ -127,6 +127,8 @@ class CloudKitManager {
             (recordID, error) in
             if let e = error {
                 print("Error: \(e)")
+            } else {
+                UserSessionSingleton.session.user.record = user
             }
         })
     }
@@ -165,6 +167,40 @@ class CloudKitManager {
             })
         }
         
+    }
+    
+    func addComment(text: String, placeRecord: CKRecord, _ completion: @escaping (_ finish: Bool) -> Void) {
+        let comment = CKRecord(recordType: "Comment")
+        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.user.id!, action: .deleteSelf)
+        comment["textComment"] = text
+        comment["user"] = userReference
+        
+        self.publicDB.save(comment, completionHandler: {
+            (recordID, error) in
+            if let e = error {
+                print("Error: \(e)")
+            } else {
+                let commentReference = CKRecord.Reference(recordID: comment.recordID, action: .deleteSelf)
+                
+                if var ls = placeRecord["comments"] as? [CKRecord.Reference] {
+                    ls.append(commentReference)
+                    placeRecord["comments"] = ls
+                } else {
+                    var newComments: [CKRecord.Reference] = []
+                    newComments.append(commentReference)
+                    placeRecord["comments"] = newComments
+                }
+                
+                self.publicDB.save(placeRecord) {
+                    (recordID, error) in
+                    if let e = error {
+                        print("Error: \(e)")
+                    } else {
+                        completion(true)
+                    }
+                }
+            }
+        })
     }
     
     func createAsset(from image: UIImage) -> CKAsset {
