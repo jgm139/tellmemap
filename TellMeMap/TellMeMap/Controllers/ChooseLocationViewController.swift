@@ -39,6 +39,8 @@ class ChooseLocationViewController: UIViewController, CLLocationManagerDelegate 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
         
+        self.locationManager.stopUpdatingLocation()
+        
         self.userCurrentLocation.latitude = locValue.latitude
         self.userCurrentLocation.longitude = locValue.longitude
         
@@ -46,7 +48,7 @@ class ChooseLocationViewController: UIViewController, CLLocationManagerDelegate 
     }
     
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
-        let regionRadius: CLLocationDistance = 100
+        let regionRadius: CLLocationDistance = 250
         let coordinateRegion =
             MKCoordinateRegion(center: loc.coordinate, latitudinalMeters: regionRadius * 4.0, longitudinalMeters: regionRadius * 4.0)
         mapView.setRegion(coordinateRegion, animated: true)

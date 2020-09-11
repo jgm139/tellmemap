@@ -29,6 +29,9 @@ class SignUpViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.userInformation = [String: String]()
+        
+        let tapView: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        self.view.addGestureRecognizer(tapView)
     }
     
     
@@ -71,6 +74,9 @@ class SignUpViewController: UIViewController {
         typeUser = .neighbour
     }
     
+    @objc func dismissKeyboard() {
+       view.endEditing(true)
+    }
     
     
     // MARK: - Methods
