@@ -788,13 +788,13 @@
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="CMm-Ae-3Ia" userLabel="User Stack">
                                                                             <rect key="frame" x="55" y="0.5" width="279" height="107.5"/>
                                                                             <subviews>
-                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yuH-mk-qnd">
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yuH-mk-qnd">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="36" height="19.5"/>
                                                                                     <fontDescription key="fontDescription" name="HelveticaNeue-BoldItalic" family="Helvetica Neue" pointSize="16"/>
                                                                                     <nil key="textColor"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
-                                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugv-nX-8OJ">
+                                                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugv-nX-8OJ">
                                                                                     <rect key="frame" x="0.0" y="24.5" width="279" height="83"/>
                                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
@@ -822,11 +822,23 @@
                                                     </tableViewCell>
                                                 </prototypes>
                                             </tableView>
-                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add a comment..." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6PI-UK-3JF">
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="I6a-pA-AZb" userLabel="Adding Comment Stack">
                                                 <rect key="frame" x="20" y="1297" width="374" height="34"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                <textInputTraits key="textInputTraits"/>
-                                            </textField>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Add a comment..." textAlignment="natural" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="6PI-UK-3JF">
+                                                        <rect key="frame" x="0.0" y="0.0" width="290" height="34"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits"/>
+                                                    </textField>
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5px-Pj-N24">
+                                                        <rect key="frame" x="300" y="0.0" width="74" height="34"/>
+                                                        <state key="normal" title="Post"/>
+                                                        <connections>
+                                                            <action selector="actionPostComment:" destination="uEO-30-xcg" eventType="touchUpInside" id="xSo-j3-JW6"/>
+                                                        </connections>
+                                                    </button>
+                                                </subviews>
+                                            </stackView>
                                         </subviews>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                         <constraints>
@@ -834,24 +846,24 @@
                                             <constraint firstItem="Z10-ON-9El" firstAttribute="leading" secondItem="JDq-Vx-QNH" secondAttribute="leading" constant="20" id="93U-aO-xkl"/>
                                             <constraint firstItem="Rhr-0o-WDy" firstAttribute="leading" secondItem="JDq-Vx-QNH" secondAttribute="leading" constant="20" id="AbE-t0-eLV"/>
                                             <constraint firstAttribute="trailing" secondItem="b4t-6b-60f" secondAttribute="trailing" constant="20" id="BAE-Df-ykd"/>
+                                            <constraint firstAttribute="bottom" secondItem="I6a-pA-AZb" secondAttribute="bottom" constant="50" id="E2e-9k-B0A"/>
                                             <constraint firstItem="zJF-i3-TdE" firstAttribute="top" secondItem="Rhr-0o-WDy" secondAttribute="bottom" constant="50" id="GkZ-eQ-VwW"/>
                                             <constraint firstItem="b4t-6b-60f" firstAttribute="top" secondItem="Ki4-0r-yq9" secondAttribute="bottom" constant="25" id="HhX-f0-Lkp"/>
                                             <constraint firstItem="YCQ-6C-bkH" firstAttribute="top" secondItem="Z10-ON-9El" secondAttribute="bottom" constant="50" id="InQ-Bu-wBk"/>
                                             <constraint firstItem="YCQ-6C-bkH" firstAttribute="leading" secondItem="JDq-Vx-QNH" secondAttribute="leading" constant="20" id="LW4-GF-QBl"/>
                                             <constraint firstItem="vtO-7b-Qmy" firstAttribute="top" secondItem="YCQ-6C-bkH" secondAttribute="bottom" constant="25" id="LW8-VZ-BSl"/>
                                             <constraint firstAttribute="trailing" secondItem="zJF-i3-TdE" secondAttribute="trailing" constant="20" id="U8i-U4-EcT"/>
+                                            <constraint firstAttribute="trailing" secondItem="I6a-pA-AZb" secondAttribute="trailing" constant="20" id="WKh-Oa-SAu"/>
                                             <constraint firstItem="Ki4-0r-yq9" firstAttribute="top" secondItem="JDq-Vx-QNH" secondAttribute="top" constant="20" id="WZl-o2-9ED"/>
                                             <constraint firstItem="Ki4-0r-yq9" firstAttribute="centerX" secondItem="JDq-Vx-QNH" secondAttribute="centerX" id="cYX-F5-Izp"/>
-                                            <constraint firstItem="6PI-UK-3JF" firstAttribute="leading" secondItem="JDq-Vx-QNH" secondAttribute="leading" constant="20" id="dLx-yP-6IM"/>
                                             <constraint firstItem="vtO-7b-Qmy" firstAttribute="leading" secondItem="JDq-Vx-QNH" secondAttribute="leading" constant="20" id="jO4-6M-Jzt"/>
-                                            <constraint firstItem="6PI-UK-3JF" firstAttribute="top" secondItem="vtO-7b-Qmy" secondAttribute="bottom" constant="50" id="knC-lO-K6h"/>
+                                            <constraint firstItem="I6a-pA-AZb" firstAttribute="top" secondItem="vtO-7b-Qmy" secondAttribute="bottom" constant="50" id="mPT-83-8WU"/>
                                             <constraint firstItem="zJF-i3-TdE" firstAttribute="leading" secondItem="JDq-Vx-QNH" secondAttribute="leading" constant="20" id="ogR-33-bmt"/>
                                             <constraint firstItem="Rhr-0o-WDy" firstAttribute="top" secondItem="b4t-6b-60f" secondAttribute="bottom" constant="50" id="pdB-9r-GPW"/>
                                             <constraint firstAttribute="trailing" secondItem="Rhr-0o-WDy" secondAttribute="trailing" constant="20" id="rmd-NQ-07C"/>
                                             <constraint firstItem="Z10-ON-9El" firstAttribute="top" secondItem="zJF-i3-TdE" secondAttribute="bottom" constant="20" id="rsD-gh-Sdz"/>
-                                            <constraint firstAttribute="bottom" secondItem="6PI-UK-3JF" secondAttribute="bottom" constant="50" id="tue-fJ-OdK"/>
                                             <constraint firstAttribute="trailing" secondItem="vtO-7b-Qmy" secondAttribute="trailing" constant="20" id="vUY-Ph-tuD"/>
-                                            <constraint firstAttribute="trailing" secondItem="6PI-UK-3JF" secondAttribute="trailing" constant="20" id="vWi-er-ecD"/>
+                                            <constraint firstItem="I6a-pA-AZb" firstAttribute="leading" secondItem="JDq-Vx-QNH" secondAttribute="leading" constant="20" id="yNm-Fk-Kyn"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -878,6 +890,7 @@
                     <navigationItem key="navigationItem" title="Title" id="9by-Tx-FZj"/>
                     <size key="freeformSize" width="414" height="1600"/>
                     <connections>
+                        <outlet property="addCommentTextField" destination="6PI-UK-3JF" id="Xu6-Zb-hCc"/>
                         <outlet property="autorLabel" destination="wjz-Q6-PiF" id="oDU-Ju-C4l"/>
                         <outlet property="categoryLabel" destination="Ki4-0r-yq9" id="A9F-gJ-L2q"/>
                         <outlet property="commentsTV" destination="vtO-7b-Qmy" id="e8i-WX-d8w"/>

@@ -23,9 +23,12 @@ class PlaceDetailViewController: UIViewController {
     @IBOutlet weak var heightTV: NSLayoutConstraint!
     @IBOutlet weak var scrollView: UIScrollView!
     
+    @IBOutlet weak var addCommentTextField: UITextField!
+    
     
     // MARK: - Properties
     var item: PlaceItem?
+    var ckManager = CloudKitManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -33,6 +36,9 @@ class PlaceDetailViewController: UIViewController {
         // Detecting when keyboard will show to raise the text field
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:  UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector:  #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
+        let tapView: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
+        self.view.addGestureRecognizer(tapView)
         
         self.commentsTV.delegate = self
         self.commentsTV.dataSource = self
@@ -61,12 +67,33 @@ class PlaceDetailViewController: UIViewController {
         }
     }
     
+    
+    // MARK: - Actions
     @IBAction func actionDoubleTapLike(_ sender: UITapGestureRecognizer) {
         if let i = item, let _ = i.likes  {
             i.likes! += 1
             UserSessionSingleton.session.user.addLikedPlace(i)
             numLikesLabel.text = "\(i.likes ?? 0)"
             animationLike()
+        }
+    }
+    
+    @IBAction func actionPostComment(_ sender: UIButton) {
+        if let text = self.addCommentTextField.text, !text.isEmpty {
+            let commentItem = CommentItem(user: UserSessionSingleton.session.user, textComment: text)
+            item?.comments.append(commentItem)
+            
+            ckManager.addComment(text: text, placeRecord: (item?.record)!) {
+                finish in
+                
+                if finish {
+                    DispatchQueue.main.async( execute: {
+                        self.addCommentTextField.text = ""
+                        self.commentsTV.reloadData()
+                        self.dismissKeyboard()
+                    })
+                }
+            }
         }
     }
     
@@ -84,6 +111,10 @@ class PlaceDetailViewController: UIViewController {
 
     @objc func keyboardWillHide(notification: Notification) {
         scrollView.contentInset = UIEdgeInsets.zero
+    }
+    
+    @objc func dismissKeyboard() {
+       view.endEditing(true)
     }
     
     
