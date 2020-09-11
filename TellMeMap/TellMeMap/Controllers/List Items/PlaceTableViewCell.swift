@@ -24,8 +24,14 @@ class PlaceTableViewCell: UITableViewCell {
     // MARK: - Table View Cell Functions
     override func awakeFromNib() {
         super.awakeFromNib()
+        
         self.mapViewLocation.delegate = self
+        
+        // When the text is larger than the container size, it will be cut off with three dots
         self.placeDescription.textContainer.lineBreakMode = NSLineBreakMode.byTruncatingTail
+        
+        // Deleting pading of textview
+        self.placeDescription.textContainer.lineFragmentPadding = 0
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

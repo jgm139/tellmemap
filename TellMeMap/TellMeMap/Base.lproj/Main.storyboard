@@ -390,10 +390,10 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <stackView opaque="NO" contentMode="scaleToFill" spacing="2" translatesAutoresizingMaskIntoConstraints="NO" id="G42-EX-wrF" userLabel="Item View">
-                                            <rect key="frame" x="10" y="10" width="394" height="230"/>
+                                            <rect key="frame" x="15" y="10" width="389" height="230"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="m62-nE-hRN" userLabel="Message info">
-                                                    <rect key="frame" x="0.0" y="0.0" width="260.5" height="230"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="257.5" height="230"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="66w-At-cq3" userLabel="Place Title">
                                                             <rect key="frame" x="0.0" y="0.0" width="40.5" height="24"/>
@@ -450,7 +450,7 @@
                                                             <color key="highlightedColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                         </label>
                                                         <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" text="Here is showing the description of the message." textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KJC-4q-QWn" userLabel="Place Description">
-                                                            <rect key="frame" x="0.0" y="138" width="236.5" height="92"/>
+                                                            <rect key="frame" x="0.0" y="138" width="233.5" height="92"/>
                                                             <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                             <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="15"/>
@@ -459,7 +459,7 @@
                                                     </subviews>
                                                 </stackView>
                                                 <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" scrollEnabled="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Dq5-31-cNG">
-                                                    <rect key="frame" x="262.5" y="0.0" width="131.5" height="230"/>
+                                                    <rect key="frame" x="259.5" y="0.0" width="129.5" height="230"/>
                                                 </mapView>
                                             </subviews>
                                             <constraints>
@@ -476,7 +476,7 @@
                                         <constraint firstItem="G42-EX-wrF" firstAttribute="top" secondItem="Elr-MR-Mqq" secondAttribute="top" constant="10" id="KBM-7s-wX7"/>
                                         <constraint firstAttribute="trailing" secondItem="G42-EX-wrF" secondAttribute="trailing" constant="10" id="PGW-wF-Eqt"/>
                                         <constraint firstAttribute="bottom" secondItem="G42-EX-wrF" secondAttribute="bottom" constant="10" id="svn-lX-w8A"/>
-                                        <constraint firstItem="G42-EX-wrF" firstAttribute="leading" secondItem="Elr-MR-Mqq" secondAttribute="leading" constant="10" id="vkl-SN-YBh"/>
+                                        <constraint firstItem="G42-EX-wrF" firstAttribute="leading" secondItem="Elr-MR-Mqq" secondAttribute="leading" constant="15" id="vkl-SN-YBh"/>
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
@@ -769,24 +769,24 @@
                                                 </constraints>
                                                 <prototypes>
                                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" selectionStyle="default" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="idComment" id="X7h-wv-Hnb" customClass="CommentTableViewCell" customModule="tellMeMap" customModuleProvider="target">
-                                                        <rect key="frame" x="0.0" y="28" width="374" height="148"/>
+                                                        <rect key="frame" x="0.0" y="28" width="374" height="167.5"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="X7h-wv-Hnb" id="rkU-A5-dgU">
-                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="148"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="374" height="167.5"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
-                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ne3-GY-nLT" userLabel="Comment Stack">
-                                                                    <rect key="frame" x="20" y="20" width="334" height="108"/>
+                                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="Ne3-GY-nLT" userLabel="Comment Stack">
+                                                                    <rect key="frame" x="20" y="20" width="334" height="127.5"/>
                                                                     <subviews>
                                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="person.circle" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="Cu2-BT-AW2">
-                                                                            <rect key="frame" x="0.0" y="29.5" width="50" height="49"/>
+                                                                            <rect key="frame" x="0.0" y="39.5" width="50" height="49"/>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="width" constant="50" id="2bu-QS-nuR"/>
                                                                                 <constraint firstAttribute="height" constant="50" id="CSs-3r-hVd"/>
                                                                             </constraints>
                                                                         </imageView>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="CMm-Ae-3Ia" userLabel="User Stack">
-                                                                            <rect key="frame" x="55" y="0.5" width="279" height="107.5"/>
+                                                                            <rect key="frame" x="60" y="0.5" width="274" height="127"/>
                                                                             <subviews>
                                                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yuH-mk-qnd">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="36" height="19.5"/>
@@ -794,8 +794,14 @@
                                                                                     <nil key="textColor"/>
                                                                                     <nil key="highlightedColor"/>
                                                                                 </label>
+                                                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ASM-fd-15R">
+                                                                                    <rect key="frame" x="0.0" y="24.5" width="58" height="14.5"/>
+                                                                                    <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
+                                                                                    <nil key="textColor"/>
+                                                                                    <nil key="highlightedColor"/>
+                                                                                </label>
                                                                                 <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" scrollEnabled="NO" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" bouncesZoom="NO" editable="NO" textAlignment="justified" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ugv-nX-8OJ">
-                                                                                    <rect key="frame" x="0.0" y="24.5" width="279" height="83"/>
+                                                                                    <rect key="frame" x="0.0" y="44" width="274" height="83"/>
                                                                                     <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                                                                     <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</string>
                                                                                     <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -818,6 +824,7 @@
                                                             <outlet property="nicknameLabel" destination="yuH-mk-qnd" id="DYe-KM-OIr"/>
                                                             <outlet property="textCommentView" destination="ugv-nX-8OJ" id="ZmN-xn-hBH"/>
                                                             <outlet property="userImageView" destination="Cu2-BT-AW2" id="md2-zu-gUr"/>
+                                                            <outlet property="userTypeLabel" destination="ASM-fd-15R" id="U04-22-nQ0"/>
                                                         </connections>
                                                     </tableViewCell>
                                                 </prototypes>

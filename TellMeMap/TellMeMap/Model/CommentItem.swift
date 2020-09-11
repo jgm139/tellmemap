@@ -48,7 +48,7 @@ class CommentItem {
         let operation = CKFetchRecordsOperation(recordIDs: [recordReference.recordID])
         
         operation.qualityOfService = .userInitiated
-        operation.desiredKeys = ["nickname", "image"]
+        operation.desiredKeys = ["nickname", "image", "typeUser"]
         
         operation.perRecordCompletionBlock = {
             record, recordID, error in
