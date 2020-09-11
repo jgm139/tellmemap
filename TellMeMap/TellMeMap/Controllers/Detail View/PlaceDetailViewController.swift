@@ -19,7 +19,9 @@ class PlaceDetailViewController: UIViewController {
     @IBOutlet weak var likesView: UIImageView!
     @IBOutlet weak var numLikesLabel: UILabel!
     @IBOutlet var commentsTV: UITableView!
+    
     @IBOutlet weak var heightTV: NSLayoutConstraint!
+    @IBOutlet weak var scrollView: UIScrollView!
     
     
     // MARK: - Properties
@@ -28,30 +30,14 @@ class PlaceDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Detecting when keyboard will show to raise the text field
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:  UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector:  #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+        
         self.commentsTV.delegate = self
         self.commentsTV.dataSource = self
-        //self.commentsTV.separatorStyle = UITableViewCell.SeparatorStyle.none
         
-        if let place = item {
-            self.title = place.name
-            self.categoryLabel.text = place.category?.rawValue
-            self.autorLabel.text = place.user?.nickname
-            self.dateLabel.text = getDateFormat(date: place.date)
-            self.descriptionTextView.text = place.message
-            
-            if let likes = place.likes {
-                self.numLikesLabel.text = "\(likes)"
-            }
-            
-            if UserSessionSingleton.session.user.isLikedPlace(place) {
-                self.likesView.image = UIImage(systemName: "heart.fill")
-            }
-            
-            if let image = place.image {
-                self.imageView.image = image
-                self.imageView.contentMode = .scaleAspectFill
-            }
-        }
+        setPlaceData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,8 +70,47 @@ class PlaceDetailViewController: UIViewController {
         }
     }
     
+    @objc func keyboardWillShow(notification: Notification) {
+        guard let userInfo = notification.userInfo else { return }
+        
+        guard let frame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        
+        let keyboardFrame = frame.cgRectValue
+
+        let contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardFrame.height, right: 0)
+
+        scrollView.contentInset = contentInset
+    }
+
+    @objc func keyboardWillHide(notification: Notification) {
+        scrollView.contentInset = UIEdgeInsets.zero
+    }
+    
     
     // MARK: - Methods
+    func setPlaceData() {
+        if let place = item {
+            self.title = place.name
+            self.categoryLabel.text = place.category?.rawValue
+            self.autorLabel.text = place.user?.nickname
+            self.dateLabel.text = getDateFormat(date: place.date)
+            self.descriptionTextView.text = place.message
+            
+            if let likes = place.likes {
+                self.numLikesLabel.text = "\(likes)"
+            }
+            
+            if UserSessionSingleton.session.user.isLikedPlace(place) {
+                self.likesView.image = UIImage(systemName: "heart.fill")
+            }
+            
+            if let image = place.image {
+                self.imageView.image = image
+                self.imageView.contentMode = .scaleAspectFill
+            }
+        }
+    }
+    
     func getDateFormat(date: Date?) -> String? {
         let dataFormatter = DateFormatter()
         dataFormatter.dateFormat = "dd MMM, yyyy HH:mm"
