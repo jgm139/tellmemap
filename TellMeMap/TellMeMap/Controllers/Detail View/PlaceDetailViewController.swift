@@ -22,6 +22,7 @@ class PlaceDetailViewController: UIViewController {
     
     @IBOutlet weak var heightTV: NSLayoutConstraint!
     @IBOutlet weak var scrollView: UIScrollView!
+    @IBOutlet weak var addCommentStack: UIStackView!
     
     @IBOutlet weak var addCommentTextField: UITextField!
     
@@ -39,6 +40,10 @@ class PlaceDetailViewController: UIViewController {
         
         let tapView: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tapView)
+        
+        if UserSessionSingleton.session.user.typeUser == UserType.neighbour {
+            self.addCommentStack.isHidden = true
+        }
         
         self.commentsTV.delegate = self
         self.commentsTV.dataSource = self
