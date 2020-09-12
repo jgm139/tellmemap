@@ -22,6 +22,7 @@ class NewMessageViewController: UIViewController {
     // MARK: - Properties
     var placeLocation = CLLocationCoordinate2D()
     var locationSelected = false
+    var defaultImage: UIImage?
     var imagePicker = UIImagePickerController()
     var ckManager = CloudKitManager()
     
@@ -32,6 +33,8 @@ class NewMessageViewController: UIViewController {
         
         let tapView: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tapView)
+        
+        self.defaultImage = self.photoImageView.image
         
         self.imagePicker.delegate = self
         
@@ -66,7 +69,13 @@ class NewMessageViewController: UIViewController {
                         description = text
                     }
                     
-                    newPlace(name: title, message: description, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0), image: photoImageView.image)
+                    var image: UIImage? = nil
+                    
+                    if !(photoImageView.image?.isEqual(defaultImage))! {
+                        image = photoImageView.image
+                    }
+                    
+                    newPlace(name: title, message: description, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0), image: image)
                 }
             }
         }
