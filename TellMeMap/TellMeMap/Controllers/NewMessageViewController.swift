@@ -99,11 +99,12 @@ class NewMessageViewController: UIViewController {
     // MARK: - Methods
     func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, category: Int, image: UIImage?, isPublic: Bool = true) {
         if isPublic {
-            let itemPlace = PlaceItem(name: name, message: message, category: category, date: Date(), user: UserSessionSingleton.session.user, location: coordinates, image: image)
+            let date = Date()
+            let itemPlace = PlaceItem(name: name, message: message, category: category, date: date, user: UserSessionSingleton.session.user, location: coordinates, image: image)
             
             CloudKitManager.places.insert(itemPlace, at: 0)
             
-            ckManager.addPlace(name: name, message: message, category: category, coordinates: coordinates, image: image)
+            ckManager.addPlace(name: name, message: message, category: category, date: date, coordinates: coordinates, image: image)
         }
     }
     

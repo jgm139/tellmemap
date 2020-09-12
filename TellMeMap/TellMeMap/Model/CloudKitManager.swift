@@ -56,7 +56,7 @@ class CloudKitManager {
         })
     }
     
-    func addPlace(name: String, message: String, category: Int, coordinates: CLLocationCoordinate2D, image: UIImage?) {
+    func addPlace(name: String, message: String, category: Int, date: Date, coordinates: CLLocationCoordinate2D, image: UIImage?) {
         let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id!]))
         
         self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
@@ -72,7 +72,7 @@ class CloudKitManager {
                     place["message"] = message
                     place["category"] = category
                     place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
-                    place["date"] = Date()
+                    place["date"] = date
                     place["user"] = reference
                     place["likes"] = 0
                     
@@ -89,6 +89,8 @@ class CloudKitManager {
                         (recordID, error) in
                         if let e = error {
                             print("Error: \(e)")
+                        } else {
+                            CloudKitManager.places.filter {$0.date == date}.first?.record = place
                         }
                     })
                 }
