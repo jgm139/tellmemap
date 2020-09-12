@@ -39,8 +39,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
         }
         
-        self.mapView.removeAnnotations(self.annotations)
-        
         ckManager.getPlaces {
             (finish) in
             if finish {
@@ -53,7 +51,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    override func viewDidAppear(_ animated: Bool) {}
+    override func viewDidAppear(_ animated: Bool) {
+        self.sortData()
+        self.setupAnnotations()
+    }
     
     override func viewDidDisappear(_ animated: Bool) {
         locationManager.stopUpdatingLocation()
