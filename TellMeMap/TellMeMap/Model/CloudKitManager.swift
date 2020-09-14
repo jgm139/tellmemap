@@ -173,7 +173,7 @@ class CloudKitManager {
     
     func addComment(text: String, placeRecord: CKRecord, _ completion: @escaping (_ finish: Bool) -> Void) {
         let comment = CKRecord(recordType: "Comment")
-        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.user.id!, action: .deleteSelf)
+        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.user.id!, action: .none)
         comment["textComment"] = text
         comment["user"] = userReference
         
