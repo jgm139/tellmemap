@@ -63,7 +63,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         // **TESTING**
         self.annotations.forEach {
             (annotation) in
-            self.removeRadiusOverlay(forPin: annotation)
+            //self.removeRadiusOverlay(forPin: annotation)
             self.stopMonitoring(pin: annotation)
         }
     }
@@ -106,7 +106,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             let identifier = region.identifier
             locationManager.stopMonitoring(for: region)
             if let pin = self.annotations.filter({ $0.identifier == identifier }).first {
-                print(pin.title ?? "nil")
+                handleEvent(item: pin.placeItem!)
             }
         }
     }
@@ -131,7 +131,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         if !self.annotations.isEmpty {
             self.annotations.forEach {
                 (annotation) in
-                self.removeRadiusOverlay(forPin: annotation)
+                //self.removeRadiusOverlay(forPin: annotation)
                 self.stopMonitoring(pin: annotation)
             }
             self.mapView.removeAnnotations(self.annotations)
@@ -150,8 +150,8 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                 
                     DispatchQueue.main.async(execute: {
                         self.mapView.addAnnotation(artPin)
-                        let overlay = MKCircle(center: artPin.coordinate, radius: self.radius)
-                        self.mapView.addOverlay(overlay)
+                        //let overlay = MKCircle(center: artPin.coordinate, radius: self.radius)
+                        //self.mapView.addOverlay(overlay)
                     })
                 }
             })
@@ -204,6 +204,29 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             if coord.latitude == pin.coordinate.latitude && coord.longitude == pin.coordinate.longitude {
                 mapView?.removeOverlay(circleOverlay)
                 break
+            }
+        }
+    }
+    
+    func handleEvent(item: PlaceItem) {
+        let content = UNMutableNotificationContent()
+        content.title = "¡Lugar propuesto ✨!"
+        content.subtitle = "Accede a la app y apoya la idea"
+        content.body = item.name!
+        content.userInfo = ["id" : item.identifier!]
+        content.sound = UNNotificationSound.default
+        content.badge = UIApplication.shared.applicationIconBadgeNumber + 1 as NSNumber
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "enterPlace", content: content, trigger: trigger)
+        
+        UNUserNotificationCenter.current().add(request) {
+            error in
+            if let error = error {
+                print ("Error al lanzar la notificación: \(String(describing: error))")
+            } else {
+                print("Notificación lanzada correctamente.")
             }
         }
     }
