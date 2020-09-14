@@ -16,8 +16,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     let locationManager = CLLocationManager()
     var userCurrentLocation = CLLocationCoordinate2D()
     let ud = UserDefaults.standard
+    let radius: Double = 100
     
-    var annotations = [MKAnnotation]()
+    var annotations = [ArtworkPin]()
     var placesSorted = [Category: [PlaceItem]]()
     
     var arraySelectedCategories: [Category : Bool] = [:]
@@ -58,6 +59,13 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     override func viewDidDisappear(_ animated: Bool) {
         locationManager.stopUpdatingLocation()
+        
+        // **TESTING**
+        self.annotations.forEach {
+            (annotation) in
+            self.removeRadiusOverlay(forPin: annotation)
+            self.stopMonitoring(pin: annotation)
+        }
     }
     
     // MARK: - Actions
@@ -93,6 +101,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         centerMapOnLocation(mapView: mapView, loc: CLLocation(latitude: userCurrentLocation.latitude, longitude: userCurrentLocation.longitude))
     }
     
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if let region = region as? CLCircularRegion {
+            let identifier = region.identifier
+            locationManager.stopMonitoring(for: region)
+            if let pin = self.annotations.filter({ $0.identifier == identifier }).first {
+                print(pin.title ?? "nil")
+            }
+        }
+    }
+    
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
         let regionRadius: CLLocationDistance = 250
         let coordinateRegion =
@@ -110,7 +128,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func setupAnnotations() {
-        self.mapView.removeAnnotations(self.annotations)
+        if !self.annotations.isEmpty {
+            self.annotations.forEach {
+                (annotation) in
+                self.removeRadiusOverlay(forPin: annotation)
+                self.stopMonitoring(pin: annotation)
+            }
+            self.mapView.removeAnnotations(self.annotations)
+        }
         
         for (_, places) in placesSorted {
             places.forEach({
@@ -119,11 +144,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                 if let _ = item.location, let _ = item.category {
                     
                     let artPin = ArtworkPin(place: item)
+                    monitorRegionAtLocation(pin: artPin)
                 
                     self.annotations.append(artPin)
                 
                     DispatchQueue.main.async(execute: {
                         self.mapView.addAnnotation(artPin)
+                        let overlay = MKCircle(center: artPin.coordinate, radius: self.radius)
+                        self.mapView.addOverlay(overlay)
                     })
                 }
             })
@@ -144,6 +172,38 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
                 if !value {
                     placesSorted.updateValue([], forKey: key)
                 }
+            }
+        }
+    }
+    
+    func monitorRegionAtLocation(pin: ArtworkPin) {
+        // Make sure the devices supports region monitoring.
+        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+            // Register the region.
+            let region = CLCircularRegion(center: pin.coordinate, radius: radius, identifier: pin.identifier!)
+            region.notifyOnEntry = true
+            region.notifyOnExit = false
+       
+            locationManager.startMonitoring(for: region)
+        }
+    }
+    
+    func stopMonitoring(pin: ArtworkPin) {
+        for region in locationManager.monitoredRegions {
+            guard let circularRegion = region as? CLCircularRegion, circularRegion.identifier == pin.identifier else { continue }
+            locationManager.stopMonitoring(for: circularRegion)
+        }
+    }
+    
+    func removeRadiusOverlay(forPin pin: ArtworkPin) {
+        guard let overlays = mapView?.overlays else { return }
+        
+        for overlay in overlays {
+            guard let circleOverlay = overlay as? MKCircle else { continue }
+            let coord = circleOverlay.coordinate
+            if coord.latitude == pin.coordinate.latitude && coord.longitude == pin.coordinate.longitude {
+                mapView?.removeOverlay(circleOverlay)
+                break
             }
         }
     }
@@ -180,5 +240,17 @@ extension MapViewController: MKMapViewDelegate {
         view.displayPriority = .required
         
         return view
+    }
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKCircle {
+            let circleRenderer = MKCircleRenderer(overlay: overlay)
+            circleRenderer.lineWidth = 1.0
+            circleRenderer.strokeColor = .purple
+            circleRenderer.fillColor = UIColor.purple.withAlphaComponent(0.4)
+            return circleRenderer
+        }
+        
+        return MKOverlayRenderer(overlay: overlay)
     }
 }

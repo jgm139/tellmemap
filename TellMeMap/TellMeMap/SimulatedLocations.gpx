@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<gpx version="1.1" creator="Xcode">
+  <wpt lat="38.352841" lon="-0.505092">
+    <name>Salesianos</name>
+    <time>2020-09-14T16:41:00Z</time>
+  </wpt>
+  <wpt lat="38.353230" lon="-0.509750">
+    <name>Pizzería</name>
+    <time>2020-09-14T16:41:15Z</time>
+  </wpt>
+</gpx>

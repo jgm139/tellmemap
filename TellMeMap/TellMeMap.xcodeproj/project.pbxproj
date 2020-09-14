@@ -22,6 +22,7 @@
 		6D889E5924D82B6000EB3616 /* UserItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D889E5824D82B6000EB3616 /* UserItem.swift */; };
 		6D93141324DD7B2D00B12575 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D93141224DD7B2D00B12575 /* ProfileViewController.swift */; };
 		6D93141524DDAEB100B12575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D93141424DDAEB100B12575 /* MapViewController.swift */; };
+		6DABA328250F930700B775BC /* SimulatedLocations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 6DABA327250F930700B775BC /* SimulatedLocations.gpx */; };
 		6DCBFFE524D72532002B43D7 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCBFFE424D72532002B43D7 /* CloudKitManager.swift */; };
 		6DCBFFE924D768EF002B43D7 /* PlaceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCBFFE824D768EF002B43D7 /* PlaceItem.swift */; };
 		6DE69C8924E19D360090B8F8 /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE69C8824E19D360090B8F8 /* NewMessageViewController.swift */; };
@@ -53,6 +54,7 @@
 		6D889E5824D82B6000EB3616 /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserItem.swift; path = TellMeMap/Model/UserItem.swift; sourceTree = SOURCE_ROOT; };
 		6D93141224DD7B2D00B12575 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = TellMeMap/Controllers/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
 		6D93141424DDAEB100B12575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = TellMeMap/Controllers/MapViewController.swift; sourceTree = SOURCE_ROOT; };
+		6DABA327250F930700B775BC /* SimulatedLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = file; name = SimulatedLocations.gpx; path = TellMeMap/SimulatedLocations.gpx; sourceTree = SOURCE_ROOT; };
 		6DCBFFE424D72532002B43D7 /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CloudKitManager.swift; path = TellMeMap/Model/CloudKitManager.swift; sourceTree = SOURCE_ROOT; };
 		6DCBFFE824D768EF002B43D7 /* PlaceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlaceItem.swift; path = TellMeMap/Model/PlaceItem.swift; sourceTree = SOURCE_ROOT; };
 		6DE69C8824E19D360090B8F8 /* NewMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewMessageViewController.swift; path = TellMeMap/Controllers/NewMessageViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -134,6 +136,7 @@
 		84B5D8B324C8C0B600C2EA1B /* tellMeMap */ = {
 			isa = PBXGroup;
 			children = (
+				6DABA327250F930700B775BC /* SimulatedLocations.gpx */,
 				84B5D8CB24C8C11300C2EA1B /* tellMeMap.entitlements */,
 				84B5D8B424C8C0B600C2EA1B /* AppDelegate.swift */,
 				84B5D8B624C8C0B600C2EA1B /* SceneDelegate.swift */,
@@ -245,6 +248,7 @@
 				84B5D8C424C8C0B700C2EA1B /* LaunchScreen.storyboard in Resources */,
 				84B5D8C124C8C0B700C2EA1B /* Assets.xcassets in Resources */,
 				84B5D8BC24C8C0B600C2EA1B /* Main.storyboard in Resources */,
+				6DABA328250F930700B775BC /* SimulatedLocations.gpx in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -427,7 +431,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 3S952AGH46;
 				INFOPLIST_FILE = tellMeMap/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -449,7 +453,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 3S952AGH46;
 				INFOPLIST_FILE = tellMeMap/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
