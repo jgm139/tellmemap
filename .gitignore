@@ -103,3 +103,5 @@ iOSInjectionProject/
 
 # End of https://www.gitignore.io/api/xcode,swift
 TellMeMap/TellMeMap/Assets.xcassets/.DS_Store
+
+.DS_Store

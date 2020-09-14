@@ -20,12 +20,14 @@ class ArtworkPin: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
     var title: String?
     var subtitle: String?
+    var identifier: String?
     
     
     init(place: PlaceItem) {
         self.placeItem = place
         self.title = place.name
         self.subtitle = place.category?.rawValue
+        self.identifier = place.identifier
         self.thumbImage = place.image
         self.coordinate = CLLocationCoordinate2D(latitude: place.location!.latitude, longitude: place.location!.longitude)
         

@@ -17,6 +17,7 @@ class PlaceItem: Equatable {
     
     private let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
     
+    var identifier: String?
     var name: String?
     var message: String?
     var date: Date?
@@ -27,7 +28,7 @@ class PlaceItem: Equatable {
     var likes: Int?
     var comments: [CommentItem] = []
     
-    init(name: String, message: String, category: Int, date: Date, user: UserItem, location: CLLocationCoordinate2D, image: UIImage?) {
+    init(name: String, message: String, category: Int, date: Date, user: UserItem, location: CLLocationCoordinate2D, image: UIImage?, identifier: String) {
         self.name = name
         self.message = message
         self.category = Category(id: category)
@@ -35,6 +36,7 @@ class PlaceItem: Equatable {
         self.user = user
         self.location = location
         self.image = image
+        self.identifier = identifier
         self.likes = 0
     }
     
@@ -44,10 +46,11 @@ class PlaceItem: Equatable {
     }
     
     static func == (lhs: PlaceItem, rhs: PlaceItem) -> Bool {
-        return lhs.name == rhs.name && lhs.user?.nickname == rhs.user?.nickname && lhs.date == rhs.date
+        return lhs.identifier == rhs.identifier
     }
     
     func getPlace(_ completion: @escaping (_ success: Bool) -> Void) {
+        let identifier = record!.object(forKey: "identifier") as? String
         let name = record!.object(forKey: "name") as? String
         let message = record!.object(forKey: "message") as? String
         let category = record!.object(forKey: "category") as? Int
@@ -59,6 +62,7 @@ class PlaceItem: Equatable {
             getPlaceUser(recordReference: userRecordReference) {
                 (userItem) in
                 if let user = userItem {
+                    self.identifier = identifier
                     self.name = name
                     self.message = message
                     
