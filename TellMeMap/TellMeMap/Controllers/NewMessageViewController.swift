@@ -21,6 +21,8 @@ class NewMessageViewController: UIViewController {
     
     // MARK: - Properties
     var placeLocation = CLLocationCoordinate2D()
+    var locationSelected = false
+    var defaultImage: UIImage?
     var imagePicker = UIImagePickerController()
     var ckManager = CloudKitManager()
     
@@ -29,18 +31,20 @@ class NewMessageViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.imagePicker.delegate = self
-        
         let tapView: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
-        
         self.view.addGestureRecognizer(tapView)
+        
+        self.defaultImage = self.photoImageView.image
+        
+        self.imagePicker.delegate = self
         
         self.okButton.isEnabled = false
         
+        self.newPlaceDescription.delegate = self
         self.newPlaceDescription.text = "Message description..."
         self.newPlaceDescription.textColor = UIColor.lightGray
         
-        self.newPlaceDescription.delegate = self
+        self.newPlaceTitle.addTarget(self, action: #selector(textFieldDidChange(_:)),for: .editingChanged)
         
         self.pickerView.delegate = self
         self.pickerView.dataSource = self
@@ -65,7 +69,13 @@ class NewMessageViewController: UIViewController {
                         description = text
                     }
                     
-                    newPlace(name: title, message: description, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0), image: photoImageView.image)
+                    var image: UIImage? = nil
+                    
+                    if !(photoImageView.image?.isEqual(defaultImage))! {
+                        image = photoImageView.image
+                    }
+                    
+                    newPlace(name: title, message: description, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0), image: image)
                 }
             }
         }
@@ -79,6 +89,9 @@ class NewMessageViewController: UIViewController {
                 } else {
                     placeLocation = sourceViewController.userCurrentLocation
                 }
+                
+                locationSelected = true
+                checkDataPlaceCompleted()
             }
         }
     }
@@ -86,12 +99,30 @@ class NewMessageViewController: UIViewController {
     // MARK: - Methods
     func newPlace(name: String, message: String, coordinates: CLLocationCoordinate2D, category: Int, image: UIImage?, isPublic: Bool = true) {
         if isPublic {
-            let itemPlace = PlaceItem(name: name, message: message, category: category, date: Date(), user: UserSessionSingleton.session.user, location: coordinates, image: image)
+            let date = Date()
+            let identifier = NSUUID().uuidString
+            let itemPlace = PlaceItem(name: name, message: message, category: category, date: date, user: UserSessionSingleton.session.user, location: coordinates, image: image, identifier: identifier)
             
             CloudKitManager.places.insert(itemPlace, at: 0)
             
-            ckManager.addPlace(name: name, message: message, category: category, coordinates: coordinates, image: image)
+            ckManager.addPlace(name: name, message: message, category: category, date: date, coordinates: coordinates, image: image, identifier: identifier)
         }
+    }
+    
+    func checkDataPlaceCompleted() {
+        if let title = newPlaceTitle.text {
+            if let text = newPlaceDescription.text {
+                if !title.isEmpty && !text.isEmpty && locationSelected {
+                    self.okButton.isEnabled = true
+                } else {
+                    self.okButton.isEnabled = false
+                }
+            }
+        }
+    }
+    
+    @objc func textFieldDidChange(_ textField: UITextField) {
+        checkDataPlaceCompleted()
     }
     
     
@@ -120,7 +151,6 @@ class NewMessageViewController: UIViewController {
         
         self.present(alert, animated: true, completion: nil)
     }
-    
 
 }
 
@@ -142,11 +172,7 @@ extension NewMessageViewController: UITextViewDelegate {
     }
 
     func textViewDidChange(_ textView: UITextView) {
-        if !textView.text.isEmpty {
-            self.okButton.isEnabled = true
-        } else {
-            self.okButton.isEnabled = false
-        }
+        checkDataPlaceCompleted()
     }
 }
 

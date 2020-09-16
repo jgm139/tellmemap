@@ -92,6 +92,7 @@ class TableViewController: UITableViewController {
     // MARK: - Actions
     @IBAction func unwindToPlaceList(sender: UIStoryboardSegue) {
         if sender.identifier == "saveMessageAndLeave" {
+            self.sortData()
             self.tableView.reloadData()
         }
     }

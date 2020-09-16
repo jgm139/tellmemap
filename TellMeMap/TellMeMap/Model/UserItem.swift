@@ -81,7 +81,7 @@ class UserItem {
             
             self.likedPlaces.append(item)
             
-            let reference = CKRecord.Reference(recordID: item.record!.recordID, action: .deleteSelf)
+            let reference = CKRecord.Reference(recordID: item.record!.recordID, action: .none)
             
             if var ls = record!["likedPlaces"] as? [CKRecord.Reference] {
                 ls.append(reference)
