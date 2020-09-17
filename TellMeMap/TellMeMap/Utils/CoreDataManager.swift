@@ -48,6 +48,29 @@ class CoreDataManager {
     
     private init() {}
     
+    func updateUser(nickname: String?, image: UIImage?) {
+        let request: NSFetchRequest<UserSession> = NSFetchRequest(entityName: "UserSession")
+        
+        do {
+            let sessions = try CoreDataManager.sharedManager.persistentContainer.viewContext.fetch(request)
+            
+            if sessions.count > 0 {
+                if let n = nickname {
+                    sessions[0].nickname = n
+                }
+                
+                if let i = image {
+                    sessions[0].image = i.pngData()
+                }
+            }
+            
+            try CoreDataManager.sharedManager.persistentContainer.viewContext.save()
+            
+        } catch {
+           print("Error al guardar el contexto: \(error)")
+        }
+    }
+    
     // MARK: - Core Data Saving support
     func saveContext () {
         let context = persistentContainer.viewContext

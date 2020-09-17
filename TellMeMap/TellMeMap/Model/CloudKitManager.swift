@@ -160,6 +160,8 @@ class CloudKitManager {
         
         if changes {
             
+            CoreDataManager.sharedManager.updateUser(nickname: newNickname, image: newImage)
+            
             self.publicDB.save(UserSessionSingleton.session.userItem.record!, completionHandler: {
                 (recordID, error) in
                 if let e = error {
