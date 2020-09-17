@@ -101,7 +101,7 @@ class NewMessageViewController: UIViewController {
         if isPublic {
             let date = Date()
             let identifier = NSUUID().uuidString
-            let itemPlace = PlaceItem(name: name, message: message, category: category, date: date, user: UserSessionSingleton.session.user, location: coordinates, image: image, identifier: identifier)
+            let itemPlace = PlaceItem(name: name, message: message, category: category, date: date, user: UserSessionSingleton.session.userItem, location: coordinates, image: image, identifier: identifier)
             
             CloudKitManager.places.insert(itemPlace, at: 0)
             

@@ -8,7 +8,6 @@
 
 import UIKit
 import CloudKit
-import CoreData
 
 class SignUpViewController: UIViewController {
     
@@ -20,7 +19,6 @@ class SignUpViewController: UIViewController {
     
     // MARK: - Properties
     var userInformation: [String: String]?
-    let viewContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var ckManager = CloudKitManager()
     var typeUser: UserType = .neighbour
     
@@ -104,29 +102,10 @@ class SignUpViewController: UIViewController {
         
         ckManager.addUser(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id, typeUser: intUser)
         
-        UserSessionSingleton.session.user = itemUser
+        UserSessionSingleton.session.userItem = itemUser
         
-        self.initSession()
+        SessionManager.initSession()
         
-    }
-    
-    func initSession(){
-        let request: NSFetchRequest<Session> = NSFetchRequest(entityName:"Session")
-        let sessions = try? viewContext.fetch(request)
-        
-        if sessions!.count > 0 {
-            sessions![0].nickname = UserSessionSingleton.session.user.nickname
-        } else {
-            print("New User Session \(String(describing: UserSessionSingleton.session.user.nickname))")
-            let newSession = Session(context: viewContext)
-            newSession.nickname = UserSessionSingleton.session.user.nickname
-        }
-        
-        do {
-            try viewContext.save()
-        } catch {
-           print("Error al guardar el contexto: \(error)")
-        }
     }
     
 }

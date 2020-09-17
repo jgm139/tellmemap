@@ -9,6 +9,7 @@
 import UIKit
 import MapKit
 import CloudKit
+import CoreData
 
 class UserItem {
     
@@ -31,6 +32,19 @@ class UserItem {
         self.name = name
         self.surnames = surnames
         self.typeUser = UserType(id: typeUser)
+    }
+    
+    init(userCoreData: UserSession) {
+        self.icloud_id = userCoreData.icloud_id
+        self.nickname = userCoreData.nickname
+        self.name = userCoreData.name
+        self.surnames = userCoreData.surnames
+        
+        if let image = userCoreData.image {
+            self.image = UIImage(data: image)
+        }
+        
+        self.typeUser = UserType(id: Int(userCoreData.typeUser))
     }
     
     init?(record: CKRecord) {
@@ -59,7 +73,29 @@ class UserItem {
             }
         }
         
-        if let likedPlacesRecords = record["likedPlaces"] as? [CKRecord.Reference] {
+        getLikedPlaces()
+    }
+    
+    func getRecordUser(completion: @escaping (_ success: Bool) -> Void) {
+        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [icloud_id!]))
+        
+        self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
+            (users, error) in
+            if error == nil {
+                if users!.isEmpty {
+                    completion(false)
+                } else {
+                    self.record = users![0]
+                    self.id = self.record?.recordID
+                    
+                    completion(true)
+                }
+            }
+        })
+    }
+    
+    func getLikedPlaces() {
+        if let likedPlacesRecords = record!["likedPlaces"] as? [CKRecord.Reference] {
             PlaceItem.fetchPlaces(for: likedPlacesRecords) {
                 (places) in
                 self.likedPlaces = places

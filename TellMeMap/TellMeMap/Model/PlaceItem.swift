@@ -123,7 +123,7 @@ class PlaceItem: Equatable {
         let group = DispatchGroup()
         
         operation.qualityOfService = .utility
-        operation.desiredKeys = ["name", "user", "date"]
+        operation.desiredKeys = ["name", "user", "identifier"]
 
         operation.fetchRecordsCompletionBlock = {
             records, error in

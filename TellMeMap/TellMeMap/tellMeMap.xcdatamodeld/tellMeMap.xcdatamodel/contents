@@ -1,35 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G73" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
-        <attribute name="category" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="likes" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
-        <attribute name="message" optional="YES" attributeType="String"/>
-        <attribute name="name" optional="YES" attributeType="String"/>
-        <attribute name="reports" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
-    </entity>
-    <entity name="Session" representedClassName="Session" syncable="YES" codeGenerationType="class">
-        <attribute name="nickname" optional="YES" attributeType="String"/>
-    </entity>
-    <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="UserSession" representedClassName="UserSession" syncable="YES" codeGenerationType="class">
         <attribute name="icloud_id" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nickname" optional="YES" attributeType="String"/>
         <attribute name="surnames" optional="YES" attributeType="String"/>
+        <attribute name="typeUser" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <configuration name="Cloud">
-        <memberEntity name="Place"/>
-        <memberEntity name="User"/>
-    </configuration>
     <configuration name="Local">
-        <memberEntity name="Session"/>
+        <memberEntity name="UserSession"/>
     </configuration>
     <elements>
-        <element name="Place" positionX="-63" positionY="-18" width="128" height="163"/>
-        <element name="Session" positionX="-54" positionY="63" width="128" height="58"/>
-        <element name="User" positionX="-63" positionY="45" width="128" height="118"/>
+        <element name="UserSession" positionX="-53.9921875" positionY="-78.609375" width="127.71484375" height="133"/>
     </elements>
 </model>

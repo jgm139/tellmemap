@@ -41,13 +41,13 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     }
     
     func setData() {
-        self.nicknameTextField.text = UserSessionSingleton.session.user.nickname
+        self.nicknameTextField.text = UserSessionSingleton.session.userItem.nickname
         
-        if let typeUser = UserSessionSingleton.session.user.typeUser?.rawValue {
+        if let typeUser = UserSessionSingleton.session.userItem.typeUser?.rawValue {
             self.typeUserLabel.text = typeUser
         }
         
-        if let photo = UserSessionSingleton.session.user.image {
+        if let photo = UserSessionSingleton.session.userItem.image {
             self.photoImageView.image = photo
             self.photoImageView.contentMode = .scaleAspectFill
         }

@@ -9,7 +9,7 @@
 import Foundation
 
 class UserSessionSingleton {
-    var user: UserItem!
+    var userItem: UserItem!
     
     private init() {}
     

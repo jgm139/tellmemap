@@ -23,6 +23,8 @@
 		6D93141324DD7B2D00B12575 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D93141224DD7B2D00B12575 /* ProfileViewController.swift */; };
 		6D93141524DDAEB100B12575 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D93141424DDAEB100B12575 /* MapViewController.swift */; };
 		6DABA328250F930700B775BC /* SimulatedLocations.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 6DABA327250F930700B775BC /* SimulatedLocations.gpx */; };
+		6DB5DC0F251389BA00CDBAD1 /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB5DC0E251389BA00CDBAD1 /* SessionManager.swift */; };
+		6DB5DC1125138EE100CDBAD1 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DB5DC1025138EE100CDBAD1 /* CoreDataManager.swift */; };
 		6DCBFFE524D72532002B43D7 /* CloudKitManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCBFFE424D72532002B43D7 /* CloudKitManager.swift */; };
 		6DCBFFE924D768EF002B43D7 /* PlaceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DCBFFE824D768EF002B43D7 /* PlaceItem.swift */; };
 		6DE69C8924E19D360090B8F8 /* NewMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DE69C8824E19D360090B8F8 /* NewMessageViewController.swift */; };
@@ -54,7 +56,9 @@
 		6D889E5824D82B6000EB3616 /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserItem.swift; path = TellMeMap/Model/UserItem.swift; sourceTree = SOURCE_ROOT; };
 		6D93141224DD7B2D00B12575 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = TellMeMap/Controllers/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
 		6D93141424DDAEB100B12575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = TellMeMap/Controllers/MapViewController.swift; sourceTree = SOURCE_ROOT; };
-		6DABA327250F930700B775BC /* SimulatedLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = file; name = SimulatedLocations.gpx; path = TellMeMap/SimulatedLocations.gpx; sourceTree = SOURCE_ROOT; };
+		6DABA327250F930700B775BC /* SimulatedLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = SimulatedLocations.gpx; path = TellMeMap/SimulatedLocations.gpx; sourceTree = SOURCE_ROOT; };
+		6DB5DC0E251389BA00CDBAD1 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SessionManager.swift; path = TellMeMap/Utils/SessionManager.swift; sourceTree = SOURCE_ROOT; };
+		6DB5DC1025138EE100CDBAD1 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreDataManager.swift; path = TellMeMap/Utils/CoreDataManager.swift; sourceTree = SOURCE_ROOT; };
 		6DCBFFE424D72532002B43D7 /* CloudKitManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CloudKitManager.swift; path = TellMeMap/Model/CloudKitManager.swift; sourceTree = SOURCE_ROOT; };
 		6DCBFFE824D768EF002B43D7 /* PlaceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = PlaceItem.swift; path = TellMeMap/Model/PlaceItem.swift; sourceTree = SOURCE_ROOT; };
 		6DE69C8824E19D360090B8F8 /* NewMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NewMessageViewController.swift; path = TellMeMap/Controllers/NewMessageViewController.swift; sourceTree = SOURCE_ROOT; };
@@ -167,6 +171,8 @@
 				8480721124D040E200009E7E /* UserSessionSingleton.swift */,
 				6D83B79E24EACBD900E2F551 /* Colours.swift */,
 				6D4A8B1A24EC11F5009361DF /* ThemeElements.swift */,
+				6DB5DC0E251389BA00CDBAD1 /* SessionManager.swift */,
+				6DB5DC1025138EE100CDBAD1 /* CoreDataManager.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -262,6 +268,7 @@
 				6D0143682506B4F5004C6B36 /* FilterViewController.swift in Sources */,
 				6DCBFFE924D768EF002B43D7 /* PlaceItem.swift in Sources */,
 				84B5D8D124C8C27A00C2EA1B /* ArtworkPin.swift in Sources */,
+				6DB5DC0F251389BA00CDBAD1 /* SessionManager.swift in Sources */,
 				84B5D8D224C8C27A00C2EA1B /* Category.swift in Sources */,
 				6D4A8B1F24EC2868009361DF /* TableViewController.swift in Sources */,
 				8480721224D040E200009E7E /* UserSessionSingleton.swift in Sources */,
@@ -278,6 +285,7 @@
 				6D93141324DD7B2D00B12575 /* ProfileViewController.swift in Sources */,
 				6D7BF6AF2508E8A200CF2FC4 /* SignUpViewController.swift in Sources */,
 				84B5D8B724C8C0B600C2EA1B /* SceneDelegate.swift in Sources */,
+				6DB5DC1125138EE100CDBAD1 /* CoreDataManager.swift in Sources */,
 				6D7DF0E1250A487300B18838 /* CommentItem.swift in Sources */,
 				6D7DF0E9250A8E8A00B18838 /* CommentTableViewCell.swift in Sources */,
 				6D4A8B1B24EC11F5009361DF /* ThemeElements.swift in Sources */,

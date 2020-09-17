@@ -57,7 +57,7 @@ class CloudKitManager {
     }
     
     func addPlace(name: String, message: String, category: Int, date: Date, coordinates: CLLocationCoordinate2D, image: UIImage?, identifier: String) {
-        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id!]))
+        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.userItem.icloud_id!]))
         
         self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
             (results, error) in
@@ -131,7 +131,7 @@ class CloudKitManager {
             if let e = error {
                 print("Error: \(e)")
             } else {
-                UserSessionSingleton.session.user.record = user
+                UserSessionSingleton.session.userItem.record = user
             }
         })
     }
@@ -139,28 +139,28 @@ class CloudKitManager {
     func updateUser(newNickname: String?, newImage: UIImage?, _ completion: @escaping (_ finish: Bool) -> Void) {
         var changes = false
         
-        if let nickname = newNickname, nickname != UserSessionSingleton.session.user.nickname {
-            UserSessionSingleton.session.user.record!["nickname"] = nickname
+        if let nickname = newNickname, nickname != UserSessionSingleton.session.userItem.nickname {
+            UserSessionSingleton.session.userItem.record!["nickname"] = nickname
             
-            UserSessionSingleton.session.user.nickname = nickname
+            UserSessionSingleton.session.userItem.nickname = nickname
             
             changes = true
         }
         
-        if let image = newImage, !image.isEqual(UserSessionSingleton.session.user.image) {
+        if let image = newImage, !image.isEqual(UserSessionSingleton.session.userItem.image) {
             
             let asset = self.createAsset(from: image)
             
-            UserSessionSingleton.session.user.record!["image"] = asset
+            UserSessionSingleton.session.userItem.record!["image"] = asset
             
-            UserSessionSingleton.session.user.image = image
+            UserSessionSingleton.session.userItem.image = image
             
             changes = true
         }
         
         if changes {
             
-            self.publicDB.save(UserSessionSingleton.session.user.record!, completionHandler: {
+            self.publicDB.save(UserSessionSingleton.session.userItem.record!, completionHandler: {
                 (recordID, error) in
                 if let e = error {
                     print("Error: \(e)")
@@ -174,7 +174,7 @@ class CloudKitManager {
     
     func addComment(text: String, placeRecord: CKRecord, _ completion: @escaping (_ finish: Bool) -> Void) {
         let comment = CKRecord(recordType: "Comment")
-        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.user.id!, action: .none)
+        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.userItem.id!, action: .none)
         comment["textComment"] = text
         comment["user"] = userReference
         

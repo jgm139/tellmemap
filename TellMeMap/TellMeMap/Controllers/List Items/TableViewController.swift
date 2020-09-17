@@ -29,7 +29,7 @@ class TableViewController: UITableViewController {
         
         self.refreshControl?.addTarget(self, action: #selector(refreshPlaces), for: .valueChanged)
         
-        if UserSessionSingleton.session.user.typeUser == UserType.entrepreneur {
+        if UserSessionSingleton.session.userItem.typeUser == UserType.entrepreneur {
             addPlaceButton.isEnabled = false
             addPlaceButton.tintColor = UIColor.clear
         }
