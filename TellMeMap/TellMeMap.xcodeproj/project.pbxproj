@@ -54,7 +54,7 @@
 		6D889E5824D82B6000EB3616 /* UserItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = UserItem.swift; path = TellMeMap/Model/UserItem.swift; sourceTree = SOURCE_ROOT; };
 		6D93141224DD7B2D00B12575 /* ProfileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileViewController.swift; path = TellMeMap/Controllers/ProfileViewController.swift; sourceTree = SOURCE_ROOT; };
 		6D93141424DDAEB100B12575 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = "tellMeMap/Controllers/Map View/MapViewController.swift"; sourceTree = SOURCE_ROOT; };
-		6DABA327250F930700B775BC /* SimulatedLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = SimulatedLocations.gpx; path = TellMeMap/SimulatedLocations.gpx; sourceTree = SOURCE_ROOT; };
+		6DABA327250F930700B775BC /* SimulatedLocations.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = SimulatedLocations.gpx; path = tellMeMap/Utils/SimulatedLocations.gpx; sourceTree = SOURCE_ROOT; };
 		6DB5DC0E251389BA00CDBAD1 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SessionManager.swift; path = tellMeMap/Model/Managers/SessionManager.swift; sourceTree = SOURCE_ROOT; };
 		6DB5DC1025138EE100CDBAD1 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreDataManager.swift; path = tellMeMap/Model/Managers/CoreDataManager.swift; sourceTree = SOURCE_ROOT; };
 		6DC38C5F2514DF7E00B2C141 /* PlaceTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlaceTableViewCell.swift; path = "TellMeMap/Controllers/List Items View/PlaceTableViewCell.swift"; sourceTree = SOURCE_ROOT; };
@@ -177,7 +177,6 @@
 		84B5D8B324C8C0B600C2EA1B /* tellMeMap */ = {
 			isa = PBXGroup;
 			children = (
-				6DABA327250F930700B775BC /* SimulatedLocations.gpx */,
 				84B5D8CB24C8C11300C2EA1B /* tellMeMap.entitlements */,
 				84B5D8B424C8C0B600C2EA1B /* AppDelegate.swift */,
 				84B5D8B624C8C0B600C2EA1B /* SceneDelegate.swift */,
@@ -207,6 +206,7 @@
 				84B5D8CF24C8C27A00C2EA1B /* ArtworkPin.swift */,
 				6D83B79E24EACBD900E2F551 /* Colours.swift */,
 				6D4A8B1A24EC11F5009361DF /* ThemeElements.swift */,
+				6DABA327250F930700B775BC /* SimulatedLocations.gpx */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
