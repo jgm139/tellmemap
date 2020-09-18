@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class TableViewController: UITableViewController {
+class PlaceTableViewController: UITableViewController {
     
     // MARK: - Outlets
     @IBOutlet var tv: UITableView!
