@@ -19,7 +19,6 @@ class SignUpViewController: UIViewController {
     
     // MARK: - Properties
     var userInformation: [String: String]?
-    var ckManager = CloudKitManager()
     var typeUser: UserType = .neighbour
     
     
@@ -100,7 +99,7 @@ class SignUpViewController: UIViewController {
         
         let itemUser = UserItem(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id, typeUser: intUser)
         
-        ckManager.addUser(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id, typeUser: intUser)
+        CloudKitManager.sharedCKManager.addUser(nickname: nickname, name: name, surnames: surnames, icloud_id: icloud_id, typeUser: intUser)
         
         UserSessionSingleton.session.userItem = itemUser
         

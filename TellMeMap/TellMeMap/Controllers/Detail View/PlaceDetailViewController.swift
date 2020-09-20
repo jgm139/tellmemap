@@ -29,7 +29,6 @@ class PlaceDetailViewController: UIViewController {
     
     // MARK: - Properties
     var item: PlaceItem?
-    var ckManager = CloudKitManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,7 +87,7 @@ class PlaceDetailViewController: UIViewController {
             let commentItem = CommentItem(user: UserSessionSingleton.session.userItem, textComment: text)
             item?.comments.append(commentItem)
             
-            ckManager.addComment(text: text, placeRecord: (item?.record)!) {
+            CloudKitManager.sharedCKManager.addComment(text: text, placeRecord: (item?.record)!) {
                 finish in
                 
                 if finish {

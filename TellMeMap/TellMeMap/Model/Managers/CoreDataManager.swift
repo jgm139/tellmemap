@@ -11,7 +11,7 @@ import CoreData
 
 class CoreDataManager {
     
-    static let sharedManager = CoreDataManager()
+    static let sharedCDManager = CoreDataManager()
     
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
         /*
@@ -52,7 +52,7 @@ class CoreDataManager {
         let request: NSFetchRequest<UserSession> = NSFetchRequest(entityName: "UserSession")
         
         do {
-            let sessions = try CoreDataManager.sharedManager.persistentContainer.viewContext.fetch(request)
+            let sessions = try CoreDataManager.sharedCDManager.persistentContainer.viewContext.fetch(request)
             
             if sessions.count > 0 {
                 if let n = nickname {
@@ -64,7 +64,7 @@ class CoreDataManager {
                 }
             }
             
-            try CoreDataManager.sharedManager.persistentContainer.viewContext.save()
+            try CoreDataManager.sharedCDManager.persistentContainer.viewContext.save()
             
         } catch {
            print("Error al guardar el contexto: \(error)")

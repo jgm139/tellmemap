@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import CoreData
 
 class PlaceTableViewController: UITableViewController {
     
@@ -17,7 +16,6 @@ class PlaceTableViewController: UITableViewController {
     
     
     // MARK: - Properties
-    var ckManager = CloudKitManager()
     var indicator = UIActivityIndicatorView()
     var placesSorted = [Category: [PlaceItem]]()
     var heightSection: CGFloat = 30
@@ -41,7 +39,7 @@ class PlaceTableViewController: UITableViewController {
         indicator.startAnimating()
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
-        ckManager.getPlaces {
+        CloudKitManager.sharedCKManager.getPlaces {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {
@@ -68,7 +66,7 @@ class PlaceTableViewController: UITableViewController {
     }
     
     @objc func refreshPlaces() {
-        ckManager.getPlaces {
+        CloudKitManager.sharedCKManager.getPlaces {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {
@@ -176,7 +174,7 @@ class PlaceTableViewController: UITableViewController {
                 let tableSection = Category(id: indexPath.section)!
                 let placeToDelete = placesSorted[tableSection]![indexPath.row]
                 
-                ckManager.deletePlace(withName: placeToDelete.name!)
+                CloudKitManager.sharedCKManager.deletePlace(withName: placeToDelete.name!)
                 self.placesSorted[tableSection]?.remove(at: indexPath.row)
                 
                 DispatchQueue.main.async( execute: {

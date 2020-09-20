@@ -6,20 +6,21 @@
 //  Copyright © 2020 Julia García Martínez. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CloudKit
-import MapKit
 
 class CloudKitManager {
     
+    static let sharedCKManager = CloudKitManager()
+    
     // MARK: - iCloud properties
-    let container: CKContainer
-    let publicDB: CKDatabase
+    public let container: CKContainer
+    public let publicDB: CKDatabase
     
     // MARK: - Properties
     static public var places = [PlaceItem]()
     
-    init() {
+    private init() {
         container = CKContainer.default()
         publicDB = container.publicCloudDatabase
     }
@@ -160,7 +161,7 @@ class CloudKitManager {
         
         if changes {
             
-            CoreDataManager.sharedManager.updateUser(nickname: newNickname, image: newImage)
+            CoreDataManager.sharedCDManager.updateUser(nickname: newNickname, image: newImage)
             
             self.publicDB.save(UserSessionSingleton.session.userItem.record!, completionHandler: {
                 (recordID, error) in

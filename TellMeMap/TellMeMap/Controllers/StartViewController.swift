@@ -8,13 +8,8 @@
 
 import UIKit
 import CloudKit
-import CoreData
 
 class StartViewController: UIViewController {
-    
-    // MARK: - Properties
-    var ckManager = CloudKitManager()
-    
     
     // MARK: - Outlets
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -116,7 +111,7 @@ class StartViewController: UIViewController {
     func userIsSignUp(cloudID: String, completion: @escaping (_ isSigned: Bool) -> Void) {
         let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [cloudID]))
         
-        ckManager.publicDB.perform(query, inZoneWith: nil, completionHandler: {
+        CloudKitManager.sharedCKManager.publicDB.perform(query, inZoneWith: nil, completionHandler: {
             (users, error) in
             if error == nil {
                 if users!.isEmpty {

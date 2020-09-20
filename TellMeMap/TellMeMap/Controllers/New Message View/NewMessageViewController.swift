@@ -24,7 +24,6 @@ class NewMessageViewController: UIViewController {
     var locationSelected = false
     var defaultImage: UIImage?
     var imagePicker = UIImagePickerController()
-    var ckManager = CloudKitManager()
     
     
     // MARK: - View Controller Functions
@@ -105,7 +104,7 @@ class NewMessageViewController: UIViewController {
             
             CloudKitManager.places.insert(itemPlace, at: 0)
             
-            ckManager.addPlace(name: name, message: message, category: category, date: date, coordinates: coordinates, image: image, identifier: identifier)
+            CloudKitManager.sharedCKManager.addPlace(name: name, message: message, category: category, date: date, coordinates: coordinates, image: image, identifier: identifier)
         }
     }
     

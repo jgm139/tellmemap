@@ -13,8 +13,6 @@ class CommentItem {
     var id: CKRecord.ID?
     var record: CKRecord?
     
-    private let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
-    
     var user: UserItem?
     var textComment: String?
     
@@ -60,6 +58,6 @@ class CommentItem {
             }
         }
 
-        publicDB.add(operation)
+        CloudKitManager.sharedCKManager.publicDB.add(operation)
     }
 }

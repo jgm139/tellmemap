@@ -15,7 +15,7 @@ class SessionManager {
         let request: NSFetchRequest<UserSession> = NSFetchRequest(entityName:"UserSession")
         
         do {
-            let sessions = try CoreDataManager.sharedManager.persistentContainer.viewContext.fetch(request)
+            let sessions = try CoreDataManager.sharedCDManager.persistentContainer.viewContext.fetch(request)
             return sessions.count > 0
         } catch {
            print("Error al guardar el contexto: \(error)")
@@ -28,7 +28,7 @@ class SessionManager {
         let request: NSFetchRequest<UserSession> = NSFetchRequest(entityName: "UserSession")
         
         do {
-            let sessions = try CoreDataManager.sharedManager.persistentContainer.viewContext.fetch(request)
+            let sessions = try CoreDataManager.sharedCDManager.persistentContainer.viewContext.fetch(request)
             
             if sessions.count > 0 {
                 UserSessionSingleton.session.userItem = UserItem(userCoreData: sessions[0])
@@ -41,7 +41,7 @@ class SessionManager {
                 print("Loading User Session \(UserSessionSingleton.session.userItem.nickname ?? "null")")
             } else {
                 print("New User Session \(UserSessionSingleton.session.userItem.nickname ?? "null")")
-                let newUser = UserSession(context: CoreDataManager.sharedManager.persistentContainer.viewContext)
+                let newUser = UserSession(context: CoreDataManager.sharedCDManager.persistentContainer.viewContext)
                 newUser.icloud_id = UserSessionSingleton.session.userItem.icloud_id
                 newUser.image = UserSessionSingleton.session.userItem.image?.pngData()
                 newUser.nickname = UserSessionSingleton.session.userItem.nickname
@@ -50,7 +50,7 @@ class SessionManager {
                 newUser.typeUser = Int64(UserType.getIntFromUserType(UserSessionSingleton.session.userItem.typeUser!))
             }
             
-            try CoreDataManager.sharedManager.persistentContainer.viewContext.save()
+            try CoreDataManager.sharedCDManager.persistentContainer.viewContext.save()
             
         } catch {
            print("Error al guardar el contexto: \(error)")

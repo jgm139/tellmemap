@@ -12,7 +12,6 @@ import MapKit
 class MapViewController: UIViewController, CLLocationManagerDelegate {
     
     // MARK: - Properties
-    var ckManager = CloudKitManager()
     let locationManager = CLLocationManager()
     var userCurrentLocation = CLLocationCoordinate2D()
     let ud = UserDefaults.standard
@@ -40,7 +39,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.startUpdatingLocation()
         }
         
-        ckManager.getPlaces {
+        CloudKitManager.sharedCKManager.getPlaces {
             (finish) in
             if finish {
                 self.sortData()
@@ -58,14 +57,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        locationManager.stopUpdatingLocation()
+        //locationManager.stopUpdatingLocation()
         
         // **TESTING**
-        self.annotations.forEach {
+        /*self.annotations.forEach {
             (annotation) in
             //self.removeRadiusOverlay(forPin: annotation)
             self.stopMonitoring(pin: annotation)
-        }
+        }*/
     }
     
     // MARK: - Actions

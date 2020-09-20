@@ -7,14 +7,11 @@
 //
 
 import UIKit
-import CoreData
-import CloudKit
 
 class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
     // MARK: - Properties
     let imagePicker = UIImagePickerController()
-    var ckManager = CloudKitManager()
     
     // MARK: - Outlets
     @IBOutlet weak var photoImageView: UIImageView!
@@ -70,7 +67,7 @@ class ProfileViewController: UIViewController, UIImagePickerControllerDelegate, 
     @IBAction func saveChanges(_ sender: UIButton) {
         self.activityIndicator.startAnimating()
         
-        ckManager.updateUser(newNickname: self.nicknameTextField.text, newImage: self.photoImageView.image) {
+        CloudKitManager.sharedCKManager.updateUser(newNickname: self.nicknameTextField.text, newImage: self.photoImageView.image) {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {

@@ -7,16 +7,12 @@
 //
 
 import UIKit
-import MapKit
 import CloudKit
 import CoreData
 
 class UserItem {
-    
     var id: CKRecord.ID?
     var record: CKRecord?
-    
-    private let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
     
     var icloud_id: String?
     var image: UIImage?
@@ -79,7 +75,7 @@ class UserItem {
     func getRecordUser(completion: @escaping (_ success: Bool) -> Void) {
         let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [icloud_id!]))
         
-        self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
+        CloudKitManager.sharedCKManager.publicDB.perform(query, inZoneWith: nil, completionHandler: {
             (users, error) in
             if error == nil {
                 if users!.isEmpty {
@@ -108,7 +104,7 @@ class UserItem {
             
             item.record!["likes"] = item.likes
             
-            self.publicDB.save(item.record!, completionHandler: {
+            CloudKitManager.sharedCKManager.publicDB.save(item.record!, completionHandler: {
                 (recordID, error) in
                 if let e = error {
                     print("Error saving likes: \(e)")
@@ -128,7 +124,7 @@ class UserItem {
                 record!["likedPlaces"] = newLikedPlaces
             }
             
-            self.publicDB.save(record!, completionHandler: {
+            CloudKitManager.sharedCKManager.publicDB.save(record!, completionHandler: {
                 (recordID, error) in
                 if let e = error {
                     print("Error: \(e)")

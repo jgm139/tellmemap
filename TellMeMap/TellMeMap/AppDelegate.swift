@@ -82,7 +82,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         UserDefaults.standard.set(false, forKey: "filter")
         
-        CoreDataManager.sharedManager.saveContext()
+        CoreDataManager.sharedCDManager.saveContext()
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
