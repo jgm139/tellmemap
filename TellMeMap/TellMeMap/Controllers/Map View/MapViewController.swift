@@ -36,7 +36,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
+            locationManager.startMonitoringSignificantLocationChanges()
         }
         
         CloudKitManager.sharedCKManager.getPlaces {
@@ -89,10 +89,23 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     // MARK: - LocationManager
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         
-        self.locationManager.stopUpdatingLocation()
+        switch status {
+            case .authorizedAlways, .authorizedWhenInUse:
+                if status == .authorizedAlways {
+                    locationManager.allowsBackgroundLocationUpdates = true
+                } else {
+                    locationManager.allowsBackgroundLocationUpdates = false
+                }
+                locationManager.startMonitoringSignificantLocationChanges()
+            default:
+                locationManager.stopMonitoringSignificantLocationChanges()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = locations.last?.coordinate else { return }
         
         self.userCurrentLocation.latitude = locValue.latitude
         self.userCurrentLocation.longitude = locValue.longitude
@@ -103,7 +116,9 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
         if let region = region as? CLCircularRegion {
             let identifier = region.identifier
+            
             locationManager.stopMonitoring(for: region)
+            
             if let pin = self.annotations.filter({ $0.identifier == identifier }).first {
                 handleEvent(item: pin.placeItem!)
             }
