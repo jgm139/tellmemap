@@ -44,7 +44,7 @@ class FilterViewController: UIViewController {
         button.setImage(UIImage(systemName: "square"), for: .normal)
         button.setImage(UIImage(systemName: "checkmark.square"), for: .selected)
         button.setTitle(category.rawValue, for: .normal)
-        button.setTitleColor(UIColor.MyPalette.charcoal, for: .normal)
+        button.setTitleColor(UIColor.init(named: "button_color"), for: .normal)
         button.addTarget(self, action: #selector(clickCategoryButton(sender:)), for: .touchUpInside)
         button.tag = Category.getIntFromCategory(category)
         

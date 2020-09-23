@@ -44,17 +44,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // MARK: UI
         // Definición de los colores de los elementos de la app
-        AppButton.appearance().tintColor = UIColor.MyPalette.charcoal
-        AppButton.appearance().setTitleColor(UIColor.MyPalette.charcoal, for: .normal)
+        AppButton.appearance().tintColor = UIColor.init(named: "button_color")
+        AppButton.appearance().setTitleColor(UIColor.init(named: "button_color"), for: .normal)
+        AppButton.appearance().setTitleColor(UIColor.init(named: "button_color"), for: .selected)
         
-        UIImageView.appearance().tintColor = UIColor.MyPalette.sandy_brown
+        UIImageView.appearance().tintColor = UIColor.init(named: "imageview_color")
         
-        UITabBar.appearance().tintColor = UIColor.MyPalette.charcoal
-        UITabBar.appearance().barTintColor = UIColor.MyPalette.middle_blue_green
+        UITabBar.appearance().tintColor = UIColor.init(named: "Charcoal")
+        UITabBar.appearance().barTintColor = UIColor.init(named: "Middle_Blue_Green")
         UITabBar.appearance().unselectedItemTintColor = UIColor.white
         
-        UINavigationBar.appearance().barTintColor = UIColor.MyPalette.middle_blue_green
-        UINavigationBar.appearance().tintColor = UIColor.MyPalette.charcoal
+        UINavigationBar.appearance().barTintColor = UIColor.init(named: "Middle_Blue_Green")
+        UINavigationBar.appearance().tintColor = UIColor.init(named: "Charcoal")
         
         return true
     }
