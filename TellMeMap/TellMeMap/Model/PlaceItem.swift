@@ -8,12 +8,14 @@
 
 import UIKit
 import CloudKit
+import CoreLocation
 
 class PlaceItem: Equatable {
     var id: CKRecord.ID?
     var record: CKRecord?
     
     var identifier: String?
+    var id_city: String?
     var name: String?
     var message: String?
     var date: Date?
@@ -45,6 +47,23 @@ class PlaceItem: Equatable {
         return lhs.identifier == rhs.identifier
     }
     
+    func getCityFromLocation () {
+        if let l2d = self.location {
+            let geoCoder = CLGeocoder()
+            let location = CLLocation(latitude: l2d.latitude, longitude: l2d.longitude)
+
+            geoCoder.reverseGeocodeLocation(location, completionHandler: {
+                (placemarks, _) -> Void in
+                placemarks?.forEach {
+                    (placemark) in
+                    if let city = placemark.locality {
+                        self.id_city = city
+                    }
+                }
+            })
+        }
+    }
+    
     func getPlace(_ completion: @escaping (_ success: Bool) -> Void) {
         let identifier = record!.object(forKey: "identifier") as? String
         let name = record!.object(forKey: "name") as? String
@@ -52,6 +71,7 @@ class PlaceItem: Equatable {
         let category = record!.object(forKey: "category") as? Int
         let date = record!.object(forKey: "date") as? Date
         let location = record!.object(forKey: "location") as? CLLocation
+        let id_city = record!.object(forKey: "id_city") as? String
         let likes = record!.object(forKey: "likes") as? Int
         
         if let userRecordReference = record!.object(forKey: "user") as? CKRecord.Reference {
@@ -69,6 +89,7 @@ class PlaceItem: Equatable {
                     self.date = date
                     self.user = user
                     self.location = location?.coordinate
+                    self.id_city = id_city
                     self.likes = likes
                     
                     if let asset = self.record?.object(forKey: "image") as? CKAsset {
