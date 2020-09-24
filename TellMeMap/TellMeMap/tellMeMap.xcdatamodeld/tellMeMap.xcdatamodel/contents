@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="UserSession" representedClassName="UserSession" syncable="YES" codeGenerationType="class">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17192" systemVersion="19G2021" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Comment" representedClassName="Comment" syncable="YES" codeGenerationType="class">
+        <attribute name="textComment" optional="YES" attributeType="String"/>
+        <attribute name="userImage" optional="YES" attributeType="Binary"/>
+        <attribute name="userNickname" optional="YES" attributeType="String"/>
+        <relationship name="place" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Place" inverseName="comments" inverseEntity="Place"/>
+    </entity>
+    <entity name="Place" representedClassName="Place" syncable="YES" codeGenerationType="class">
+        <attribute name="category" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id_city" optional="YES" attributeType="String"/>
+        <attribute name="identifier" optional="YES" attributeType="String"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="latitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="likes" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="longitude" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="message" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="userNickname" optional="YES" attributeType="String"/>
+        <relationship name="comments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Comment" inverseName="place" inverseEntity="Comment"/>
+    </entity>
+    <entity name="User" representedClassName="User" syncable="YES" codeGenerationType="class">
         <attribute name="icloud_id" optional="YES" attributeType="String"/>
-        <attribute name="image" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="image" optional="YES" attributeType="Binary"/>
+        <attribute name="likedPlaces" optional="YES" attributeType="Transformable" customClassName="NSString"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="nickname" optional="YES" attributeType="String"/>
         <attribute name="surnames" optional="YES" attributeType="String"/>
         <attribute name="typeUser" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="session" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserSession" inverseName="user" inverseEntity="UserSession"/>
     </entity>
-    <configuration name="Local">
-        <memberEntity name="UserSession"/>
-    </configuration>
+    <entity name="UserSession" representedClassName="UserSession" syncable="YES" codeGenerationType="class">
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="session" inverseEntity="User"/>
+    </entity>
     <elements>
-        <element name="UserSession" positionX="-53.9921875" positionY="-78.609375" width="127.71484375" height="133"/>
+        <element name="Comment" positionX="-19.203125" positionY="-193.578125" width="128" height="103"/>
+        <element name="Place" positionX="155.1875" positionY="7.51953125" width="128" height="223"/>
+        <element name="User" positionX="-191.81640625" positionY="4.4296875" width="128" height="163"/>
+        <element name="UserSession" positionX="-202.5625" positionY="256.36328125" width="127.71484375" height="58"/>
     </elements>
 </model>

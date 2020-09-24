@@ -30,7 +30,7 @@ class UserItem {
         self.typeUser = UserType(id: typeUser)
     }
     
-    init(userCoreData: UserSession) {
+    init(userCoreData: User) {
         self.icloud_id = userCoreData.icloud_id
         self.nickname = userCoreData.nickname
         self.name = userCoreData.name

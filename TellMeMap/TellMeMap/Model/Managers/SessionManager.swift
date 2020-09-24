@@ -31,7 +31,8 @@ class SessionManager {
             let sessions = try CoreDataManager.sharedCDManager.persistentContainer.viewContext.fetch(request)
             
             if sessions.count > 0 {
-                UserSessionSingleton.session.userItem = UserItem(userCoreData: sessions[0])
+                UserSessionSingleton.session.userItem = UserItem(userCoreData: sessions[0].user!)
+                
                 UserSessionSingleton.session.userItem.getRecordUser {
                     (sucess) in
                     if sucess {
@@ -41,13 +42,15 @@ class SessionManager {
                 print("Loading User Session \(UserSessionSingleton.session.userItem.nickname ?? "null")")
             } else {
                 print("New User Session \(UserSessionSingleton.session.userItem.nickname ?? "null")")
-                let newUser = UserSession(context: CoreDataManager.sharedCDManager.persistentContainer.viewContext)
+                let newSession = UserSession(context: CoreDataManager.sharedCDManager.persistentContainer.viewContext)
+                let newUser = User(context: CoreDataManager.sharedCDManager.persistentContainer.viewContext)
                 newUser.icloud_id = UserSessionSingleton.session.userItem.icloud_id
                 newUser.image = UserSessionSingleton.session.userItem.image?.pngData()
                 newUser.nickname = UserSessionSingleton.session.userItem.nickname
                 newUser.name = UserSessionSingleton.session.userItem.name
                 newUser.surnames = UserSessionSingleton.session.userItem.surnames
                 newUser.typeUser = Int64(UserType.getIntFromUserType(UserSessionSingleton.session.userItem.typeUser!))
+                newSession.user = newUser
             }
             
             try CoreDataManager.sharedCDManager.persistentContainer.viewContext.save()

@@ -27,7 +27,7 @@ class CoreDataManager {
         // Create a store description for a local store
         let localURL = defaultDirectoryURL.appendingPathComponent("local.sqlite")
         let localStoreDescription = NSPersistentStoreDescription(url: localURL)
-        localStoreDescription.configuration = "Local"
+        localStoreDescription.configuration = "Default"
 
         // Update the container's list of store descriptions
         container.persistentStoreDescriptions = [
@@ -54,13 +54,13 @@ class CoreDataManager {
         do {
             let sessions = try CoreDataManager.sharedCDManager.persistentContainer.viewContext.fetch(request)
             
-            if sessions.count > 0 {
+            if sessions.count > 0, let userSession = sessions[0].user {
                 if let n = nickname {
-                    sessions[0].nickname = n
+                    userSession.nickname = n
                 }
                 
                 if let i = image {
-                    sessions[0].image = i.pngData()
+                    userSession.image = i.pngData()
                 }
             }
             
@@ -70,6 +70,37 @@ class CoreDataManager {
            print("Error al guardar el contexto: \(error)")
         }
     }
+    
+    func savePlaces() {
+        persistentContainer.performBackgroundTask {
+            (contextBG) in
+            CloudKitManager.places.forEach {
+                (placeItem) in
+                
+                let newPlace = Place(context: contextBG)
+                newPlace.name = placeItem.name
+                newPlace.message = placeItem.message
+                newPlace.date = placeItem.date
+                newPlace.category = Category.getIntFromCategory(placeItem.category)
+                
+                if let l2d = placeItem.location {
+                    newPlace.latitude = l2d.latitude
+                    newPlace.longitude = l2d.longitude
+                }
+                
+                newPlace.id_city = placeItem.id_city
+                newPlace.identifier = placeItem.identifier
+                newPlace.image = placeItem.image?.pngData()
+                newPlace.likes = placeItem.likes
+                
+                if let user = placeItem.user {
+                    newPlace.userNickname = user.nickname
+                }
+                
+            }
+        }
+    }
+    
     
     // MARK: - Core Data Saving support
     func saveContext () {
