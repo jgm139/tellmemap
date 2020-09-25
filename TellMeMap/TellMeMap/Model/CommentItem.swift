@@ -16,7 +16,7 @@ class CommentItem {
     var user: UserItem?
     var textComment: String?
     
-    init(user: UserItem, textComment: String) {
+    init(user: UserItem?, textComment: String?) {
         self.user = user
         self.textComment = textComment
     }
@@ -54,7 +54,7 @@ class CommentItem {
             if let record = record {
                 completion(UserItem(record: record))
             } else {
-                print("ERROR: \(String(describing: error))")
+                print("ERROR getting USER from COMMENT: \(String(describing: error))")
             }
         }
 

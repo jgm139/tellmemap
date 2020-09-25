@@ -38,6 +38,37 @@ class PlaceItem: Equatable {
         self.likes = 0
     }
     
+    init(placeCoreData: Place) {
+        self.name = placeCoreData.name
+        self.message = placeCoreData.message
+        self.category = Category(id: Int(placeCoreData.category))
+        self.date = placeCoreData.date
+        
+        if let nickname = placeCoreData.userNickname {
+            self.user = UserItem(nickname: nickname, name: "", surnames: "", icloud_id: "", typeUser: nil)
+        }
+        
+        self.location = CLLocationCoordinate2D(latitude: placeCoreData.latitude, longitude: placeCoreData.longitude)
+        self.id_city = placeCoreData.id_city
+        
+        if let image = placeCoreData.image {
+            self.image = UIImage(data: image)
+        }
+        
+        self.identifier = placeCoreData.identifier
+        self.likes = Int(placeCoreData.likes)
+        
+        if let commentsCoreData = placeCoreData.comments?.allObjects as? [Comment] {
+            commentsCoreData.forEach {
+                (commentCoreData) in
+                if let nickname = commentCoreData.userNickname {
+                    let author = UserItem(nickname: nickname, name: nil, surnames: nil, icloud_id: nil, typeUser: nil)
+                    self.comments.append(CommentItem(user: author, textComment: commentCoreData.textComment))
+                }
+            }
+        }
+    }
+    
     init?(record: CKRecord) {
         self.record = record
         self.id = record.recordID
@@ -97,7 +128,7 @@ class PlaceItem: Equatable {
                             let data = try Data(contentsOf: asset.fileURL!)
                             self.image = UIImage(data: data as Data)
                         } catch {
-                            print("Error: \(error)")
+                            print("ERROR casting CKAsset to Data: \(error)")
                         }
                     }
                     
@@ -126,7 +157,7 @@ class PlaceItem: Equatable {
             if let record = record {
                 completion(UserItem(record: record))
             } else {
-                print("ERROR: \(String(describing: error))")
+                print("ERROR getting USER from PLACE: \(String(describing: error))")
             }
         }
 

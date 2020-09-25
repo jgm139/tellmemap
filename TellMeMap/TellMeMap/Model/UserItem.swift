@@ -22,12 +22,15 @@ class UserItem {
     var typeUser: UserType?
     private var likedPlaces: [PlaceItem] = []
     
-    init(nickname: String, name: String?, surnames: String?, icloud_id: String?, typeUser: Int) {
+    init(nickname: String, name: String?, surnames: String?, icloud_id: String?, typeUser: Int?) {
         self.icloud_id = icloud_id
         self.nickname = nickname
         self.name = name
         self.surnames = surnames
-        self.typeUser = UserType(id: typeUser)
+        
+        if let type = typeUser {
+            self.typeUser = UserType(id: type)
+        }
     }
     
     init(userCoreData: User) {
@@ -65,7 +68,7 @@ class UserItem {
                 let data = try Data(contentsOf: file.fileURL!)
                 self.image = UIImage(data: data as Data)
             } catch {
-                print("Error: \(error)")
+                print("ERROR casting CKAsset to Data: \(error)")
             }
         }
         
@@ -127,7 +130,7 @@ class UserItem {
             CloudKitManager.sharedCKManager.publicDB.save(record!, completionHandler: {
                 (recordID, error) in
                 if let e = error {
-                    print("Error: \(e)")
+                    print("ERROR saving USER RECORD: \(e)")
                 }
             })
         }
