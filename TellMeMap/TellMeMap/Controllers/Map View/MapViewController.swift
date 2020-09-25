@@ -39,16 +39,16 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.startMonitoringSignificantLocationChanges()
         }
         
-        CloudKitManager.sharedCKManager.getPlaces {
+        /*CloudKitManager.sharedCKManager.getPlaces {
             (finish) in
-            if finish {
+            if finish {*/
                 self.sortData()
                 
                 self.filterAnnotations()
                 
                 self.setupAnnotations()
-            }
-        }
+            /*}
+        }*/
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -137,7 +137,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     func sortData() {
         Category.allCases.forEach {
             category in
-            placesSorted[category] = CloudKitManager.places.filter({ $0.category == category })
+            placesSorted[category] = SessionManager.places.filter({ $0.category == category })
         }
     }
     

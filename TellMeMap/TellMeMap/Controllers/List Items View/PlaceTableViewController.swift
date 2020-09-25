@@ -25,6 +25,8 @@ class PlaceTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        NotificationCenter.default.addObserver(self, selector: #selector(self.setupPlaces), name: NSNotification.Name("finished"), object: nil)
+        
         self.refreshControl?.addTarget(self, action: #selector(refreshPlaces), for: .valueChanged)
         
         if UserSessionSingleton.session.userItem.typeUser == UserType.entrepreneur {
@@ -39,17 +41,11 @@ class PlaceTableViewController: UITableViewController {
         indicator.startAnimating()
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
-        CloudKitManager.sharedCKManager.getPlaces {
-            (finish) in
-            if finish {
-                DispatchQueue.main.async( execute: {
-                    self.sortData()
-                    self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
-                    self.tableView.reloadData()
-                    self.indicator.stopAnimating()
-                    self.indicator.hidesWhenStopped = true
-                })
-            }
+        if SessionManager.sessionStarted {
+            self.sortData()
+            self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
+            self.tableView.reloadData()
+            self.indicator.stopAnimating()
         }
     }
     
@@ -58,10 +54,17 @@ class PlaceTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
+    @objc func setupPlaces() {
+        self.sortData()
+        self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
+        self.tableView.reloadData()
+        self.indicator.stopAnimating()
+    }
+    
     func sortData() {
         Category.allCases.forEach {
             category in
-            placesSorted[category] = CloudKitManager.places.filter({ $0.category == category })
+            placesSorted[category] = SessionManager.places.filter({ $0.category == category })
         }
     }
     
@@ -70,6 +73,7 @@ class PlaceTableViewController: UITableViewController {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {
+                    CoreDataManager.sharedCDManager.savePlaces()
                     self.sortData()
                     self.tableView.reloadData()
                     self.refreshControl?.endRefreshing()
@@ -81,6 +85,7 @@ class PlaceTableViewController: UITableViewController {
     func activityIndicator() {
         indicator = UIActivityIndicatorView()
         indicator.style = UIActivityIndicatorView.Style.large
+        indicator.hidesWhenStopped = true
         indicator.center = self.view.center
 
         self.view.addSubview(indicator)

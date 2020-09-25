@@ -17,9 +17,6 @@ class CloudKitManager {
     public let container: CKContainer
     public let publicDB: CKDatabase
     
-    // MARK: - Properties
-    static public var places = [PlaceItem]()
-    
     private init() {
         container = CKContainer.default()
         publicDB = container.publicCloudDatabase
@@ -33,15 +30,15 @@ class CloudKitManager {
         self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
             (results, error) in
             if error == nil {
-                CloudKitManager.places = [PlaceItem]()
+                SessionManager.places = [PlaceItem]()
                 
                 for result in results! {
                     if let itemPlace = PlaceItem(record: result) {
-                        CloudKitManager.places.append(itemPlace)
+                        SessionManager.places.append(itemPlace)
                     }
                 }
                 
-                CloudKitManager.self.places.forEach { (place) in
+                SessionManager.places.forEach { (place) in
                     group.enter()
                     place.getPlace { (succes) in
                         group.leave()
@@ -57,7 +54,7 @@ class CloudKitManager {
         })
     }
     
-    func addPlace(name: String, message: String, category: Int, date: Date, coordinates: CLLocationCoordinate2D, image: UIImage?, identifier: String) {
+    func addPlace(_ placeItem: PlaceItem) {
         let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.userItem.icloud_id!]))
         
         self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
@@ -69,19 +66,19 @@ class CloudKitManager {
                     
                     let place = CKRecord(recordType: "Place")
                     
-                    place["name"] = name
-                    place["message"] = message
-                    place["category"] = category
-                    place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
-                    place["date"] = date
+                    place["name"] = placeItem.name
+                    place["message"] = placeItem.message
+                    place["category"] = Category.getIntFromCategory(placeItem.category!)
+                    place["location"] = CLLocation(latitude: placeItem.location!.latitude, longitude: placeItem.location!.longitude)
+                    place["date"] = placeItem.date
                     place["user"] = reference
                     place["likes"] = 0
-                    place["identifier"] = identifier
+                    place["identifier"] = placeItem.identifier
                     
                     let comments: [CKRecord.Reference] = []
                     place["comments"] = comments
                     
-                    if let image = image {
+                    if let image = placeItem.image {
                         let asset = self.createAsset(from: image)
                         
                         place["image"] = asset
@@ -92,7 +89,7 @@ class CloudKitManager {
                         if let e = error {
                             print("Error: \(e)")
                         } else {
-                            CloudKitManager.places.filter { $0.identifier == identifier }.first?.record = place
+                            SessionManager.places.filter { $0.identifier == placeItem.identifier }.first?.record = place
                         }
                     })
                 }
@@ -128,11 +125,12 @@ class CloudKitManager {
         user["typeUser"] = typeUser
         
         self.publicDB.save(user, completionHandler: {
-            (recordID, error) in
+            (record, error) in
             if let e = error {
                 print("Error: \(e)")
             } else {
                 UserSessionSingleton.session.userItem.record = user
+                UserSessionSingleton.session.userItem.id = record?.recordID
             }
         })
     }

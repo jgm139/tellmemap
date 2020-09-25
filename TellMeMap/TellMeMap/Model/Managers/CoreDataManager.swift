@@ -52,7 +52,7 @@ class CoreDataManager {
         let request: NSFetchRequest<UserSession> = NSFetchRequest(entityName: "UserSession")
         
         do {
-            let sessions = try CoreDataManager.sharedCDManager.persistentContainer.viewContext.fetch(request)
+            let sessions = try persistentContainer.viewContext.fetch(request)
             
             if sessions.count > 0, let userSession = sessions[0].user {
                 if let n = nickname {
@@ -64,39 +64,88 @@ class CoreDataManager {
                 }
             }
             
-            try CoreDataManager.sharedCDManager.persistentContainer.viewContext.save()
+            try persistentContainer.viewContext.save()
             
         } catch {
            print("Error al guardar el contexto: \(error)")
         }
     }
     
-    func savePlaces() {
+    func savePlace(_ placeItem: PlaceItem) {
         persistentContainer.performBackgroundTask {
             (contextBG) in
-            CloudKitManager.places.forEach {
-                (placeItem) in
+            let newPlace = Place(context: contextBG)
+            newPlace.name = placeItem.name
+            newPlace.message = placeItem.message
+            newPlace.date = placeItem.date
+            
+            if let category = placeItem.category {
+                newPlace.category = Int64(Category.getIntFromCategory(category))
+            }
+            
+            if let l2d = placeItem.location {
+                newPlace.latitude = l2d.latitude
+                newPlace.longitude = l2d.longitude
+            }
+            
+            newPlace.id_city = placeItem.id_city
+            newPlace.identifier = placeItem.identifier
+            newPlace.image = placeItem.image?.pngData()
+            
+            if let likes = placeItem.likes {
+                newPlace.likes = Int64(likes)
+            }
+            
+            if let user = placeItem.user {
+                newPlace.userNickname = user.nickname
+            }
+            
+            placeItem.comments.forEach {
+                (commentItem) in
+                let newComment = Comment(context: contextBG)
+                newComment.place = newPlace
+                newComment.textComment = commentItem.textComment
                 
-                let newPlace = Place(context: contextBG)
-                newPlace.name = placeItem.name
-                newPlace.message = placeItem.message
-                newPlace.date = placeItem.date
-                newPlace.category = Category.getIntFromCategory(placeItem.category)
+                if let user = commentItem.user {
+                    newComment.userNickname = user.nickname
+                    if let image = user.image {
+                        newComment.userImage = image.pngData()
+                    }
+                }
+            }
+            
+            do {
+                try contextBG.save()
+            } catch {
+               print("Error al guardar el contexto: \(error)")
+            }
+        }
+    }
+    
+    func savePlaces() {
+        SessionManager.places.forEach {
+            (placeItem) in
+            self.savePlace(placeItem)
+        }
+    }
+    
+    func getPlaces() {
+        persistentContainer.performBackgroundTask {
+            (contextBG) in
+            let request: NSFetchRequest<Place> = NSFetchRequest(entityName: "Place")
+            
+            do {
+                let placesCoreData = try contextBG.fetch(request)
                 
-                if let l2d = placeItem.location {
-                    newPlace.latitude = l2d.latitude
-                    newPlace.longitude = l2d.longitude
+                placesCoreData.forEach {
+                    (placeCoreData) in
+                    SessionManager.places.append(PlaceItem(placeCoreData: placeCoreData))
                 }
                 
-                newPlace.id_city = placeItem.id_city
-                newPlace.identifier = placeItem.identifier
-                newPlace.image = placeItem.image?.pngData()
-                newPlace.likes = placeItem.likes
+                NotificationCenter.default.post(name: NSNotification.Name("finished"), object: nil)
                 
-                if let user = placeItem.user {
-                    newPlace.userNickname = user.nickname
-                }
-                
+            } catch {
+               print("Error al obtener lugares de CoreData: \(error)")
             }
         }
     }
