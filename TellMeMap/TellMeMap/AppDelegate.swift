@@ -44,11 +44,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         // MARK: UI
         // Definición de los colores de los elementos de la app
-        AppButton.appearance().tintColor = UIColor.init(named: "button_color")
-        AppButton.appearance().setTitleColor(UIColor.init(named: "button_color"), for: .normal)
-        AppButton.appearance().setTitleColor(UIColor.init(named: "button_color"), for: .selected)
+        AppButton.appearance().tintColor = UIColor.init(named: "vButton_color")
+        AppButton.appearance().setTitleColor(UIColor.init(named: "vButton_color"), for: .normal)
+        AppButton.appearance().setTitleColor(UIColor.init(named: "vButton_color"), for: .selected)
         
-        UIImageView.appearance().tintColor = UIColor.init(named: "imageview_color")
+        UIImageView.appearance().tintColor = UIColor.init(named: "vImageview_color")
         
         UITabBar.appearance().tintColor = UIColor.init(named: "Charcoal")
         UITabBar.appearance().barTintColor = UIColor.init(named: "Middle_Blue_Green")

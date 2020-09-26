@@ -59,22 +59,13 @@ class NewMessageViewController: UIViewController {
         if (segue.identifier == "saveMessageAndLeave") {
             if let title = newPlaceTitle.text {
                 if let text = newPlaceDescription.text {
-                    let lines = text.split(separator: "\n").map(String.init)
-                    let description: String
-                    
-                    if lines.count > 1 {
-                        description = lines[1...lines.count-1].joined(separator: "\n")
-                    } else {
-                        description = text
-                    }
-                    
                     var image: UIImage? = nil
                     
                     if !(photoImageView.image?.isEqual(defaultImage))! {
                         image = photoImageView.image
                     }
                     
-                    newPlace(name: title, message: description, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0), image: image)
+                    newPlace(name: title, message: text, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0), image: image)
                 }
             }
         }
