@@ -14,12 +14,7 @@ class CoreDataManager {
     static let sharedCDManager = CoreDataManager()
     
     lazy var persistentContainer: NSPersistentCloudKitContainer = {
-        /*
-        The persistent container for the application. This implementation
-        creates and returns a container, having loaded the store for the
-        application to it. This property is optional since there are legitimate
-        error conditions that could cause the creation of the store to fail.
-        */
+
         let container = NSPersistentCloudKitContainer(name: "tellMeMap")
 
         let defaultDirectoryURL = NSPersistentContainer.defaultDirectoryURL()
@@ -47,6 +42,26 @@ class CoreDataManager {
     }()
     
     private init() {}
+    
+    func createUser(_ userItem: UserItem) -> User{
+        let newUser = User(context: persistentContainer.viewContext)
+        
+        newUser.icloud_id = userItem.icloud_id
+        
+        if let image = userItem.image {
+            newUser.image = image.pngData()
+        }
+        
+        newUser.nickname = userItem.nickname
+        newUser.name = userItem.name
+        newUser.surnames = userItem.surnames
+        
+        if let type = userItem.typeUser {
+            newUser.typeUser = Int64(UserType.getIntFromUserType(type))
+        }
+        
+        return newUser
+    }
     
     func updateUser(nickname: String?, image: UIImage?) {
         let request: NSFetchRequest<UserSession> = NSFetchRequest(entityName: "UserSession")
@@ -102,27 +117,31 @@ class CoreDataManager {
             
             placeItem.comments.forEach {
                 (commentItem) in
-                let newComment = Comment(context: contextBG)
-                newComment.place = newPlace
-                newComment.textComment = commentItem.textComment
-                
-                if let user = commentItem.user {
-                    newComment.userNickname = user.nickname
-                    if let image = user.image {
-                        newComment.userImage = image.pngData()
-                    }
-                }
+                self.saveComment(commentItem, idPlace: placeItem.identifier!)
             }
             
             do {
                 try contextBG.save()
             } catch {
-               print("Error al guardar el contexto: \(error)")
+               print("Error al guardar un lugar: \(error)")
             }
         }
     }
     
     func savePlaces() {
+        persistentContainer.performBackgroundTask {
+            (contextBG) in
+            
+            let request: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: "Place")
+            let deleteRequest = NSBatchDeleteRequest(fetchRequest: request)
+
+            do {
+                try contextBG.execute(deleteRequest)
+            } catch {
+                print("Error al borrar tabla: \(error)")
+            }
+        }
+        
         SessionManager.places.forEach {
             (placeItem) in
             self.savePlace(placeItem)
@@ -146,6 +165,39 @@ class CoreDataManager {
                 
             } catch {
                print("Error al obtener lugares de CoreData: \(error)")
+            }
+        }
+    }
+    
+    func saveComment(_ commentItem: CommentItem, idPlace: String) {
+        persistentContainer.performBackgroundTask {
+            (contextBG) in
+            
+            let request: NSFetchRequest<Place> = NSFetchRequest(entityName: "Place")
+            let predicate = NSPredicate(format: "identifier == %@", [idPlace])
+            request.predicate = predicate
+            
+            do {
+                if let place = try contextBG.fetch(request).first {
+                    let newComment = Comment(context: contextBG)
+                    newComment.place = place
+                    newComment.textComment = commentItem.textComment
+                    
+                    if let user = commentItem.user {
+                        newComment.userNickname = user.nickname
+                        if let image = user.image {
+                            newComment.userImage = image.pngData()
+                        }
+                        
+                        if let comments = place.comments {
+                            place.comments = comments.adding(newComment) as NSSet
+                        }
+                    }
+                    
+                    try contextBG.save()
+                }
+            } catch {
+                print("Error al obtener el lugar del comentario: \(error)")
             }
         }
     }

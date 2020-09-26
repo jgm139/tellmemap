@@ -89,8 +89,8 @@ class PlaceDetailViewController: UIViewController {
             
             CloudKitManager.sharedCKManager.addComment(text: text, placeRecord: (item?.record)!) {
                 finish in
-                
                 if finish {
+                    CoreDataManager.sharedCDManager.saveComment(commentItem, idPlace: (self.item?.identifier)!)
                     DispatchQueue.main.async( execute: {
                         self.addCommentTextField.text = ""
                         self.commentsTV.reloadData()

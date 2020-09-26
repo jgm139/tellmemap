@@ -136,10 +136,10 @@ class PlaceItem: Equatable {
                         PlaceItem.fetchComments(for: commentsRecords) {
                             (comments) in
                             self.comments = comments
+                            
+                            completion(true)
                         }
                     }
-                    
-                    completion(true)
                 }
             }
         }

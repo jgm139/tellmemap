@@ -51,15 +51,7 @@ class SessionManager {
                 print("New User Session \(UserSessionSingleton.session.userItem.nickname ?? "null")")
                 
                 let newSession = UserSession(context: CoreDataManager.sharedCDManager.persistentContainer.viewContext)
-                let newUser = User(context: CoreDataManager.sharedCDManager.persistentContainer.viewContext)
-                
-                newUser.icloud_id = UserSessionSingleton.session.userItem.icloud_id
-                newUser.image = UserSessionSingleton.session.userItem.image?.pngData()
-                newUser.nickname = UserSessionSingleton.session.userItem.nickname
-                newUser.name = UserSessionSingleton.session.userItem.name
-                newUser.surnames = UserSessionSingleton.session.userItem.surnames
-                newUser.typeUser = Int64(UserType.getIntFromUserType(UserSessionSingleton.session.userItem.typeUser!))
-                newSession.user = newUser
+                newSession.user = CoreDataManager.sharedCDManager.createUser( UserSessionSingleton.session.userItem)
                 
                 CloudKitManager.sharedCKManager.getPlaces {
                     (sucess) in
