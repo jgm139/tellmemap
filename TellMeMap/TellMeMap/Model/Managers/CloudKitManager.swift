@@ -128,11 +128,12 @@ class CloudKitManager {
         user["typeUser"] = typeUser
         
         self.publicDB.save(user, completionHandler: {
-            (recordID, error) in
+            (record, error) in
             if let e = error {
                 print("Error: \(e)")
             } else {
-                UserSessionSingleton.session.userItem.record = user
+                UserSessionSingleton.session.userItem.record = record
+                UserSessionSingleton.session.userItem.id = record?.recordID
             }
         })
     }
@@ -177,7 +178,7 @@ class CloudKitManager {
     
     func addComment(text: String, placeRecord: CKRecord, _ completion: @escaping (_ finish: Bool) -> Void) {
         let comment = CKRecord(recordType: "Comment")
-        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.userItem.id!, action: .none)
+        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.userItem.id!, action: .deleteSelf)
         comment["textComment"] = text
         comment["user"] = userReference
         
@@ -186,7 +187,7 @@ class CloudKitManager {
             if let e = error {
                 print("Error: \(e)")
             } else {
-                let commentReference = CKRecord.Reference(recordID: comment.recordID, action: .deleteSelf)
+                let commentReference = CKRecord.Reference(recordID: comment.recordID, action: .none)
                 
                 if var ls = placeRecord["comments"] as? [CKRecord.Reference] {
                     ls.append(commentReference)
