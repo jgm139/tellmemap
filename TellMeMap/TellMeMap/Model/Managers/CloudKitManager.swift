@@ -58,44 +58,34 @@ class CloudKitManager {
     }
     
     func addPlace(name: String, message: String, category: Int, date: Date, coordinates: CLLocationCoordinate2D, image: UIImage?, identifier: String) {
-        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.userItem.icloud_id!]))
         
-        self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
-            (results, error) in
-            if error == nil {
-                for result in results! {
-                    let user: CKRecord! = result as CKRecord
-                    let reference = CKRecord.Reference(recordID: user.recordID, action: .none)
+        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.userItem.id!, action: .none)
+        let place = CKRecord(recordType: "Place")
+        
+        place["name"] = name
+        place["message"] = message
+        place["category"] = category
+        place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+        place["date"] = date
+        place["user"] = userReference
+        place["likes"] = 0
+        place["identifier"] = identifier
+        
+        let comments: [CKRecord.Reference] = []
+        place["comments"] = comments
+        
+        if let image = image {
+            let asset = self.createAsset(from: image)
+            
+            place["image"] = asset
+        }
                     
-                    let place = CKRecord(recordType: "Place")
-                    
-                    place["name"] = name
-                    place["message"] = message
-                    place["category"] = category
-                    place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
-                    place["date"] = date
-                    place["user"] = reference
-                    place["likes"] = 0
-                    place["identifier"] = identifier
-                    
-                    let comments: [CKRecord.Reference] = []
-                    place["comments"] = comments
-                    
-                    if let image = image {
-                        let asset = self.createAsset(from: image)
-                        
-                        place["image"] = asset
-                    }
-                    
-                    self.publicDB.save(place, completionHandler: {
-                        (recordID, error) in
-                        if let e = error {
-                            print("Error: \(e)")
-                        } else {
-                            CloudKitManager.places.filter { $0.identifier == identifier }.first?.record = place
-                        }
-                    })
-                }
+        self.publicDB.save(place, completionHandler: {
+            (recordID, error) in
+            if let e = error {
+                print("Error: \(e)")
+            } else {
+                CloudKitManager.places.filter { $0.identifier == identifier }.first?.record = place
             }
         })
     }
