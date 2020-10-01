@@ -7,15 +7,11 @@
 //
 
 import UIKit
-import MapKit
 import CloudKit
 
 class PlaceItem: Equatable {
-    
     var id: CKRecord.ID?
     var record: CKRecord?
-    
-    private let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
     
     var identifier: String?
     var name: String?
@@ -113,17 +109,16 @@ class PlaceItem: Equatable {
             }
         }
 
-        publicDB.add(operation)
+        CloudKitManager.sharedCKManager.publicDB.add(operation)
     }
     
     static func fetchPlaces(for references: [CKRecord.Reference], _ completion: @escaping ([PlaceItem]) -> Void) {
-        let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
         let recordIDs = references.map { $0.recordID }
         let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
         let group = DispatchGroup()
         
         operation.qualityOfService = .utility
-        operation.desiredKeys = ["name", "user", "date"]
+        operation.desiredKeys = ["name", "user", "identifier"]
 
         operation.fetchRecordsCompletionBlock = {
             records, error in
@@ -148,11 +143,10 @@ class PlaceItem: Equatable {
             }
         }
 
-        publicDB.add(operation)
+        CloudKitManager.sharedCKManager.publicDB.add(operation)
     }
     
     static func fetchComments(for references: [CKRecord.Reference], _ completion: @escaping ([CommentItem]) -> Void) {
-        let publicDB: CKDatabase = CKContainer.default().publicCloudDatabase
         let recordIDs = references.map { $0.recordID }
         let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
         let group = DispatchGroup()
@@ -182,6 +176,6 @@ class PlaceItem: Equatable {
             }
         }
 
-        publicDB.add(operation)
+        CloudKitManager.sharedCKManager.publicDB.add(operation)
     }
 }

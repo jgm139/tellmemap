@@ -24,7 +24,6 @@ class NewMessageViewController: UIViewController {
     var locationSelected = false
     var defaultImage: UIImage?
     var imagePicker = UIImagePickerController()
-    var ckManager = CloudKitManager()
     
     
     // MARK: - View Controller Functions
@@ -60,22 +59,13 @@ class NewMessageViewController: UIViewController {
         if (segue.identifier == "saveMessageAndLeave") {
             if let title = newPlaceTitle.text {
                 if let text = newPlaceDescription.text {
-                    let lines = text.split(separator: "\n").map(String.init)
-                    let description: String
-                    
-                    if lines.count > 1 {
-                        description = lines[1...lines.count-1].joined(separator: "\n")
-                    } else {
-                        description = text
-                    }
-                    
                     var image: UIImage? = nil
                     
                     if !(photoImageView.image?.isEqual(defaultImage))! {
                         image = photoImageView.image
                     }
                     
-                    newPlace(name: title, message: description, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0), image: image)
+                    newPlace(name: title, message: text, coordinates: placeLocation, category: pickerView.selectedRow(inComponent: 0), image: image)
                 }
             }
         }
@@ -101,11 +91,11 @@ class NewMessageViewController: UIViewController {
         if isPublic {
             let date = Date()
             let identifier = NSUUID().uuidString
-            let itemPlace = PlaceItem(name: name, message: message, category: category, date: date, user: UserSessionSingleton.session.user, location: coordinates, image: image, identifier: identifier)
+            let itemPlace = PlaceItem(name: name, message: message, category: category, date: date, user: UserSessionSingleton.session.userItem, location: coordinates, image: image, identifier: identifier)
             
             CloudKitManager.places.insert(itemPlace, at: 0)
             
-            ckManager.addPlace(name: name, message: message, category: category, date: date, coordinates: coordinates, image: image, identifier: identifier)
+            CloudKitManager.sharedCKManager.addPlace(name: name, message: message, category: category, date: date, coordinates: coordinates, image: image, identifier: identifier)
         }
     }
     

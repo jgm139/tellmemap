@@ -7,9 +7,8 @@
 //
 
 import UIKit
-import CoreData
 
-class TableViewController: UITableViewController {
+class PlaceTableViewController: UITableViewController {
     
     // MARK: - Outlets
     @IBOutlet var tv: UITableView!
@@ -17,7 +16,6 @@ class TableViewController: UITableViewController {
     
     
     // MARK: - Properties
-    var ckManager = CloudKitManager()
     var indicator = UIActivityIndicatorView()
     var placesSorted = [Category: [PlaceItem]]()
     var heightSection: CGFloat = 30
@@ -29,7 +27,7 @@ class TableViewController: UITableViewController {
         
         self.refreshControl?.addTarget(self, action: #selector(refreshPlaces), for: .valueChanged)
         
-        if UserSessionSingleton.session.user.typeUser == UserType.entrepreneur {
+        if UserSessionSingleton.session.userItem.typeUser == UserType.entrepreneur {
             addPlaceButton.isEnabled = false
             addPlaceButton.tintColor = UIColor.clear
         }
@@ -41,7 +39,7 @@ class TableViewController: UITableViewController {
         indicator.startAnimating()
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
-        ckManager.getPlaces {
+        CloudKitManager.sharedCKManager.getPlaces {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {
@@ -68,7 +66,7 @@ class TableViewController: UITableViewController {
     }
     
     @objc func refreshPlaces() {
-        ckManager.getPlaces {
+        CloudKitManager.sharedCKManager.getPlaces {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {
@@ -176,7 +174,7 @@ class TableViewController: UITableViewController {
                 let tableSection = Category(id: indexPath.section)!
                 let placeToDelete = placesSorted[tableSection]![indexPath.row]
                 
-                ckManager.deletePlace(withName: placeToDelete.name!)
+                CloudKitManager.sharedCKManager.deletePlace(withName: placeToDelete.name!)
                 self.placesSorted[tableSection]?.remove(at: indexPath.row)
                 
                 DispatchQueue.main.async( execute: {

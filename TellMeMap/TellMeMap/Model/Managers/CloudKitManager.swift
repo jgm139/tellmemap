@@ -6,20 +6,21 @@
 //  Copyright © 2020 Julia García Martínez. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import CloudKit
-import MapKit
 
 class CloudKitManager {
     
+    static let sharedCKManager = CloudKitManager()
+    
     // MARK: - iCloud properties
-    let container: CKContainer
-    let publicDB: CKDatabase
+    public let container: CKContainer
+    public let publicDB: CKDatabase
     
     // MARK: - Properties
     static public var places = [PlaceItem]()
     
-    init() {
+    private init() {
         container = CKContainer.default()
         publicDB = container.publicCloudDatabase
     }
@@ -57,44 +58,34 @@ class CloudKitManager {
     }
     
     func addPlace(name: String, message: String, category: Int, date: Date, coordinates: CLLocationCoordinate2D, image: UIImage?, identifier: String) {
-        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.user.icloud_id!]))
         
-        self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
-            (results, error) in
-            if error == nil {
-                for result in results! {
-                    let user: CKRecord! = result as CKRecord
-                    let reference = CKRecord.Reference(recordID: user.recordID, action: .none)
+        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.userItem.id!, action: .none)
+        let place = CKRecord(recordType: "Place")
+        
+        place["name"] = name
+        place["message"] = message
+        place["category"] = category
+        place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+        place["date"] = date
+        place["user"] = userReference
+        place["likes"] = 0
+        place["identifier"] = identifier
+        
+        let comments: [CKRecord.Reference] = []
+        place["comments"] = comments
+        
+        if let image = image {
+            let asset = self.createAsset(from: image)
+            
+            place["image"] = asset
+        }
                     
-                    let place = CKRecord(recordType: "Place")
-                    
-                    place["name"] = name
-                    place["message"] = message
-                    place["category"] = category
-                    place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
-                    place["date"] = date
-                    place["user"] = reference
-                    place["likes"] = 0
-                    place["identifier"] = identifier
-                    
-                    let comments: [CKRecord.Reference] = []
-                    place["comments"] = comments
-                    
-                    if let image = image {
-                        let asset = self.createAsset(from: image)
-                        
-                        place["image"] = asset
-                    }
-                    
-                    self.publicDB.save(place, completionHandler: {
-                        (recordID, error) in
-                        if let e = error {
-                            print("Error: \(e)")
-                        } else {
-                            CloudKitManager.places.filter { $0.identifier == identifier }.first?.record = place
-                        }
-                    })
-                }
+        self.publicDB.save(place, completionHandler: {
+            (recordID, error) in
+            if let e = error {
+                print("Error: \(e)")
+            } else {
+                CloudKitManager.places.filter { $0.identifier == identifier }.first?.record = place
             }
         })
     }
@@ -127,11 +118,12 @@ class CloudKitManager {
         user["typeUser"] = typeUser
         
         self.publicDB.save(user, completionHandler: {
-            (recordID, error) in
+            (record, error) in
             if let e = error {
                 print("Error: \(e)")
             } else {
-                UserSessionSingleton.session.user.record = user
+                UserSessionSingleton.session.userItem.record = record
+                UserSessionSingleton.session.userItem.id = record?.recordID
             }
         })
     }
@@ -139,28 +131,30 @@ class CloudKitManager {
     func updateUser(newNickname: String?, newImage: UIImage?, _ completion: @escaping (_ finish: Bool) -> Void) {
         var changes = false
         
-        if let nickname = newNickname, nickname != UserSessionSingleton.session.user.nickname {
-            UserSessionSingleton.session.user.record!["nickname"] = nickname
+        if let nickname = newNickname, nickname != UserSessionSingleton.session.userItem.nickname {
+            UserSessionSingleton.session.userItem.record!["nickname"] = nickname
             
-            UserSessionSingleton.session.user.nickname = nickname
+            UserSessionSingleton.session.userItem.nickname = nickname
             
             changes = true
         }
         
-        if let image = newImage, !image.isEqual(UserSessionSingleton.session.user.image) {
+        if let image = newImage, !image.isEqual(UserSessionSingleton.session.userItem.image) {
             
             let asset = self.createAsset(from: image)
             
-            UserSessionSingleton.session.user.record!["image"] = asset
+            UserSessionSingleton.session.userItem.record!["image"] = asset
             
-            UserSessionSingleton.session.user.image = image
+            UserSessionSingleton.session.userItem.image = image
             
             changes = true
         }
         
         if changes {
             
-            self.publicDB.save(UserSessionSingleton.session.user.record!, completionHandler: {
+            CoreDataManager.sharedCDManager.updateUser(nickname: newNickname, image: newImage)
+            
+            self.publicDB.save(UserSessionSingleton.session.userItem.record!, completionHandler: {
                 (recordID, error) in
                 if let e = error {
                     print("Error: \(e)")
@@ -174,7 +168,7 @@ class CloudKitManager {
     
     func addComment(text: String, placeRecord: CKRecord, _ completion: @escaping (_ finish: Bool) -> Void) {
         let comment = CKRecord(recordType: "Comment")
-        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.user.id!, action: .none)
+        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.userItem.id!, action: .deleteSelf)
         comment["textComment"] = text
         comment["user"] = userReference
         
@@ -183,7 +177,7 @@ class CloudKitManager {
             if let e = error {
                 print("Error: \(e)")
             } else {
-                let commentReference = CKRecord.Reference(recordID: comment.recordID, action: .deleteSelf)
+                let commentReference = CKRecord.Reference(recordID: comment.recordID, action: .none)
                 
                 if var ls = placeRecord["comments"] as? [CKRecord.Reference] {
                     ls.append(commentReference)

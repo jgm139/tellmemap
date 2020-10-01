@@ -9,10 +9,9 @@
 import UIKit
 import MapKit
 
-class MapViewController: UIViewController, CLLocationManagerDelegate {
+class MapViewController: UIViewController {
     
     // MARK: - Properties
-    var ckManager = CloudKitManager()
     let locationManager = CLLocationManager()
     var userCurrentLocation = CLLocationCoordinate2D()
     let ud = UserDefaults.standard
@@ -37,10 +36,10 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-            locationManager.startUpdatingLocation()
+            locationManager.startMonitoringSignificantLocationChanges()
         }
         
-        ckManager.getPlaces {
+        CloudKitManager.sharedCKManager.getPlaces {
             (finish) in
             if finish {
                 self.sortData()
@@ -58,14 +57,14 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     override func viewDidDisappear(_ animated: Bool) {
-        locationManager.stopUpdatingLocation()
+        //locationManager.stopUpdatingLocation()
         
         // **TESTING**
-        self.annotations.forEach {
+        /*self.annotations.forEach {
             (annotation) in
             //self.removeRadiusOverlay(forPin: annotation)
             self.stopMonitoring(pin: annotation)
-        }
+        }*/
     }
     
     // MARK: - Actions
@@ -89,28 +88,7 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         setupAnnotations()
     }
     
-    // MARK: - LocationManager
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let locValue: CLLocationCoordinate2D = manager.location?.coordinate else { return }
-        
-        self.locationManager.stopUpdatingLocation()
-        
-        self.userCurrentLocation.latitude = locValue.latitude
-        self.userCurrentLocation.longitude = locValue.longitude
-        
-        centerMapOnLocation(mapView: mapView, loc: CLLocation(latitude: userCurrentLocation.latitude, longitude: userCurrentLocation.longitude))
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        if let region = region as? CLCircularRegion {
-            let identifier = region.identifier
-            locationManager.stopMonitoring(for: region)
-            if let pin = self.annotations.filter({ $0.identifier == identifier }).first {
-                handleEvent(item: pin.placeItem!)
-            }
-        }
-    }
-    
+    // MARK: - Methods
     func centerMapOnLocation(mapView: MKMapView, loc: CLLocation) {
         let regionRadius: CLLocationDistance = 250
         let coordinateRegion =
@@ -118,8 +96,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    
-    // MARK: - Methods
     func sortData() {
         Category.allCases.forEach {
             category in
@@ -176,38 +152,6 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
-    func monitorRegionAtLocation(pin: ArtworkPin) {
-        // Make sure the devices supports region monitoring.
-        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
-            // Register the region.
-            let region = CLCircularRegion(center: pin.coordinate, radius: radius, identifier: pin.identifier!)
-            region.notifyOnEntry = true
-            region.notifyOnExit = false
-       
-            locationManager.startMonitoring(for: region)
-        }
-    }
-    
-    func stopMonitoring(pin: ArtworkPin) {
-        for region in locationManager.monitoredRegions {
-            guard let circularRegion = region as? CLCircularRegion, circularRegion.identifier == pin.identifier else { continue }
-            locationManager.stopMonitoring(for: circularRegion)
-        }
-    }
-    
-    func removeRadiusOverlay(forPin pin: ArtworkPin) {
-        guard let overlays = mapView?.overlays else { return }
-        
-        for overlay in overlays {
-            guard let circleOverlay = overlay as? MKCircle else { continue }
-            let coord = circleOverlay.coordinate
-            if coord.latitude == pin.coordinate.latitude && coord.longitude == pin.coordinate.longitude {
-                mapView?.removeOverlay(circleOverlay)
-                break
-            }
-        }
-    }
-    
     func handleEvent(item: PlaceItem) {
         let content = UNMutableNotificationContent()
         content.title = "¡Lugar propuesto ✨!"
@@ -230,6 +174,63 @@ class MapViewController: UIViewController, CLLocationManagerDelegate {
             }
         }
     }
+    
+}
+
+extension MapViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        switch status {
+            case .authorizedAlways, .authorizedWhenInUse:
+                if status == .authorizedAlways {
+                    locationManager.allowsBackgroundLocationUpdates = true
+                } else {
+                    locationManager.allowsBackgroundLocationUpdates = false
+                }
+                locationManager.startMonitoringSignificantLocationChanges()
+            default:
+                locationManager.stopMonitoringSignificantLocationChanges()
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let locValue: CLLocationCoordinate2D = locations.last?.coordinate else { return }
+        
+        self.userCurrentLocation.latitude = locValue.latitude
+        self.userCurrentLocation.longitude = locValue.longitude
+        
+        centerMapOnLocation(mapView: mapView, loc: CLLocation(latitude: userCurrentLocation.latitude, longitude: userCurrentLocation.longitude))
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
+        if let region = region as? CLCircularRegion {
+            let identifier = region.identifier
+            
+            locationManager.stopMonitoring(for: region)
+            
+            if let pin = self.annotations.filter({ $0.identifier == identifier }).first {
+                handleEvent(item: pin.placeItem!)
+            }
+        }
+    }
+    
+    func monitorRegionAtLocation(pin: ArtworkPin) {
+        if CLLocationManager.isMonitoringAvailable(for: CLCircularRegion.self) {
+            let region = CLCircularRegion(center: pin.coordinate, radius: radius, identifier: pin.identifier!)
+            region.notifyOnEntry = true
+            region.notifyOnExit = false
+       
+            locationManager.startMonitoring(for: region)
+        }
+    }
+    
+    func stopMonitoring(pin: ArtworkPin) {
+        for region in locationManager.monitoredRegions {
+            guard let circularRegion = region as? CLCircularRegion, circularRegion.identifier == pin.identifier else { continue }
+            locationManager.stopMonitoring(for: circularRegion)
+        }
+    }
+
 }
 
 extension MapViewController: MKMapViewDelegate {
@@ -275,5 +276,18 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         return MKOverlayRenderer(overlay: overlay)
+    }
+    
+    func removeRadiusOverlay(forPin pin: ArtworkPin) {
+        guard let overlays = mapView?.overlays else { return }
+        
+        for overlay in overlays {
+            guard let circleOverlay = overlay as? MKCircle else { continue }
+            let coord = circleOverlay.coordinate
+            if coord.latitude == pin.coordinate.latitude && coord.longitude == pin.coordinate.longitude {
+                mapView?.removeOverlay(circleOverlay)
+                break
+            }
+        }
     }
 }

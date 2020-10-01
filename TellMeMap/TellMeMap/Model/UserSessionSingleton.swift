@@ -6,10 +6,10 @@
 //  Copyright © 2020 Julia García Martínez. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 class UserSessionSingleton {
-    var user: UserItem!
+    var userItem: UserItem!
     
     private init() {}
     

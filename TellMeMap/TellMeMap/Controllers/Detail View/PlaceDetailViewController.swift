@@ -29,7 +29,6 @@ class PlaceDetailViewController: UIViewController {
     
     // MARK: - Properties
     var item: PlaceItem?
-    var ckManager = CloudKitManager()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,7 +40,7 @@ class PlaceDetailViewController: UIViewController {
         let tapView: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.dismissKeyboard))
         self.view.addGestureRecognizer(tapView)
         
-        if UserSessionSingleton.session.user.typeUser == UserType.neighbour {
+        if UserSessionSingleton.session.userItem.typeUser == UserType.neighbour {
             self.addCommentStack.isHidden = true
         }
         
@@ -77,7 +76,7 @@ class PlaceDetailViewController: UIViewController {
     @IBAction func actionDoubleTapLike(_ sender: UITapGestureRecognizer) {
         if let i = item, let _ = i.likes  {
             i.likes! += 1
-            UserSessionSingleton.session.user.addLikedPlace(i)
+            UserSessionSingleton.session.userItem.addLikedPlace(i)
             numLikesLabel.text = "\(i.likes ?? 0)"
             animationLike()
         }
@@ -85,10 +84,10 @@ class PlaceDetailViewController: UIViewController {
     
     @IBAction func actionPostComment(_ sender: UIButton) {
         if let text = self.addCommentTextField.text, !text.isEmpty {
-            let commentItem = CommentItem(user: UserSessionSingleton.session.user, textComment: text)
+            let commentItem = CommentItem(user: UserSessionSingleton.session.userItem, textComment: text)
             item?.comments.append(commentItem)
             
-            ckManager.addComment(text: text, placeRecord: (item?.record)!) {
+            CloudKitManager.sharedCKManager.addComment(text: text, placeRecord: (item?.record)!) {
                 finish in
                 
                 if finish {
@@ -136,7 +135,7 @@ class PlaceDetailViewController: UIViewController {
                 self.numLikesLabel.text = "\(likes)"
             }
             
-            if UserSessionSingleton.session.user.isLikedPlace(place) {
+            if UserSessionSingleton.session.userItem.isLikedPlace(place) {
                 self.likesView.image = UIImage(systemName: "heart.fill")
             }
             
