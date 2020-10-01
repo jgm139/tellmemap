@@ -36,8 +36,8 @@ class StartViewController: UIViewController {
         CKContainer.default().requestApplicationPermission(.userDiscoverability) {
             (status, error) in
             CKContainer.default().fetchUserRecordID {
-                (record, error) in
-                if let cloudID = record?.recordName {
+                (recordID, error) in
+                if let cloudID = recordID?.recordName {
                     completion(true, cloudID)
                 }
             }

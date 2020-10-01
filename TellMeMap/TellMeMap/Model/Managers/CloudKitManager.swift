@@ -55,14 +55,27 @@ class CloudKitManager {
     }
     
     func addPlace(_ placeItem: PlaceItem) {
-        let query = CKQuery(recordType: "User", predicate: NSPredicate(format: "icloud_id == %@", argumentArray: [UserSessionSingleton.session.userItem.icloud_id!]))
         
-        self.publicDB.perform(query, inZoneWith: nil, completionHandler: {
-            (results, error) in
-            if error == nil {
-                for result in results! {
-                    let user: CKRecord! = result as CKRecord
-                    let reference = CKRecord.Reference(recordID: user.recordID, action: .none)
+        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.userItem.id!, action: .none)
+        let place = CKRecord(recordType: "Place")
+        
+        place["name"] = name
+        place["message"] = message
+        place["category"] = category
+        place["location"] = CLLocation(latitude: coordinates.latitude, longitude: coordinates.longitude)
+        place["date"] = date
+        place["user"] = userReference
+        place["likes"] = 0
+        place["identifier"] = identifier
+        
+        let comments: [CKRecord.Reference] = []
+        place["comments"] = comments
+        
+        if let image = image {
+            let asset = self.createAsset(from: image)
+            
+            place["image"] = asset
+        }
                     
                     let place = CKRecord(recordType: "Place")
                     
@@ -175,7 +188,7 @@ class CloudKitManager {
     
     func addComment(text: String, placeRecord: CKRecord, _ completion: @escaping (_ finish: Bool) -> Void) {
         let comment = CKRecord(recordType: "Comment")
-        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.userItem.id!, action: .none)
+        let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.userItem.id!, action: .deleteSelf)
         comment["textComment"] = text
         comment["user"] = userReference
         
@@ -184,7 +197,7 @@ class CloudKitManager {
             if let e = error {
                 print("Error: \(e)")
             } else {
-                let commentReference = CKRecord.Reference(recordID: comment.recordID, action: .deleteSelf)
+                let commentReference = CKRecord.Reference(recordID: comment.recordID, action: .none)
                 
                 if var ls = placeRecord["comments"] as? [CKRecord.Reference] {
                     ls.append(commentReference)

@@ -52,7 +52,7 @@ class PlaceTableViewCell: UITableViewCell {
             if let _ = item.category {
                 self.placeCategory.text = item.category?.rawValue
                 let artPin = ArtworkPin(place: item)
-                
+                self.mapViewLocation.removeAnnotations(self.mapViewLocation.annotations)
                 self.mapViewLocation.addAnnotation(artPin)
             }
         }
