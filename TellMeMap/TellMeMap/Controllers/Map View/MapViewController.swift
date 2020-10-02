@@ -18,8 +18,6 @@ class MapViewController: UIViewController {
     let radius: Double = 100
     
     var annotations = [ArtworkPin]()
-    var placesSorted = [Category: [PlaceItem]]()
-    
     var arraySelectedCategories: [Category : Bool] = [:]
     
     
@@ -38,21 +36,12 @@ class MapViewController: UIViewController {
             locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
             locationManager.startMonitoringSignificantLocationChanges()
         }
-        
-        /*CloudKitManager.sharedCKManager.getPlaces {
-            (finish) in
-            if finish {*/
-                self.sortData()
-                
-                self.filterAnnotations()
-                
-                self.setupAnnotations()
-            /*}
-        }*/
+    
+        self.filterAnnotations()
+        self.setupAnnotations()
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.sortData()
         self.setupAnnotations()
     }
     
@@ -79,7 +68,7 @@ class MapViewController: UIViewController {
     }
     
     @IBAction func unwindToMapView(sender: UIStoryboardSegue) {
-        self.sortData()
+        SessionManager.sortData()
         
         if sender.identifier == "applyFilterAndLeave" {
             filterAnnotations()
@@ -96,13 +85,6 @@ class MapViewController: UIViewController {
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    func sortData() {
-        Category.allCases.forEach {
-            category in
-            placesSorted[category] = SessionManager.places.filter({ $0.category == category })
-        }
-    }
-    
     func setupAnnotations() {
         if !self.annotations.isEmpty {
             self.annotations.forEach {
@@ -113,7 +95,7 @@ class MapViewController: UIViewController {
             self.mapView.removeAnnotations(self.annotations)
         }
         
-        for (_, places) in placesSorted {
+        for (_, places) in SessionManager.placesSortedByCategory {
             places.forEach({
                 (item) in
                 
@@ -146,7 +128,7 @@ class MapViewController: UIViewController {
                 (key: Category, value: Bool) in
                 
                 if !value {
-                    placesSorted.updateValue([], forKey: key)
+                    SessionManager.placesSortedByCategory.updateValue([], forKey: key)
                 }
             }
         }

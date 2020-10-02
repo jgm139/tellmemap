@@ -79,6 +79,7 @@ class PlaceDetailViewController: UIViewController {
         if let i = item, let _ = i.likes  {
             i.likes! += 1
             UserSessionSingleton.session.userItem.addLikedPlace(i)
+            CoreDataManager.sharedCDManager.updatePlaceLikes(i)
             numLikesLabel.text = "\(i.likes ?? 0)"
             animationLike()
         }

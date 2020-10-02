@@ -13,6 +13,7 @@ class SessionManager {
     
     // MARK: - Properties
     static public var places = [PlaceItem]()
+    static public var placesSortedByCategory = [Category: [PlaceItem]]()
     static public var sessionStarted = false
     
     static func isSessionStarted() -> Bool{
@@ -56,6 +57,7 @@ class SessionManager {
                 CloudKitManager.sharedCKManager.getPlaces {
                     (sucess) in
                     if sucess {
+                        sortData()
                         NotificationCenter.default.post(name: NSNotification.Name("finished"), object: nil)
                         CoreDataManager.sharedCDManager.savePlaces()
                     }
@@ -66,6 +68,13 @@ class SessionManager {
             
         } catch {
            print("Error al guardar el contexto: \(error)")
+        }
+    }
+    
+    static func sortData() {
+        Category.allCases.forEach {
+            category in
+            placesSortedByCategory[category] = SessionManager.places.filter({ $0.category == category })
         }
     }
     

@@ -17,7 +17,6 @@ class PlaceTableViewController: UITableViewController {
     
     // MARK: - Properties
     var indicator = UIActivityIndicatorView()
-    var placesSorted = [Category: [PlaceItem]]()
     var heightSection: CGFloat = 30
     
     
@@ -42,7 +41,6 @@ class PlaceTableViewController: UITableViewController {
         tableView.separatorStyle = UITableViewCell.SeparatorStyle.none
         
         if SessionManager.sessionStarted {
-            self.sortData()
             self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
             self.tableView.reloadData()
             self.indicator.stopAnimating()
@@ -50,22 +48,13 @@ class PlaceTableViewController: UITableViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
-        self.sortData()
         self.tableView.reloadData()
     }
     
     @objc func setupPlaces() {
-        self.sortData()
         self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
         self.tableView.reloadData()
         self.indicator.stopAnimating()
-    }
-    
-    func sortData() {
-        Category.allCases.forEach {
-            category in
-            placesSorted[category] = SessionManager.places.filter({ $0.category == category })
-        }
     }
     
     @objc func refreshPlaces() {
@@ -73,7 +62,7 @@ class PlaceTableViewController: UITableViewController {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {
-                    self.sortData()
+                    SessionManager.sortData()
                     self.tableView.reloadData()
                     self.refreshControl?.endRefreshing()
                     CoreDataManager.sharedCDManager.savePlaces()
@@ -95,7 +84,7 @@ class PlaceTableViewController: UITableViewController {
     // MARK: - Actions
     @IBAction func unwindToPlaceList(sender: UIStoryboardSegue) {
         if sender.identifier == "saveMessageAndLeave" {
-            self.sortData()
+            SessionManager.sortData()
             self.tableView.reloadData()
         }
     }
@@ -103,7 +92,7 @@ class PlaceTableViewController: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "placeDetail" {
             if let vc = segue.destination as? PlaceDetailViewController {
-                vc.item = self.placesSorted[Category(id: self.tv.indexPathForSelectedRow!.section)!]![self.tv.indexPathForSelectedRow!.row]
+                vc.item = SessionManager.placesSortedByCategory[Category(id: self.tv.indexPathForSelectedRow!.section)!]![self.tv.indexPathForSelectedRow!.row]
             }
         }
     }
@@ -114,7 +103,7 @@ class PlaceTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let tableSection = Category(id: section), let placeData = placesSorted[tableSection] {
+        if let tableSection = Category(id: section), let placeData = SessionManager.placesSortedByCategory[tableSection] {
             return placeData.count
         }
         
@@ -122,7 +111,7 @@ class PlaceTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if let tableSection = Category(id: section), let placeData = placesSorted[tableSection] {
+        if let tableSection = Category(id: section), let placeData = SessionManager.placesSortedByCategory[tableSection] {
             if placeData.count > 0 {
                 return Category.allCases[section].rawValue
             }
@@ -131,7 +120,7 @@ class PlaceTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if let tableSection = Category(id: section), let placeData = placesSorted[tableSection] {
+        if let tableSection = Category(id: section), let placeData = SessionManager.placesSortedByCategory[tableSection] {
             if placeData.count > 0 {
                 return heightSection
             }
@@ -140,7 +129,7 @@ class PlaceTableViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if let tableSection = Category(id: section), let placeData = placesSorted[tableSection] {
+        if let tableSection = Category(id: section), let placeData = SessionManager.placesSortedByCategory[tableSection] {
             if placeData.count > 0 {
                 let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.bounds.width, height: heightSection))
                 view.backgroundColor = UIColor(red: 250/255, green: 240/255, blue: 219/255, alpha: 1.0)
@@ -160,7 +149,7 @@ class PlaceTableViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let tableSection = Category(id: indexPath.section)!
-        let item = placesSorted[tableSection]![indexPath.row]
+        let item = SessionManager.placesSortedByCategory[tableSection]![indexPath.row]
         
         guard let newCell = tableView.dequeueReusableCell(withIdentifier: "placeTableViewCell", for: indexPath) as? PlaceTableViewCell else {
             fatalError("The dequeued cell is not an instance of PlaceTableViewCell.")
@@ -177,10 +166,10 @@ class PlaceTableViewController: UITableViewController {
         switch editingStyle {
             case .delete:
                 let tableSection = Category(id: indexPath.section)!
-                let placeToDelete = placesSorted[tableSection]![indexPath.row]
+                let placeToDelete = SessionManager.placesSortedByCategory[tableSection]![indexPath.row]
                 
                 CloudKitManager.sharedCKManager.deletePlace(withName: placeToDelete.name!)
-                self.placesSorted[tableSection]?.remove(at: indexPath.row)
+                SessionManager.placesSortedByCategory[tableSection]?.remove(at: indexPath.row)
                 
                 DispatchQueue.main.async( execute: {
                     self.tableView.deleteRows(at: [indexPath], with: .right)

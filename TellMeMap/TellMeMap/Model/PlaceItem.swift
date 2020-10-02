@@ -58,7 +58,7 @@ class PlaceItem: Equatable {
         self.identifier = placeCoreData.identifier
         self.likes = Int(placeCoreData.likes)
         
-        if let commentsCoreData = placeCoreData.comments?.allObjects as? [Comment] {
+        /*if let commentsCoreData = placeCoreData.comments?.allObjects as? [Comment] {
             commentsCoreData.forEach {
                 (commentCoreData) in
                 if let nickname = commentCoreData.userNickname {
@@ -66,7 +66,7 @@ class PlaceItem: Equatable {
                     self.comments.append(CommentItem(user: author, textComment: commentCoreData.textComment))
                 }
             }
-        }
+        }*/
     }
     
     init?(record: CKRecord) {
@@ -93,6 +93,25 @@ class PlaceItem: Equatable {
                 }
             })
         }
+    }
+    
+    func getRecordPlace(completion: @escaping (_ success: Bool) -> Void) {
+        let predicate = NSPredicate(format: "identifier == %@", argumentArray: [self.identifier!])
+        let query = CKQuery(recordType: "Place", predicate: predicate)
+        
+        CloudKitManager.sharedCKManager.publicDB.perform(query, inZoneWith: nil, completionHandler: {
+            (places, error) in
+            if error == nil {
+                if places!.isEmpty {
+                    completion(false)
+                } else {
+                    self.record = places![0]
+                    self.id = self.record?.recordID
+                    
+                    completion(true)
+                }
+            }
+        })
     }
     
     func getPlace(_ completion: @escaping (_ success: Bool) -> Void) {
@@ -139,14 +158,10 @@ class PlaceItem: Equatable {
     }
     
     func getPlaceComments(_ completion: @escaping (_ success: Bool) -> Void) {
-        let predicate = NSPredicate(format: "identifier == %@", argumentArray: [self.identifier!])
-        let query = CKQuery(recordType: "Place", predicate: predicate)
-        
-        CloudKitManager.sharedCKManager.publicDB.perform(query, inZoneWith: nil, completionHandler: {
-            (results, error) in
-            if let records = results {
-                let record = records[0]
-                if let commentsRecords = record["comments"] as? [CKRecord.Reference] {
+        getRecordPlace {
+            (finish) in
+            if finish {
+                if let commentsRecords = self.record!["comments"] as? [CKRecord.Reference] {
                     PlaceItem.fetchComments(for: commentsRecords) {
                         (comments) in
                         self.comments = comments
@@ -154,7 +169,7 @@ class PlaceItem: Equatable {
                     }
                 }
             }
-        })
+        }
     }
     
     func getPlaceUser(recordReference: CKRecord.Reference, _ completion: @escaping (UserItem?) -> Void) {
@@ -174,6 +189,21 @@ class PlaceItem: Equatable {
         }
 
         CloudKitManager.sharedCKManager.publicDB.add(operation)
+    }
+    
+    func updateLikes() {
+        getRecordPlace { (finish) in
+            if finish {
+                self.record!["likes"] = self.likes
+                
+                CloudKitManager.sharedCKManager.publicDB.save(self.record!, completionHandler: {
+                    (recordID, error) in
+                    if let e = error {
+                        print("Error saving likes: \(e)")
+                    }
+                })
+            }
+        }
     }
     
     static func fetchPlaces(for references: [CKRecord.Reference], _ completion: @escaping ([PlaceItem]) -> Void) {

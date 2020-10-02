@@ -128,6 +128,31 @@ class CoreDataManager {
         }
     }
     
+    func updatePlaceLikes(_ placeItem: PlaceItem) {
+        persistentContainer.performBackgroundTask {
+            (contextBG) in
+            
+            let request: NSFetchRequest<Place> = NSFetchRequest(entityName: "Place")
+            let predicate = NSPredicate(format: "identifier CONTAINS %@", argumentArray: [placeItem.identifier!])
+            request.predicate = predicate
+            request.fetchLimit = 1
+            
+            do {
+                let places = try contextBG.fetch(request)
+                
+                if places.count > 0 {
+                    let place = places[0]
+                    place.likes = Int64(placeItem.likes!)
+                    
+                    try contextBG.save()
+                }
+                
+            } catch {
+                print("Error al obtener el lugar del comentario: \(error)")
+            }
+        }
+    }
+    
     func savePlaces() {
         persistentContainer.performBackgroundTask {
             (contextBG) in
@@ -162,7 +187,7 @@ class CoreDataManager {
                 }
                 
                 NotificationCenter.default.post(name: NSNotification.Name("finished"), object: nil)
-                
+                SessionManager.sortData()
             } catch {
                print("Error al obtener lugares de CoreData: \(error)")
             }

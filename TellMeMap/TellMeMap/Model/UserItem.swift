@@ -104,26 +104,17 @@ class UserItem {
     
     func addLikedPlace(_ item: PlaceItem) {
         if !isLikedPlace(item) {
-            
-            item.record!["likes"] = item.likes
-            
-            CloudKitManager.sharedCKManager.publicDB.save(item.record!, completionHandler: {
-                (recordID, error) in
-                if let e = error {
-                    print("Error saving likes: \(e)")
-                }
-            })
-            
+            item.updateLikes()
             self.likedPlaces.append(item)
             
-            let reference = CKRecord.Reference(recordID: item.record!.recordID, action: .none)
+            let placeReference = CKRecord.Reference(recordID: item.record!.recordID, action: .none)
             
             if var ls = record!["likedPlaces"] as? [CKRecord.Reference] {
-                ls.append(reference)
+                ls.append(placeReference)
                 record!["likedPlaces"] = ls
             } else {
                 var newLikedPlaces: [CKRecord.Reference] = []
-                newLikedPlaces.append(reference)
+                newLikedPlaces.append(placeReference)
                 record!["likedPlaces"] = newLikedPlaces
             }
             
