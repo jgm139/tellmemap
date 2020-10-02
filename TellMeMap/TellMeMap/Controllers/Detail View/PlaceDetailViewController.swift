@@ -33,6 +33,8 @@ class PlaceDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.commentsTV.separatorStyle = UITableViewCell.SeparatorStyle.none
+        
         // Detecting when keyboard will show to raise the text field
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow), name:  UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector:  #selector(self.keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
@@ -143,6 +145,15 @@ class PlaceDetailViewController: UIViewController {
                 self.imageView.image = image
                 self.imageView.contentMode = .scaleAspectFill
             }
+            
+            item?.getPlaceComments({
+                (success) in
+                self.commentsTV.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
+                self.commentsTV.reloadData()
+                place.comments.forEach({ (commentItem) in
+                    CoreDataManager.sharedCDManager.saveComment(commentItem, idPlace: place.identifier!)
+                })
+            })
         }
     }
     

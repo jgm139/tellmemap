@@ -132,17 +132,29 @@ class PlaceItem: Equatable {
                         }
                     }
                     
-                    if let commentsRecords = self.record!["comments"] as? [CKRecord.Reference] {
-                        PlaceItem.fetchComments(for: commentsRecords) {
-                            (comments) in
-                            self.comments = comments
-                            
-                            completion(true)
-                        }
-                    }
+                    completion(true)
                 }
             }
         }
+    }
+    
+    func getPlaceComments(_ completion: @escaping (_ success: Bool) -> Void) {
+        let predicate = NSPredicate(format: "identifier == %@", argumentArray: [self.identifier!])
+        let query = CKQuery(recordType: "Place", predicate: predicate)
+        
+        CloudKitManager.sharedCKManager.publicDB.perform(query, inZoneWith: nil, completionHandler: {
+            (results, error) in
+            if let records = results {
+                let record = records[0]
+                if let commentsRecords = record["comments"] as? [CKRecord.Reference] {
+                    PlaceItem.fetchComments(for: commentsRecords) {
+                        (comments) in
+                        self.comments = comments
+                        completion(true)
+                    }
+                }
+            }
+        })
     }
     
     func getPlaceUser(recordReference: CKRecord.Reference, _ completion: @escaping (UserItem?) -> Void) {

@@ -174,11 +174,16 @@ class CoreDataManager {
             (contextBG) in
             
             let request: NSFetchRequest<Place> = NSFetchRequest(entityName: "Place")
-            let predicate = NSPredicate(format: "identifier == %@", [idPlace])
+            let predicate = NSPredicate(format: "identifier CONTAINS %@", argumentArray: [idPlace])
             request.predicate = predicate
+            request.fetchLimit = 1
             
             do {
-                if let place = try contextBG.fetch(request).first {
+                let places = try contextBG.fetch(request)
+                
+                if places.count > 0 {
+                    let place = places[0]
+                    
                     let newComment = Comment(context: contextBG)
                     newComment.place = place
                     newComment.textComment = commentItem.textComment
@@ -196,6 +201,7 @@ class CoreDataManager {
                     
                     try contextBG.save()
                 }
+                
             } catch {
                 print("Error al obtener el lugar del comentario: \(error)")
             }

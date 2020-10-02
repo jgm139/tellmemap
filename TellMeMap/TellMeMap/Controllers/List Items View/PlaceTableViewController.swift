@@ -73,10 +73,10 @@ class PlaceTableViewController: UITableViewController {
             (finish) in
             if finish {
                 DispatchQueue.main.async( execute: {
-                    CoreDataManager.sharedCDManager.savePlaces()
                     self.sortData()
                     self.tableView.reloadData()
                     self.refreshControl?.endRefreshing()
+                    CoreDataManager.sharedCDManager.savePlaces()
                 })
             }
         }
