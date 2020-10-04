@@ -105,3 +105,9 @@ iOSInjectionProject/
 TellMeMap/TellMeMap/Assets.xcassets/.DS_Store
 
 .DS_Store
+
+TellMeMap/TellMeMap/apnspush.php
+
+TellMeMap/TellMeMap/entrust_2048_ca.cer
+
+TellMeMap/TellMeMap/MasterMovilesToDoPushCertificate.pem

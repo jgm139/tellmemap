@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
+        //resetBadgeCount()
+        
         // MARK: Location Manager
         self.locationManager.delegate = self
         
@@ -81,10 +83,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         
         if notification!.notificationType == .query {
             let queryNotification = notification!
-            if queryNotification.queryNotificationReason  == .recordCreated {
+            if queryNotification.queryNotificationReason == .recordCreated {
                 if let recordID = queryNotification.recordID {
                     print("queryNotification.recordID \(recordID)")
                     CloudKitManager.sharedCKManager.getPlaceByID(recordID)
+                }
+            } else if queryNotification.queryNotificationReason == .recordUpdated {
+                if let recordID = queryNotification.recordID {
+                    print("queryNotification.recordID \(recordID)")
+                    CloudKitManager.sharedCKManager.updatePlaceByID(recordID)
                 }
             }
         }
@@ -92,17 +99,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         completionHandler(UIBackgroundFetchResult.newData)
     }
         
-    func setupCloudKitSubscription () {
+    func setupCloudKitSubscription() {
         let ud = UserDefaults.standard
         let publicDB = CKContainer.default().publicCloudDatabase
         
-        if !ud.bool(forKey: "subscribed") {
+        if !ud.bool(forKey: "new_places_subscription") {
             let predicate = NSPredicate(value: true)
             let subscription = CKQuerySubscription(recordType: "Place", predicate: predicate, options: .firesOnRecordCreation)
             
             let notificationInfo = CKSubscription.NotificationInfo()
             notificationInfo.shouldSendContentAvailable = true
-            notificationInfo.desiredKeys = ["identifier"]
             
             subscription.notificationInfo = notificationInfo
             
@@ -111,7 +117,27 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 if let error = error {
                     print(error.localizedDescription)
                 } else {
-                    ud.set(true, forKey: "subscribed")
+                    ud.set(true, forKey: "new_places_subscription")
+                    ud.synchronize()
+                }
+            }
+        }
+        
+        if !ud.bool(forKey: "updated_places_subscription") {
+            let predicate = NSPredicate(value: true)
+            let subscription = CKQuerySubscription(recordType: "Place", predicate: predicate, options: .firesOnRecordUpdate)
+            
+            let notificationInfo = CKSubscription.NotificationInfo()
+            notificationInfo.shouldSendContentAvailable = true
+            
+            subscription.notificationInfo = notificationInfo
+            
+            publicDB.save(subscription) {
+                (subscription, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    ud.set(true, forKey: "updated_places_subscription")
                     ud.synchronize()
                 }
             }
@@ -119,6 +145,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
         
     func deleteCloudkitSubscriptions() {
+        let ud = UserDefaults.standard
         let publicDB = CKContainer.default().publicCloudDatabase
         
         publicDB.fetchAllSubscriptions {
@@ -127,6 +154,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
                 (subscription) in
                 publicDB.delete(withSubscriptionID: subscription.subscriptionID) {
                     (id, error) in
+                    ud.set(false, forKey: "new_places_subscription")
+                    ud.set(false, forKey: "updated_places_subscription")
+                    ud.synchronize()
                     print("Subscription with id \(String(describing: id)) was removed : \(subscription.description)")
                 }
             })
@@ -160,7 +190,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func applicationDidBecomeActive(_ application: UIApplication) {
-        application.applicationIconBadgeNumber = 0
+        resetBadgeCount()
+    }
+    
+    func resetBadgeCount () {
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
         

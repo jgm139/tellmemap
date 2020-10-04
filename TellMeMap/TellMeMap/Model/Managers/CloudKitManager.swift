@@ -74,11 +74,40 @@ class CloudKitManager {
                     })
                 }
             } else {
-                print("ERROR getting USER from PLACE: \(String(describing: error))")
+                print("ERROR getting PLACE from recordID: \(String(describing: error))")
             }
         }
 
-        CloudKitManager.sharedCKManager.publicDB.add(operation)
+        self.publicDB.add(operation)
+    }
+    
+    func updatePlaceByID(_ recordID: CKRecord.ID) {
+        let operation = CKFetchRecordsOperation(recordIDs: [recordID])
+        
+        operation.qualityOfService = .userInitiated
+        operation.desiredKeys = ["identifier", "likes", "comments"]
+        
+        operation.perRecordCompletionBlock = {
+            record, recordID, error in
+            if let record = record {
+                let id = record["identifier"] as! String
+                
+                if let updatedPlaceItem = SessionManager.places.filter({ $0.identifier == id }).first {
+                    updatedPlaceItem.updatePlaceFrom(updatedRecord: record, {
+                        (finished) in
+                        if finished {
+                            SessionManager.sortData()
+                            NotificationCenter.default.post(name: NSNotification.Name("finished"), object: nil)
+                            CoreDataManager.sharedCDManager.updatePlace(updatedPlaceItem)
+                        }
+                    })
+                }
+            } else {
+                print("ERROR updating PLACE from recordID: \(String(describing: error))")
+            }
+        }
+
+        self.publicDB.add(operation)
     }
     
     func addPlace(_ placeItem: PlaceItem) {
