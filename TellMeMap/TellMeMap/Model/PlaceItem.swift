@@ -206,6 +206,19 @@ class PlaceItem: Equatable {
         }
     }
     
+    func updatePlaceFrom(updatedRecord: CKRecord, _ completion: @escaping (_ success: Bool) -> Void) {
+        let likes = updatedRecord.object(forKey: "likes") as? Int
+        self.likes = likes
+        
+        /*if let commentsRecords = updatedRecord["comments"] as? [CKRecord.Reference] {
+            PlaceItem.fetchComments(for: commentsRecords) {
+                (comments) in
+                self.comments.append(contentsOf: comments)
+                completion(true)
+            }
+        }*/
+    }
+    
     static func fetchPlaces(for references: [CKRecord.Reference], _ completion: @escaping ([PlaceItem]) -> Void) {
         let recordIDs = references.map { $0.recordID }
         let operation = CKFetchRecordsOperation(recordIDs: recordIDs)
