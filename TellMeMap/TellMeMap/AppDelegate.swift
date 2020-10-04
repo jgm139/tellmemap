@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import UserNotifications
+import CloudKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate, UNUserNotificationCenterDelegate {
@@ -29,7 +30,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         self.locationManager.requestWhenInUseAuthorization()
         
         
-        // MARK: Local Notifications
+        // MARK: Notifications
+        UNUserNotificationCenter.current().delegate = self
+        
         let options: UNAuthorizationOptions = [.badge, .sound, .alert]
         
         UNUserNotificationCenter.current().requestAuthorization(options: options) {
@@ -39,7 +42,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
             }
         }
         
-        UNUserNotificationCenter.current().delegate = self
+        application.registerForRemoteNotifications()
         
         
         // MARK: UI
@@ -58,6 +61,76 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         UINavigationBar.appearance().tintColor = UIColor.init(named: "Charcoal")
         
         return true
+    }
+    
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        var token = "Device Token: "
+        for i in 0..<deviceToken.count {
+            token = token + String(format: "%02.2hhx", arguments: [deviceToken[i]])
+        }
+        print(token)
+        
+        setupCloudKitSubscription()
+    }
+    
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+        
+        print("didReceiveRemoteNotification")
+        
+        let notification = CKQueryNotification(fromRemoteNotificationDictionary: userInfo as! [String : NSObject])
+        
+        if notification!.notificationType == .query {
+            let queryNotification = notification!
+            if queryNotification.queryNotificationReason  == .recordCreated {
+                if let recordID = queryNotification.recordID {
+                    print("queryNotification.recordID \(recordID)")
+                    CloudKitManager.sharedCKManager.getPlaceByID(recordID)
+                }
+            }
+        }
+        
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+        
+    func setupCloudKitSubscription () {
+        let ud = UserDefaults.standard
+        let publicDB = CKContainer.default().publicCloudDatabase
+        
+        if !ud.bool(forKey: "subscribed") {
+            let predicate = NSPredicate(value: true)
+            let subscription = CKQuerySubscription(recordType: "Place", predicate: predicate, options: .firesOnRecordCreation)
+            
+            let notificationInfo = CKSubscription.NotificationInfo()
+            notificationInfo.shouldSendContentAvailable = true
+            notificationInfo.desiredKeys = ["identifier"]
+            
+            subscription.notificationInfo = notificationInfo
+            
+            publicDB.save(subscription) {
+                (subscription, error) in
+                if let error = error {
+                    print(error.localizedDescription)
+                } else {
+                    ud.set(true, forKey: "subscribed")
+                    ud.synchronize()
+                }
+            }
+        }
+    }
+        
+    func deleteCloudkitSubscriptions() {
+        let publicDB = CKContainer.default().publicCloudDatabase
+        
+        publicDB.fetchAllSubscriptions {
+            (subscriptions, error) in
+            subscriptions?.forEach({
+                (subscription) in
+                publicDB.delete(withSubscriptionID: subscription.subscriptionID) {
+                    (id, error) in
+                    print("Subscription with id \(String(describing: id)) was removed : \(subscription.description)")
+                }
+            })
+        }
     }
 
     // MARK: UISceneSession Lifecycle
@@ -90,6 +163,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         application.applicationIconBadgeNumber = 0
         UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
         UNUserNotificationCenter.current().removeAllDeliveredNotifications()
+        
+        UIApplication.shared.applicationIconBadgeNumber = 0
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
