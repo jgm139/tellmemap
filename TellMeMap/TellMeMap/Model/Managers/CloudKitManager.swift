@@ -54,6 +54,33 @@ class CloudKitManager {
         })
     }
     
+    func getPlaceByID(_ recordID: CKRecord.ID) {
+        let operation = CKFetchRecordsOperation(recordIDs: [recordID])
+        
+        operation.qualityOfService = .userInitiated
+        
+        operation.perRecordCompletionBlock = {
+            record, recordID, error in
+            if let record = record {
+                if let newPlaceItem = PlaceItem(record: record) {
+                    newPlaceItem.getPlace({
+                        (finished) in
+                        if finished {
+                            SessionManager.places.append(newPlaceItem)
+                            SessionManager.sortData()
+                            NotificationCenter.default.post(name: NSNotification.Name("finished"), object: nil)
+                            CoreDataManager.sharedCDManager.savePlace(newPlaceItem)
+                        }
+                    })
+                }
+            } else {
+                print("ERROR getting USER from PLACE: \(String(describing: error))")
+            }
+        }
+
+        CloudKitManager.sharedCKManager.publicDB.add(operation)
+    }
+    
     func addPlace(_ placeItem: PlaceItem) {
         let userReference = CKRecord.Reference(recordID: UserSessionSingleton.session.userItem.id!, action: .none)
         let place = CKRecord(recordType: "Place")
