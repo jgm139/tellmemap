@@ -128,7 +128,7 @@ class CoreDataManager {
         }
     }
     
-    func updatePlaceLikes(_ placeItem: PlaceItem) {
+    func updatePlace(_ placeItem: PlaceItem, newComments: Bool = false) {
         persistentContainer.performBackgroundTask {
             (contextBG) in
             
