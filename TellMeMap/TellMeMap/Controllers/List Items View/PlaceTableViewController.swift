@@ -52,9 +52,11 @@ class PlaceTableViewController: UITableViewController {
     }
     
     @objc func setupPlaces() {
-        self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
-        self.tableView.reloadData()
-        self.indicator.stopAnimating()
+        DispatchQueue.main.async( execute: {
+            self.tableView.separatorStyle = UITableViewCell.SeparatorStyle.singleLine
+            self.tableView.reloadData()
+            self.indicator.stopAnimating()
+        })
     }
     
     @objc func refreshPlaces() {
