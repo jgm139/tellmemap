@@ -17,6 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     // MARK: - Properties
     var window: UIWindow?
     let locationManager = CLLocationManager()
+    let publicDB = CKContainer.default().publicCloudDatabase
+    let ud = UserDefaults.standard
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
@@ -100,63 +102,47 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
         
     func setupCloudKitSubscription() {
-        let ud = UserDefaults.standard
-        let publicDB = CKContainer.default().publicCloudDatabase
+        createCloudKitSubscription(udBool: "new_places_subscription", udStringID: "new_places_subscriptionID", recordType: "Place", options: .firesOnRecordCreation)
         
-        if !ud.bool(forKey: "new_places_subscription") {
+        createCloudKitSubscription(udBool: "updated_places_subscription", udStringID: "updated_places_subscriptionID", recordType: "Place", options: .firesOnRecordUpdate)
+    }
+    
+    func createCloudKitSubscription(udBool: String, udStringID: String, recordType: String, options: CKQuerySubscription.Options) {
+        
+        if !ud.bool(forKey: udBool) {
             let predicate = NSPredicate(value: true)
-            let subscription = CKQuerySubscription(recordType: "Place", predicate: predicate, options: .firesOnRecordCreation)
+            let subscription = CKQuerySubscription(recordType: recordType, predicate: predicate, options: options)
             
             let notificationInfo = CKSubscription.NotificationInfo()
             notificationInfo.shouldSendContentAvailable = true
             
             subscription.notificationInfo = notificationInfo
             
-            publicDB.save(subscription) {
+            self.publicDB.save(subscription) {
                 (subscription, error) in
                 if let error = error {
                     print(error.localizedDescription)
                 } else {
-                    ud.set(true, forKey: "new_places_subscription")
-                    ud.synchronize()
-                }
-            }
-        }
-        
-        if !ud.bool(forKey: "updated_places_subscription") {
-            let predicate = NSPredicate(value: true)
-            let subscription = CKQuerySubscription(recordType: "Place", predicate: predicate, options: .firesOnRecordUpdate)
-            
-            let notificationInfo = CKSubscription.NotificationInfo()
-            notificationInfo.shouldSendContentAvailable = true
-            
-            subscription.notificationInfo = notificationInfo
-            
-            publicDB.save(subscription) {
-                (subscription, error) in
-                if let error = error {
-                    print(error.localizedDescription)
-                } else {
-                    ud.set(true, forKey: "updated_places_subscription")
-                    ud.synchronize()
+                    self.ud.set(true, forKey: udBool)
+                    self.ud.set(subscription?.subscriptionID, forKey: udStringID)
+                    self.ud.synchronize()
                 }
             }
         }
     }
         
-    func deleteCloudkitSubscriptions() {
-        let ud = UserDefaults.standard
-        let publicDB = CKContainer.default().publicCloudDatabase
-        
-        publicDB.fetchAllSubscriptions {
+    func deleteCloudKitSubscriptions() {
+        self.publicDB.fetchAllSubscriptions {
             (subscriptions, error) in
             subscriptions?.forEach({
                 (subscription) in
-                publicDB.delete(withSubscriptionID: subscription.subscriptionID) {
+                self.publicDB.delete(withSubscriptionID: subscription.subscriptionID) {
                     (id, error) in
-                    ud.set(false, forKey: "new_places_subscription")
-                    ud.set(false, forKey: "updated_places_subscription")
-                    ud.synchronize()
+                    self.ud.set(false, forKey: "new_places_subscription")
+                    self.ud.set(false, forKey: "updated_places_subscription")
+                    self.ud.set("", forKey: "new_places_subscriptionID")
+                    self.ud.set("", forKey: "updated_places_subscriptionID")
+                    self.ud.synchronize()
                     print("Subscription with id \(String(describing: id)) was removed : \(subscription.description)")
                 }
             })
